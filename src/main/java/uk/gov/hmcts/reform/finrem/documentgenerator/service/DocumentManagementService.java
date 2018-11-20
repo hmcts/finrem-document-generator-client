@@ -20,7 +20,9 @@ public class DocumentManagementService {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
             templateName, placeholders.size());
 
-        return storeDocument(pdfGenerationService.generateDocFrom(templateName, placeholders), authorizationToken);
+        return storeDocument(
+            pdfGenerationService.generateDocFrom(templateName, placeholders),
+            authorizationToken);
     }
 
     public Document storeDocument(byte[] document, String authorizationToken) {

@@ -19,7 +19,7 @@ public class PdfDocumentRequest {
     @NotBlank
     private final String accessKey;
     @ApiModelProperty(value = "Name of the template", required = true)
-    @JsonProperty(value = "template", required = true)
+    @JsonProperty(value = "templateName", required = true)
     @NotBlank
     private final String templateName;
     @ApiModelProperty(value = "Output file name", required = true)
