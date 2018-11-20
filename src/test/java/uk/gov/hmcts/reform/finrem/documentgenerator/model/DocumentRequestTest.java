@@ -5,13 +5,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class GenerateDocumentRequestTest {
+public class DocumentRequestTest {
 
     public static final String TEMPLATE = "template";
 
     @Test
     public void properties() {
-        GenerateDocumentRequest request = new GenerateDocumentRequest(TEMPLATE, ImmutableMap.of());
+        DocumentRequest request = new DocumentRequest(TEMPLATE, ImmutableMap.of());
         assertEquals(TEMPLATE, request.getTemplate());
         assertEquals(ImmutableMap.of(), request.getValues());
     }

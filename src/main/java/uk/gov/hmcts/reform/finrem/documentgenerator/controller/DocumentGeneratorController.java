@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
-import uk.gov.hmcts.reform.finrem.documentgenerator.model.GenerateDocumentRequest;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService;
 
 import javax.validation.Valid;
@@ -41,7 +41,7 @@ public class DocumentGeneratorController {
     public Document generatePDF(@RequestHeader(value = "Authorization", required = false)
                                                      String authorizationToken, @RequestBody @Valid
         @ApiParam(value = "JSON object containing the templateName and the placeholder text map", required = true)
-                                    GenerateDocumentRequest templateData) {
+                                    DocumentRequest templateData) {
         log.info("Document generation requested with templateName [{}], placeholders map of size[{}]",
                 templateData.getTemplate(), templateData.getValues().size());
         return documentManagementService.generateAndStoreDocument(templateData.getTemplate(), templateData.getValues(),

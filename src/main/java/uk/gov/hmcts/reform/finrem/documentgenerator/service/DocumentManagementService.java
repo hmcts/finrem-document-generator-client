@@ -1,14 +1,29 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 
 import java.util.Map;
 
-public interface DocumentManagementService {
-    Document generateAndStoreDocument(String templateName, Map<String, Object> placeholders,
-                                      String authorizationToken);
+@Service
+@Slf4j
+public class DocumentManagementService {
 
-    Document storeDocument(byte[] document, String authorizationToken);
+    @Autowired
+    private PDFGenerationService pdfGenerationService;
 
-    byte[] generateDocument(String templateName, Map<String, Object> placeholders);
+    public Document generateAndStoreDocument(String templateName,
+                                             Map<String, Object> placeholders,
+                                             String authorizationToken) {
+        log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
+            templateName, placeholders.size());
+
+        return storeDocument(pdfGenerationService.generateDocFrom(templateName, placeholders), authorizationToken);
+    }
+
+    public Document storeDocument(byte[] document, String authorizationToken) {
+        return null;
+    }
 }

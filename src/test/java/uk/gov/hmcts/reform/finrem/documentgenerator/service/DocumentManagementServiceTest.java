@@ -7,9 +7,9 @@ import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class DefaultDocumentManagementServiceTest {
+public class DocumentManagementServiceTest {
 
-    private DocumentManagementService service = new DefaultDocumentManagementService();
+    private DocumentManagementService service = new DocumentManagementService();
 
     @Test
     public void generateAndStoreDocument() {
@@ -21,8 +21,4 @@ public class DefaultDocumentManagementServiceTest {
         assertNull(service.storeDocument(new byte[]{}, ""));
     }
 
-    @Test
-    public void generateDocument() {
-        assertEquals(0, service.generateDocument("", new HashMap<>()).length);
-    }
 }
