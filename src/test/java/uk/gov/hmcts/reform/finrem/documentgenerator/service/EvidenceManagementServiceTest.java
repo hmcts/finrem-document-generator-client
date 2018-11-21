@@ -29,6 +29,7 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DocumentGeneratorApplication.class)
@@ -82,17 +83,5 @@ public class EvidenceManagementServiceTest {
     private String jsonResponse(FileUploadResponse fileUploadResponse) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(Arrays.asList(fileUploadResponse));
-    }
-
-    private FileUploadResponse fileUploadResponse() {
-        FileUploadResponse response = new FileUploadResponse(HttpStatus.OK);
-        response.setFileUrl("some_url");
-        response.setFileName("file_name");
-        response.setMimeType("application/pdf");
-        response.setCreatedOn("10 October 2018");
-        response.setLastModifiedBy("anonymous");
-        response.setModifiedOn("11 October 2018");
-        response.setCreatedBy("anonymous");
-        return response;
     }
 }

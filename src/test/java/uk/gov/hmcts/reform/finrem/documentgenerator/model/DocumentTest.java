@@ -4,24 +4,26 @@ import org.junit.Test;
 
 import javax.print.Doc;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.BINARY_URL;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.CREATED_ON;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_NAME;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.MIME_TYPE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.URL;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document;
 
 public class DocumentTest {
 
-    public static final String CREATED_ON = "20th November 2018";
-    public static final String MIME_TYPE = "application/json";
-    public static final String URL = "url";
-
     @Test
     public void properties() {
-        Document doc = doc();
+        Document doc = document();
 
-        assertEquals(CREATED_ON, doc.getCreatedOn());
-        assertEquals(MIME_TYPE, doc.getMimeType());
-        assertEquals(URL, doc.getUrl());
-    }
-
-    private Document doc() {
-        return Document.builder().createdOn(CREATED_ON).mimeType(MIME_TYPE).url(URL).build();
+        assertThat(doc.getCreatedOn(), is(equalTo(CREATED_ON)));
+        assertThat(doc.getMimeType(), is(equalTo(MIME_TYPE)));
+        assertThat(doc.getUrl(), is(equalTo(URL)));
+        assertThat(doc.getBinaryUrl(), is(equalTo(BINARY_URL)));
+        assertThat(doc.getFileName(), is(equalTo(FILE_NAME)));
     }
 }
