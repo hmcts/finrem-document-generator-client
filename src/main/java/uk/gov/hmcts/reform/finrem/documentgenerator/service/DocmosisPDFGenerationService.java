@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,9 +20,6 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
 
     @Autowired
     private RestTemplate restTemplate;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Value("${service.pdf-service.uri}")
     private String pdfServiceEndpoint;
