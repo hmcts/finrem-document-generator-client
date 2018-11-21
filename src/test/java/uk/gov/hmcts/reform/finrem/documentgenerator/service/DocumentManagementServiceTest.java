@@ -12,13 +12,7 @@ public class DocumentManagementServiceTest {
     private DocumentManagementService service = new DocumentManagementService();
 
     @Test
-    public void generateAndStoreDocument() {
-        assertNull(service.generateAndStoreDocument("", new HashMap<>(), ""));
-    }
-
-    @Test
     public void storeDocument() {
-        assertNull(service.storeDocument(new byte[]{}, ""));
+        assertNull(service.storeDocument("", new HashMap<>(), ""));
     }
-
 }

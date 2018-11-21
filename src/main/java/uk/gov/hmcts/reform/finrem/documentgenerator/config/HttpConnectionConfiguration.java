@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestIdSettingInterceptor;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestLoggingInterceptor;
@@ -28,6 +30,8 @@ public class HttpConnectionConfiguration {
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
+        restTemplate.getMessageConverters().add(new ResourceHttpMessageConverter());
 
         restTemplate.setRequestFactory(getClientHttpRequestFactory());
 

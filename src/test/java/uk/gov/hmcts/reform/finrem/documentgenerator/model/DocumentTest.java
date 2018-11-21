@@ -2,6 +2,8 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 
 import org.junit.Test;
 
+import javax.print.Doc;
+
 import static org.junit.Assert.assertEquals;
 
 public class DocumentTest {
@@ -20,10 +22,6 @@ public class DocumentTest {
     }
 
     private Document doc() {
-        Document doc = new Document();
-        doc.setCreatedOn(CREATED_ON);
-        doc.setMimeType(MIME_TYPE);
-        doc.setUrl(URL);
-        return doc;
+        return Document.builder().createdOn(CREATED_ON).mimeType(MIME_TYPE).url(URL).build();
     }
 }
