@@ -26,7 +26,7 @@ public class PdfDocumentRequest {
     @JsonProperty(value = "outputName", required = true)
     @NotBlank
     private final String outputName;
-    @JsonProperty(value = "values", required = true)
+    @JsonProperty(value = "data", required = true)
     @ApiModelProperty(value = "Placeholder key / value pairs", required = true)
     private final Map<String, Object> data;
 }
