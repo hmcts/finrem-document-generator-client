@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
 import com.google.common.collect.ImmutableMap;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

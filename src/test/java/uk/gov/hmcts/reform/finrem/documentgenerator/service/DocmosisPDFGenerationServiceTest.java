@@ -17,6 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.PDFGenerationException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -33,9 +36,7 @@ public class DocmosisPDFGenerationServiceTest {
 
     public static final String FILE_CONTENT = "Welcome to PDF document service";
     public static final ImmutableMap<String, Object> PLACEHOLDERS =
-        ImmutableMap.of("caseDetails",
-            ImmutableMap.of("case_data",
-                ImmutableMap.of("PBANumber", "PBA123456")));
+        ImmutableMap.of("caseDetails",caseDataMap());
 
     public static final String TEMPLATE_NAME = "template name";
     public static final String PDF_SERVICE_URI = "https://doc-gen/test";
@@ -46,6 +47,16 @@ public class DocmosisPDFGenerationServiceTest {
     private RestTemplate restTemplate;
 
     private MockRestServiceServer mockServer;
+
+    private static Map<String, Object> caseDataMap() {
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("PBANumber", "PBA123456");
+
+        Map<String, Object> caseDataMap = new HashMap<>();
+        caseDataMap.put("case_data", dataMap);
+
+        return caseDataMap;
+    }
 
     @Before
     public void setUp() {

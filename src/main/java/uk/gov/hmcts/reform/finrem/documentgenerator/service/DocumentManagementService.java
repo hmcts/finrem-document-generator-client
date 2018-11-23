@@ -46,7 +46,7 @@ public class DocumentManagementService {
             .build();
     }
 
-    private static String toBinaryUrl(FileUploadResponse response){
+    private static String toBinaryUrl(FileUploadResponse response) {
         return String.format("%s/binary", response.getFileUrl());
     }
 }

@@ -18,12 +18,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({PDFGenerationException.class})
-    public ResponseEntity<Object> handlePdfGenerationException(Exception exception){
+    public ResponseEntity<Object> handlePdfGenerationException(Exception exception) {
         return handleException(exception);
     }
 
     @ExceptionHandler({DocumentStorageException.class})
-    public ResponseEntity<Object> handleDocumentStorageException(Exception exception){
+    public ResponseEntity<Object> handleDocumentStorageException(Exception exception) {
         return handleException(exception);
     }
 

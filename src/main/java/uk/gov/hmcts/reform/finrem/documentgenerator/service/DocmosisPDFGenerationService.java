@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import uk.gov.hmcts.reform.finrem.documentgenerator.config.PdfDocumentConfig;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.PDFGenerationException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfDocumentRequest;
 
@@ -21,15 +22,11 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
     private static final String CASE_DETAILS = "caseDetails";
     private static final String CASE_DATA = "case_data";
 
-    public static final String FAMILY_COURT_IMG_VAL = "[userImage:familycourt.png]";
-    public static final String FAMILY_COURT_IMG_KEY = "familycourt";
-    public static final String HMCTS_IMG_KEY = "hmcts";
-    public static final String HMCTS_IMG_VAL = "[userImage:hmcts.png]";
-    public static final String TEMPLATE_ONLY_KEY = "displayTemplateOnly";
-    public static final String TEMPLATE_ONLY_VAL = "1";
-
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private PdfDocumentConfig pdfDocumentConfig;
 
     @Value("${service.pdf-service.uri}")
     private String pdfServiceEndpoint;
@@ -39,7 +36,7 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
 
     @Override
     public byte[] generateDocFrom(String templateName, Map<String, Object> placeholders) {
-        if(isNullOrEmpty(templateName)) {
+        if (isNullOrEmpty(templateName)) {
             throw new IllegalArgumentException("document generation template cannot be empty");
         }
         requireNonNull(placeholders);
@@ -48,8 +45,8 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
             + "and placeholders of size [{}]", templateName, placeholders.size());
 
         try {
-            ResponseEntity<byte[]> response = restTemplate.postForEntity(pdfServiceEndpoint,
-                request(templateName, placeholders), byte[].class);
+            ResponseEntity<byte[]> response =
+                restTemplate.postForEntity(pdfServiceEndpoint, request(templateName, placeholders), byte[].class);
             return response.getBody();
         } catch (Exception e) {
             throw new PDFGenerationException("Failed to request PDF from REST endpoint " + e.getMessage(), e);
@@ -64,11 +61,12 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
                 .data(caseData(placeholders)).build();
     }
 
-    private static Map<String, Object> caseData(Map<String, Object> placeholders) {
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> caseData(Map<String, Object> placeholders) {
         Map<String, Object> data = (Map<String, Object>) ((Map) placeholders.get(CASE_DETAILS)).get(CASE_DATA);
-        data.put(TEMPLATE_ONLY_KEY, TEMPLATE_ONLY_VAL);
-        data.put(FAMILY_COURT_IMG_KEY, FAMILY_COURT_IMG_VAL);
-        data.put(HMCTS_IMG_KEY, HMCTS_IMG_VAL);
+        data.put(pdfDocumentConfig.getDisplayTemplateKey(), pdfDocumentConfig.getDisplayTemplateVal());
+        data.put(pdfDocumentConfig.getFamilyCourtImgKey(), pdfDocumentConfig.getFamilyCourtImgVal());
+        data.put(pdfDocumentConfig.getHmctsImgKey(), pdfDocumentConfig.getHmctsImgVal());
 
         return data;
     }
