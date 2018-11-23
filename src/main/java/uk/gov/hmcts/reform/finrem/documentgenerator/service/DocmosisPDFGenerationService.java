@@ -18,6 +18,16 @@ import static java.util.Objects.requireNonNull;
 @Slf4j
 public class DocmosisPDFGenerationService implements PDFGenerationService {
 
+    private static final String CASE_DETAILS = "caseDetails";
+    private static final String CASE_DATA = "case_data";
+
+    public static final String FAMILY_COURT_IMG_VAL = "[userImage:familycourt.png]";
+    public static final String FAMILY_COURT_IMG_KEY = "familycourt";
+    public static final String HMCTS_IMG_KEY = "hmcts";
+    public static final String HMCTS_IMG_VAL = "[userImage:hmcts.png]";
+    public static final String TEMPLATE_ONLY_KEY = "displayTemplateOnly";
+    public static final String TEMPLATE_ONLY_VAL = "1";
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -51,6 +61,15 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
                 .accessKey(pdfServiceAccessKey)
                 .templateName(templateName)
                 .outputName("result.pdf")
-                .data(placeholders).build();
+                .data(caseData(placeholders)).build();
+    }
+
+    private static Map<String, Object> caseData(Map<String, Object> placeholders) {
+        Map<String, Object> data = (Map<String, Object>) ((Map) placeholders.get(CASE_DETAILS)).get(CASE_DATA);
+        data.put(TEMPLATE_ONLY_KEY, TEMPLATE_ONLY_VAL);
+        data.put(FAMILY_COURT_IMG_KEY, FAMILY_COURT_IMG_VAL);
+        data.put(HMCTS_IMG_KEY, HMCTS_IMG_VAL);
+
+        return data;
     }
 }
