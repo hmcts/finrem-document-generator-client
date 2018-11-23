@@ -42,7 +42,7 @@ module "finrem-dgcs" {
     EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL                = "${local.evidence_management_client_api_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     AUTH_IDAM_CLIENT_SECRET                               = "${data.azurerm_key_vault_secret.idam-secret.value}"
-    PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-secret.value}"
+    PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
   }
 }
 
@@ -61,7 +61,7 @@ data "azurerm_key_vault_secret" "idam-secret" {
     vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
 
-data "azurerm_key_vault_secret" "pdf-service-secret" {
+data "azurerm_key_vault_secret" "pdf-service-access-key" {
     name      = "pdf-service-access-key"
     vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
