@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
-import uk.gov.hmcts.reform.finrem.documentgenerator.model.GenerateDocumentRequest;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService;
 
 import java.util.Collections;
@@ -31,17 +31,17 @@ public class DocumentGeneratorControllerTest {
         final String templateName = "templateName";
         final Map<String, Object> placeholder = Collections.emptyMap();
 
-        final Document expected = new Document();
+        final Document expected = Document.builder().build();
 
-        when(documentManagementService.generateAndStoreDocument(templateName, placeholder, "testToken"))
+        when(documentManagementService.storeDocument(templateName, placeholder, "testToken"))
             .thenReturn(expected);
 
         Document actual = classUnderTest
-            .generatePDF("testToken", new GenerateDocumentRequest(templateName, placeholder));
+            .generatePDF("testToken", new DocumentRequest(templateName, placeholder));
 
         assertEquals(expected, actual);
 
         verify(documentManagementService, times(1))
-            .generateAndStoreDocument(templateName, placeholder, "testToken");
+            .storeDocument(templateName, placeholder, "testToken");
     }
 }

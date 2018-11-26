@@ -10,4 +10,5 @@ public class DocumentGeneratorApplication {
     public static void main(String[] args) {
         SpringApplication.run(DocumentGeneratorApplication.class, args);
     }
+
 }

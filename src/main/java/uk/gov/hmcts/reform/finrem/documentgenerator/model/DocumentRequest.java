@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 
 @Value
 @ApiModel(description = "Request body model for Document Generation Request")
-public class GenerateDocumentRequest {
+public class DocumentRequest {
     @ApiModelProperty(value = "Name of the template", required = true)
     @JsonProperty(value = "template", required = true)
     @NotBlank
