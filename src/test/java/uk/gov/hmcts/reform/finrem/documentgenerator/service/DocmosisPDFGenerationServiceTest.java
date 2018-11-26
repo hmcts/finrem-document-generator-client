@@ -22,6 +22,7 @@ import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -70,6 +71,7 @@ public class DocmosisPDFGenerationServiceTest {
             .andRespond(withSuccess(FILE_CONTENT, MediaType.APPLICATION_JSON));
 
         byte[] result = pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS);
+        assertThat(result, is(notNullValue()));
         assertThat(result, is(equalTo(FILE_CONTENT.getBytes())));
     }
 
