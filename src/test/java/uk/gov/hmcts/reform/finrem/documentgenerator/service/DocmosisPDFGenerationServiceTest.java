@@ -89,4 +89,14 @@ public class DocmosisPDFGenerationServiceTest {
             assertThat(httpStatus, is(HttpStatus.BAD_REQUEST));
         }
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void emptyTemplateName() {
+        pdfGenerationService.generateDocFrom("", PLACEHOLDERS);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void nullTemplateName() {
+        pdfGenerationService.generateDocFrom(null, PLACEHOLDERS);
+    }
 }
