@@ -59,7 +59,7 @@ variable "pdf_service_url_part" {
 }
 
 variable "evidence_management_client_api_url_part" {
-  default = "div-emca"
+  default = "finrem-emca"
 }
 
 variable "evidence_management_client_api_health_endpoint" {
