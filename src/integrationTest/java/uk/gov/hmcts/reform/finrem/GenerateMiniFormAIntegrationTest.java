@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
-public class GeneratePDFIntegrationTest {
+public class GenerateMiniFormAIntegrationTest {
 
     @Test
     public void simple() throws Exception {
