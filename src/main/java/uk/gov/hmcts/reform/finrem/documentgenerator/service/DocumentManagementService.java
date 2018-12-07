@@ -8,6 +8,8 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
 import java.util.Map;
 
+import static java.lang.String.format;
+
 @Service
 @Slf4j
 public class DocumentManagementService {
@@ -47,6 +49,6 @@ public class DocumentManagementService {
     }
 
     private static String toBinaryUrl(FileUploadResponse response) {
-        return String.format("%s/binary", response.getFileUrl());
+        return format("%s/binary", response.getFileUrl());
     }
 }
