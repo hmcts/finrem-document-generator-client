@@ -31,6 +31,10 @@ public class DocumentManagementService {
             authorizationToken);
     }
 
+    public void deleteDocument(String fileUrl, String authToken) {
+        evidenceManagementService.deleteDocument(fileUrl, authToken);
+    }
+
     private Document storeDocument(byte[] document, String authorizationToken) {
         log.debug("Store document requested with document of size [{}]", document.length);
         FileUploadResponse response = evidenceManagementService.storeDocument(document, authorizationToken);

@@ -29,6 +29,7 @@ import static org.junit.Assert.fail;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 
@@ -37,7 +38,8 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUplo
 @TestPropertySource(locations = "/application.properties")
 public class EvidenceManagementServiceTest {
 
-    private static final String SERVICE_URI = "http://localhost:4006/emclientapi/version/1/upload";
+    private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
+    private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
     public static final String DOC_CONTENT = "welcome doc";
 
@@ -56,7 +58,7 @@ public class EvidenceManagementServiceTest {
 
     @Test
     public void storeDocument() throws JsonProcessingException {
-        mockServer.expect(requestTo(SERVICE_URI))
+        mockServer.expect(requestTo(SAVE_DOC_URL))
             .andExpect(method(HttpMethod.POST))
             .andExpect(header("Content-Type", containsString(MediaType.MULTIPART_FORM_DATA_VALUE)))
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
@@ -64,11 +66,13 @@ public class EvidenceManagementServiceTest {
 
         FileUploadResponse result = service.storeDocument(DOC_CONTENT.getBytes(), AUTH_TOKEN);
         assertThat(result, is(equalTo(fileUploadResponse())));
+
+        mockServer.verify();
     }
 
     @Test
     public void storeDocumentDocumentStorageError() throws JsonProcessingException {
-        mockServer.expect(requestTo(SERVICE_URI))
+        mockServer.expect(requestTo(SAVE_DOC_URL))
             .andExpect(method(HttpMethod.POST))
             .andExpect(header("Content-Type", containsString(MediaType.MULTIPART_FORM_DATA_VALUE)))
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
@@ -81,6 +85,20 @@ public class EvidenceManagementServiceTest {
         } catch (DocumentStorageException e) {
             assertThat(e, is(notNullValue()));
         }
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void deleteDocument(){
+        mockServer.expect(requestTo(DELETE_DOC_URL))
+            .andExpect(method(HttpMethod.DELETE))
+            .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
+            .andRespond(withNoContent());
+
+        service.deleteDocument("http://dm-store/JKlkm", AUTH_TOKEN);
+
+        mockServer.verify();
     }
 
     private String jsonResponse(FileUploadResponse fileUploadResponse) throws JsonProcessingException {
