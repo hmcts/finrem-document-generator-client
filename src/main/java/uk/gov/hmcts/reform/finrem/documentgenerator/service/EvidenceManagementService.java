@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
@@ -32,6 +33,9 @@ public class EvidenceManagementService {
     @Value("${service.evidence-management-client-api.uri}")
     private String evidenceManagementEndpoint;
 
+    @Value("${service.evidence-management-client-api.delete-uri}")
+    private String evidenceManagementDeleteEndpoint;
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -47,13 +51,21 @@ public class EvidenceManagementService {
         }
     }
 
+    public void deleteDocument(String fileUrl, String authorizationToken) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementDeleteEndpoint);
+        builder.queryParam("fileUrl", fileUrl);
+
+        restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.DELETE,
+            new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), String.class);
+    }
+
     private FileUploadResponse save(byte[] document, String authorizationToken) {
         requireNonNull(document);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
                 HttpMethod.POST,
                 new HttpEntity<>(
-                        buildRequest(document, DEFAULT_NAME_FOR_PDF_FILE),
+                        buildStoreDocumentRequest(document, DEFAULT_NAME_FOR_PDF_FILE),
                     getHttpHeaders(authorizationToken)),
                 new ParameterizedTypeReference<List<FileUploadResponse>>() {
                 });
@@ -62,13 +74,12 @@ public class EvidenceManagementService {
     }
 
     private HttpHeaders getHttpHeaders(String authToken) {
-        HttpHeaders headers = new HttpHeaders();
+        HttpHeaders headers = getAuthHttpHeaders(authToken);
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        headers.add(AUTHORIZATION_HEADER, authToken);
         return headers;
     }
 
-    private LinkedMultiValueMap<String, Object> buildRequest(byte[] document, String filename) {
+    private LinkedMultiValueMap<String, Object> buildStoreDocumentRequest(byte[] document, String filename) {
         LinkedMultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
 
         HttpHeaders headers = new HttpHeaders();
@@ -83,5 +94,12 @@ public class EvidenceManagementService {
 
         parameters.add(FILE_PARAMETER, httpEntity);
         return parameters;
+    }
+
+    private HttpHeaders getAuthHttpHeaders(String authToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(AUTHORIZATION_HEADER, authToken);
+
+        return headers;
     }
 }

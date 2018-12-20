@@ -15,6 +15,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
@@ -27,6 +28,7 @@ public class DocumentManagementServiceTest {
     public static final String TEMPLATE_NAME = "templateName";
     public static final ImmutableMap<String, Object> PLACEHOLDERS = ImmutableMap.of("key", "value");
     private static final String AUTH_TOKEN = "Bearer BBJHJbbIIBHBLB";
+    private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
 
     @Autowired
     private DocumentManagementService service;
@@ -49,5 +51,11 @@ public class DocumentManagementServiceTest {
     public void storeDocument() {
         Document document = service.storeDocument(TEMPLATE_NAME, PLACEHOLDERS, AUTH_TOKEN);
         assertThat(document, is(equalTo(document())));
+    }
+
+    @Test
+    public void deleteDocument() {
+        service.deleteDocument(FILE_URL, AUTH_TOKEN);
+        verify(evidenceManagementService).deleteDocument(FILE_URL, AUTH_TOKEN);
     }
 }

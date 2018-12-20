@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -66,5 +67,23 @@ public class GlobalExceptionHandlerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals(message, response.getBody());
+    }
+
+    @Test
+    public void clientException() {
+        ResponseEntity<Object> response =
+            classUnderTest.handleClientException(new HttpClientErrorException(HttpStatus.NOT_FOUND));
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(GlobalExceptionHandler.CLIENT_ERROR_MSG, response.getBody());
+    }
+
+    @Test
+    public void serverError() {
+        ResponseEntity<Object> response =
+            classUnderTest.handleServerError(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals(GlobalExceptionHandler.SERVER_ERROR_MSG, response.getBody());
     }
 }

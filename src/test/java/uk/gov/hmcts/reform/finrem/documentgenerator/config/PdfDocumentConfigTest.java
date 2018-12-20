@@ -14,7 +14,7 @@ public class PdfDocumentConfigTest {
     public static final String HMCTS_IMG_KEY = "hmctsImgKey";
     public static final String HMCTS_IMG_VAL = "hmctsImgVal";
 
-    private PdfDocumentConfig config = new PdfDocumentConfig();
+    private final PdfDocumentConfig config = new PdfDocumentConfig();
 
     @Test
     public void properties() {

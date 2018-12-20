@@ -38,6 +38,10 @@ public class DocumentManagementService {
         return convert(response);
     }
 
+    public void deleteDocument(String fileUrl, String authToken) {
+        evidenceManagementService.deleteDocument(fileUrl, authToken);
+    }
+
     private static Document convert(FileUploadResponse response) {
         return Document.builder()
             .fileName(response.getFileName())
