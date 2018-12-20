@@ -26,6 +26,7 @@ import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.documentResponse;
@@ -43,6 +44,7 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.v
 @AutoConfigureMockMvc
 public class MiniFormAGenerateE2ETest {
     private static final String API_URL = "/version/1/generatePDF";
+    private static final String DELETE_API_URL = "/version/1/delete-pdf-document";
 
     @Autowired
     private MockMvc webClient;
@@ -52,6 +54,9 @@ public class MiniFormAGenerateE2ETest {
 
     @Value("${service.evidence-management-client-api.uri}")
     private String emClientAPIUri;
+
+    @Value("${service.evidence-management-client-api.delete-uri}")
+    private String evidenceManagementDeleteUri;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -128,6 +133,31 @@ public class MiniFormAGenerateE2ETest {
         assertThat(result.getResponse().getContentAsString(), is(documentResponse()));
 
         mockRestServiceServer.verify();
+    }
+
+    @Test
+    public void documentDeletedSuccessfully() throws Exception {
+        documentDeleteServiceSetUp(HttpStatus.NO_CONTENT);
+
+        webClient.perform(delete(DELETE_API_URL)
+            .param("fileUrl", "test"))
+            .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void documentDeleteRequestError() throws Exception {
+        documentDeleteServiceSetUp(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        webClient.perform(delete(DELETE_API_URL)
+            .param("fileUrl", "test"))
+            .andExpect(status().isInternalServerError());
+    }
+
+    private void documentDeleteServiceSetUp(HttpStatus status) {
+        mockRestServiceServer.expect(once(),
+            requestTo(evidenceManagementDeleteUri.concat("?fileUrl=test")))
+            .andExpect(method(HttpMethod.DELETE))
+            .andRespond(withStatus(status));
     }
 
     private void externalServicesSetUp() throws JsonProcessingException {
