@@ -19,9 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
