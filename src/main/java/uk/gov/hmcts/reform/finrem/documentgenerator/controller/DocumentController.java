@@ -56,18 +56,19 @@ public class DocumentController {
 
     @ApiOperation(value = "Deletes document from the evidence management.", tags = {"Document Generation"})
     @ApiResponses({
-        @ApiResponse(code = 204, message = "Document was deleted successfully and stored in the evidence management."
-            + " Returns the url to the stored document.", response = String.class),
-        @ApiResponse(code = 400, message = "Returned when input parameters are invalid", response = String.class),
-        @ApiResponse(code = 503, message = "Returned Evidence Management Client Api "
-            + "cannot be reached", response = String.class),
-        @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
-            response = String.class)
-    })
+            @ApiResponse(code = 204, message = "Document was deleted successfully and stored in the"
+                    + " evidence management. Returns the url to the stored document.", response = String.class),
+            @ApiResponse(code = 400, message = "Returned when input parameters are invalid", response = String.class),
+            @ApiResponse(code = 503, message = "Returned Evidence Management Client Api "
+                    + "cannot be reached", response = String.class),
+            @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
+                    response = String.class)
+        })
     @DeleteMapping("/version/1/delete-pdf-document")
     public ResponseEntity<Object> deleteDocument(@RequestHeader(value = "Authorization", required = false)
                                                     String authorizationToken,
-                                            @RequestParam(value = "fileUrl") String fileUrl) {
+                                                 @RequestParam(value = "fileUrl") String fileUrl) {
+        log.info("Document to be deleted {}", fileUrl);
         documentManagementService.deleteDocument(fileUrl, authorizationToken);
         return status(HttpStatus.NO_CONTENT).build();
     }

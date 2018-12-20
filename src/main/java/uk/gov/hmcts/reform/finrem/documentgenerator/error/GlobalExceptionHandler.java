@@ -15,8 +15,8 @@ import org.springframework.web.client.RestClientException;
 public class GlobalExceptionHandler {
 
     private static final String EXCEPTION_MESSAGE = "Exception occurred : {}";
-    static final String CLIENT_ERROR_MSG = "Http Client Exception. " +
-        "Please check service input parameters and also verify the status of service token generator";
+    static final String CLIENT_ERROR_MSG = "Http Client Exception. "
+        + "Please check service input parameters and also verify the status of service token generator";
     static final String SERVER_ERROR_MSG = "Some server side exception occurred. Please check logs for details";
 
     @ExceptionHandler(HttpClientErrorException.class)

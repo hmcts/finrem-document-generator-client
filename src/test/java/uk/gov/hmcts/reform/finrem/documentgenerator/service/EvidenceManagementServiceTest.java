@@ -42,6 +42,7 @@ public class EvidenceManagementServiceTest {
     private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
     public static final String DOC_CONTENT = "welcome doc";
+    public static final String FILE_URL = "http://dm-store/JKlkm";
 
     @Autowired
     private EvidenceManagementService service;
@@ -90,13 +91,13 @@ public class EvidenceManagementServiceTest {
     }
 
     @Test
-    public void deleteDocument(){
-        mockServer.expect(requestTo(DELETE_DOC_URL))
+    public void deleteDocument() {
+        mockServer.expect(requestTo(DELETE_DOC_URL.concat("?fileUrl=").concat(FILE_URL)))
             .andExpect(method(HttpMethod.DELETE))
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
             .andRespond(withNoContent());
 
-        service.deleteDocument("http://dm-store/JKlkm", AUTH_TOKEN);
+        service.deleteDocument(FILE_URL, AUTH_TOKEN);
 
         mockServer.verify();
     }
