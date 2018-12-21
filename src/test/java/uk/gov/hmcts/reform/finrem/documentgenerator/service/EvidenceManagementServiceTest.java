@@ -29,7 +29,6 @@ import static org.junit.Assert.fail;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withNoContent;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 
@@ -86,18 +85,6 @@ public class EvidenceManagementServiceTest {
         } catch (DocumentStorageException e) {
             assertThat(e, is(notNullValue()));
         }
-
-        mockServer.verify();
-    }
-
-    @Test
-    public void deleteDocument() {
-        mockServer.expect(requestTo(DELETE_DOC_URL.concat("?fileUrl=").concat(FILE_URL)))
-            .andExpect(method(HttpMethod.DELETE))
-            .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
-            .andRespond(withNoContent());
-
-        service.deleteDocument(FILE_URL, AUTH_TOKEN);
 
         mockServer.verify();
     }
