@@ -135,31 +135,6 @@ public class MiniFormAGenerateE2ETest {
         mockRestServiceServer.verify();
     }
 
-    @Test
-    public void documentDeletedSuccessfully() throws Exception {
-        documentDeleteServiceSetUp(HttpStatus.NO_CONTENT);
-
-        webClient.perform(delete(DELETE_API_URL)
-            .param("fileUrl", "test"))
-            .andExpect(status().isNoContent());
-    }
-
-    @Test
-    public void documentDeleteRequestError() throws Exception {
-        documentDeleteServiceSetUp(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        webClient.perform(delete(DELETE_API_URL)
-            .param("fileUrl", "test"))
-            .andExpect(status().isInternalServerError());
-    }
-
-    private void documentDeleteServiceSetUp(HttpStatus status) {
-        mockRestServiceServer.expect(once(),
-            requestTo(evidenceManagementDeleteUri.concat("?fileUrl=test")))
-            .andExpect(method(HttpMethod.DELETE))
-            .andRespond(withStatus(status));
-    }
-
     private void externalServicesSetUp() throws JsonProcessingException {
         mockRestServiceServer.expect(once(), requestTo(pdfServiceUri)).andExpect(method(HttpMethod.POST))
             .andRespond(withStatus(HttpStatus.OK)

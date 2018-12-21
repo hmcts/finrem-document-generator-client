@@ -5,8 +5,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService;
@@ -43,13 +41,5 @@ public class DocumentControllerTest {
 
         assertThat(actual, is(expected));
         verify(documentManagementService, times(1)).storeDocument(templateName, placeholder, AUTH_TOKEN);
-    }
-
-    @Test
-    public void deletePdfDocument() {
-        ResponseEntity<Object> response = controller.deleteDocument(AUTH_TOKEN, FILE_URL);
-        assertThat(response.getStatusCode(), is(HttpStatus.NO_CONTENT));
-
-        verify(documentManagementService, times(1)).deleteDocument(FILE_URL, AUTH_TOKEN);
     }
 }
