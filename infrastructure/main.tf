@@ -9,8 +9,6 @@ locals {
 
   evidence_management_client_api_url = "http://${var.evidence_management_client_api_url_part}-${local.local_env}.service.core-compute-${local.local_env}.internal"
   pdf_service_url                    = "https://dws2.docmosis.com/services/rs/render"
-  idam_s2s_url                       = "http://${var.idam_s2s_url_prefix}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-
 
   previewVaultName = "${var.reform_team}-aat"
   nonPreviewVaultName = "${var.reform_team}-${var.env}"
