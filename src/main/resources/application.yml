@@ -11,24 +11,6 @@ service:
     health:
       context-path: ${EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT:/health}
       uri: ${EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL:http://localhost:4006}${service.evidence-management-client-api.health.context-path}
-  service-auth-provider:
-    health:
-      context-path: /health
-      uri: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}${service.service-auth-provider.health.context-path}
-
-auth:
-  provider:
-    service:
-      client:
-          port: 4502
-          baseUrl: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
-          tokenTimeToLiveInSeconds: 900
-
-idam:
-  s2s-auth:
-    microservice: ${AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE:AAAAAAAAAAAAAAAA}
-    totp_secret: ${AUTH_PROVIDER_SERVICE_CLIENT_KEY:AAAAAAAAAAAAAAAA}
-    url: ${AUTH_PROVIDER_SERVICE_CLIENT_BASEURL:http://localhost:4502}
 
 http:
   connect:
@@ -39,15 +21,6 @@ http:
 info:
   app:
     name: ${spring.application.name}
-
-pdf:
-  test:
-    enabled: true
-
-service-auth-provider:
-  service:
-    stub:
-      enabled: false
 
 evidence-management-api:
   service:
