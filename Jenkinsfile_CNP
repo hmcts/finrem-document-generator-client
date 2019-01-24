@@ -46,4 +46,14 @@ withPipeline(type , product, component) {
     }
 
     enableSlackNotifications(channel)
+
+    after('functionalTest:aat') {
+        publishHTML target: [
+            reportDir            : "out/target/site/serenity/",
+            reportFiles          : "index.html",
+            reportName           : "AAT Functional Tests",
+            alwaysLinkToLastBuild: true
+        ]
+    }
+
 }

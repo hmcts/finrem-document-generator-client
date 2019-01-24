@@ -7,14 +7,25 @@ import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
+
 import static org.junit.Assert.assertTrue;
-import java.sql.*;
+
 
 @RunWith(SerenityRunner.class)
-public class FinancialRemedyDocumentGeneratorTests1 extends IntegrationTestBase
-{
-    private static final String SOLICITOR_FIRM = "Michael Jones & Partners";
+
+public class FinancialRemedyDocumentGeneratorTests1 extends IntegrationTestBase {
+
+    private static String SOLICITOR_FIRM = "Michael Jones & Partners";
+    private static String SOLICITOR_NAME = "Jane Smith";
+    private static String APPLICANT_NAME = "Williams";
+    private static String DIVORCE_CASENO = "DD12D12345";
+    private static String SOLICITOR_REF = "JAW052018";
+    private static String REPLACE_URL   = "http://document-management-store:8080";
+
+    @Value("${document.get.url}")
+    private String DOCUMENT_GET_URL;
 
     @Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
@@ -23,74 +34,78 @@ public class FinancialRemedyDocumentGeneratorTests1 extends IntegrationTestBase
     }
 
     @Test
-    public void verifyDocumentGenerationResponse()
-    {
-        Response response= generateDocument("documentGeneratePayload.json");
+    public void verifyDocumentGenerationPostResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("MiniFormA.pdf"));
-       assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
+        assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
-   @Test
-    public void verifyGeneratedDocumentCanBeAccessedAndVerifyResponse()
-    {
-        Response response= generateDocument("documentGeneratePayload.json");
+    @Test
+    public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
-        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll("document-management-store:8080","localhost:3405"));
-        Response response1=accessGeneratedDocument(url.replaceAll("document-management-store:8080","localhost:3405"));
+        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, DOCUMENT_GET_URL));
+        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, DOCUMENT_GET_URL));
         JsonPath jsonPathEvaluator1 = response1.jsonPath();
         assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
         assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
         assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
+
     @Test
-    public void downloadDocumentAndVerifyContent()
-    {
-        Response response= generateDocument("documentGeneratePayload.json");
+    public void downloadDocumentAndVerifyContentAgainstOriginalJsonFileInput() {
+        Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
-        String documentUrl = jsonPathEvaluator.get("url")+"/binary";
-        String url= documentUrl.replaceAll("document-management-store:8080","localhost:3405");
-        String documentContent= utils.downloadPdfAndParseToString(url);
+        String documentUrl = jsonPathEvaluator.get("url") + "/binary";
+        String url = documentUrl.replaceAll(REPLACE_URL, DOCUMENT_GET_URL);
+        // replace right URL
+        String documentContent = utils.downloadPdfAndParseToString(url);
+        String actual = utils.getJsonFromFile("documentGeneratePayload.json");
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
+        assertTrue(documentContent.contains(SOLICITOR_NAME));
+        assertTrue(documentContent.contains(APPLICANT_NAME));
+        assertTrue(documentContent.contains(DIVORCE_CASENO));
+        assertTrue(documentContent.contains(SOLICITOR_REF));
 
     }
 
     private void validatePostSuccess(String jsonFileName) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithToken())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post()
-            .then().assertThat().statusCode(200);
+            .then()
+            .assertThat().statusCode(200);
     }
+
 
     private Response generateDocument(String jsonFileName) {
 
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithToken())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
         return jsonResponse;
     }
 
-    private void validatePostSuccessForaccessingGeneratedDocument(String url)
-    {
+    private void validatePostSuccessForaccessingGeneratedDocument(String url) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithUserAndServiceToken())
+            .headers(utils.getHeadersWithUserId())
             .when().get(url)
             .then().assertThat().statusCode(200);
 
     }
 
-    private Response accessGeneratedDocument(String url)
-    {
+    private Response accessGeneratedDocument(String url) {
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithUserAndServiceToken())
+            .headers(utils.getHeadersWithUserId())
             .when().get(url)
             .andReturn();
         return jsonResponse;

@@ -5,40 +5,55 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.pdfbox.cos.COSDocument;
+import org.pdfbox.pdfparser.PDFParser;
+import org.pdfbox.pdmodel.PDDocument;
+import org.pdfbox.util.PDFTextStripper;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
-import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
-import java.util.*;
-
+import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
+
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import org.pdfbox.cos.COSDocument;
-import org.pdfbox.pdfparser.PDFParser;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
+import static io.restassured.RestAssured.given;
 
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
 public class FunctionalTestUtils {
 
+    @Autowired
+    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
 
-//    @Value("${user.id.url}")
-    private String userId=null;
-    private String email=null;
+
+    @Value("${user.id.url}")
+    private String userId;
+
+    @Value("${user.auth.provider.oauth2.url}")
+    private String baseServiceOauth2Url = "";
+
+
+    private String email = null;
     private String apiBody;
     private Headers headers;
+    private String serviceToken;
+    private String clientToken;
 
-    @Autowired
-    protected RegisteredUserDao registeredUserDao;
-
+    @PostConstruct
+    public void init() {
+        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
+        clientToken = serviceAuthTokenGenerator.getClientToken();
+        if (userId == null || userId.isEmpty()) {
+            createNewUser();
+            userId = serviceAuthTokenGenerator.getUserId();
+        }
+    }
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -50,85 +65,33 @@ public class FunctionalTestUtils {
         }
     }
 
-    public Headers getHeadersWithToken()
-    {
-        userIdAndEmail();
-        IntegrationTestBase.setauthorizationTokenURLAsBaseUri();
-        Response response= SerenityRest.given()
-            .queryParam("role","caseworker-divorce")
-            .queryParam("id",userId)
-            .when().post(IntegrationTestBase.authorizationTokenURL)
-            .then()
-            .extract()
-            .response();
-        return getHeaders(response.getBody().asString(),"user");
 
+    public Headers getHeaders() {
+        return getHeaders(clientToken);
     }
 
-    public Headers getHeadersWithUserAndServiceToken()
-    {
-        userIdAndEmail();
-        IntegrationTestBase.setserviceAuthorizationTokenURLAsBaseUri();
-        apiBody = "{\"microservice\":\"finrem_document_generator\"}";
-        Response response= SerenityRest.
-                            given().
-                            header("Content-type","application/json")
-                            .body(apiBody)
-                            .when()
-                            .post()
-                            .then()
-                            .extract()
-                            .response();
-        return getHeaders(response.getBody().asString(),"service");
-
-
+    public Headers getHeaders(String clientToken) {
+        return Headers.headers(
+            new Header("Authorization", clientToken),
+            new Header("Content-Type", ContentType.JSON.toString()));
     }
 
-    public Headers getHeaders(String JsonBody , String Token)
-    {
-        switch(Token) {
-            case "user":
-                headers = Headers.headers(
-                    new Header("Authorization", "Bearer " + JsonBody),
-                    new Header("Content-Type", ContentType.JSON.toString()));
-                break;
-            case "service":
-                headers = Headers.headers(
-                    new Header("ServiceAuthorization", "Bearer " + JsonBody),
-                    new Header("user-id", email),
-                    new Header("user-roles", "caseworker-divorce"));
-                break;
-        }
-                return headers;
-
+    public Headers getHeadersWithUserId() {
+        return getHeadersWithUserId(serviceToken, userId);
     }
 
-    private void userIdAndEmail()
-    {
-        Map<String,String> user = registeredUserDao.getUserDetails();
-        if (user.size()== 0)
-        {
-            createCaseWorkerUser();
-        }
-         userId = user.get("id");
-         email = user.get("email");
+    private Headers getHeadersWithUserId(String serviceToken, String userId) {
+        return Headers.headers(
+            new Header("ServiceAuthorization", serviceToken),
+            new Header("user-roles", "caseworker-divorce"),
+            new Header("user-id", userId));
     }
 
-    private void createCaseWorkerUser()
-    {
-        IntegrationTestBase.setAccountCreationURLAsBaseUri();
-             SerenityRest.given()
-            .relaxedHTTPSValidation()
-            .headers("Content-Type", ContentType.JSON.toString())
-            .body(getJsonFromFile("userCreation.json"))
-            .when().post().andReturn();
-
-    }
 
     public String downloadPdfAndParseToString(String documentUrl) {
         Response document = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(getHeadersWithUserAndServiceToken())
+            .headers(getHeadersWithUserId())
             .when().get(documentUrl).andReturn();
 
         return parsePDFToString(document.getBody().asInputStream());
@@ -162,5 +125,12 @@ public class FunctionalTestUtils {
 
         }
         return parsedText;
+    }
+
+    public void createNewUser() {
+        given().headers("Content-type", "application/json")
+            .relaxedHTTPSValidation()
+            .body(getJsonFromFile("userCreation.json"))
+            .post(baseServiceOauth2Url + "/testing-support/accounts");
     }
 }

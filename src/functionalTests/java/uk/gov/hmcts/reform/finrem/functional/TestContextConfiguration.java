@@ -16,11 +16,24 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @Slf4j
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
-@PropertySource("/application.properties")
+@PropertySource(ignoreResourceNotFound = true,value={"classpath:application.properties"})
 public class TestContextConfiguration {
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean
+    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}") String s2sUrl,
+                                                               @Value("${s2s-auth.totp_secret}") String secret,
+                                                               @Value("${service.name}") String microservice) {
+        final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
+            .encoder(new JacksonEncoder())
+            .contract(new SpringMvcContract())
+            .target(ServiceAuthorisationApi.class, s2sUrl);
+        log.info("S2S URL: {}", s2sUrl);
+        log.info("service.name: {}", microservice);
+        return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
     }
 }
