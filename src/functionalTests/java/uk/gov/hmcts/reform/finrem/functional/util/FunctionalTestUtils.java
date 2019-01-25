@@ -38,10 +38,6 @@ public class FunctionalTestUtils {
     @Value("${user.auth.provider.oauth2.url}")
     private String baseServiceOauth2Url = "";
 
-
-    private String email = null;
-    private String apiBody;
-    private Headers headers;
     private String serviceToken;
     private String clientToken;
 
