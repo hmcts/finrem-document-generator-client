@@ -62,7 +62,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
         String url = documentUrl.replaceAll(REPLACE_URL, DOCUMENT_GET_URL);
         String documentContent = utils.downloadPdfAndParseToString(url);
-        String actual = utils.getJsonFromFile("documentGeneratePayload.json");
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
         assertTrue(documentContent.contains(SOLICITOR_NAME));
         assertTrue(documentContent.contains(APPLICANT_NAME));
