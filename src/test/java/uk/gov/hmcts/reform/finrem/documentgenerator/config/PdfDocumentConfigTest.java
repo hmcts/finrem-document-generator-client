@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import uk.gov.hmcts.reform.finrem.documentgenerator.config.PdfDocumentConfig;
 
 
 public class PdfDocumentConfigTest {

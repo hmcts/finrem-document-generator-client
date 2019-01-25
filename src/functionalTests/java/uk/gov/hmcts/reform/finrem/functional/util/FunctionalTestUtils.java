@@ -9,18 +9,20 @@ import org.pdfbox.cos.COSDocument;
 import org.pdfbox.pdfparser.PDFParser;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
 import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+
+import javax.annotation.PostConstruct;
 
 import static io.restassured.RestAssured.given;
 
@@ -111,10 +113,13 @@ public class FunctionalTestUtils {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                if (cosDoc != null)
+                if (cosDoc != null) {
                     cosDoc.close();
-                if (pdDoc != null)
+                }
+
+                if (pdDoc != null) {
                     pdDoc.close();
+                }
             } catch (Exception e1) {
                 e.printStackTrace();
             }

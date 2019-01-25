@@ -25,7 +25,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String REPLACE_URL   = "http://document-management-store:8080";
 
     @Value("${document.get.url}")
-    private String DOCUMENT_GET_URL;
+    private String documentGetUrl;
 
     @Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
@@ -46,8 +46,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
-        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, DOCUMENT_GET_URL));
-        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, DOCUMENT_GET_URL));
+        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         JsonPath jsonPathEvaluator1 = response1.jsonPath();
         assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
         assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
@@ -60,7 +60,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
-        String url = documentUrl.replaceAll(REPLACE_URL, DOCUMENT_GET_URL);
+        String url = documentUrl.replaceAll(REPLACE_URL, documentGetUrl);
         String documentContent = utils.downloadPdfAndParseToString(url);
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
         assertTrue(documentContent.contains(SOLICITOR_NAME));

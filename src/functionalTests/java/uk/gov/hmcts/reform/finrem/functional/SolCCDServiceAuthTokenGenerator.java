@@ -3,7 +3,8 @@ package uk.gov.hmcts.reform.finrem.functional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
@@ -65,12 +66,12 @@ public class SolCCDServiceAuthTokenGenerator {
     private String generateClientToken() {
         String code = generateClientCode();
         String token = "";
-
-        String jsonResponse = post(baseServiceOauth2Url + "/oauth2/token?code=" + code +
-            "&client_secret=" + clientSecret +
-            "&client_id=" + clientId +
-            "&redirect_uri=" + redirectUri +
-            "&grant_type=authorization_code")
+        String jsonResponse = post(baseServiceOauth2Url
+            + "/oauth2/token?code=" + code
+            + "&client_secret=" + clientSecret
+            + "&client_id=" + clientId
+            + "&redirect_uri=" + redirectUri
+            + "&grant_type=authorization_code")
             .body().asString();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -89,9 +90,10 @@ public class SolCCDServiceAuthTokenGenerator {
         String jsonResponse = given()
             .relaxedHTTPSValidation()
             .header("Authorization", "Basic dGVzdEBURVNULkNPTToxMjM=")
-            .post(baseServiceOauth2Url + "/oauth2/authorize?response_type=code" +
-                "&client_id=" + clientId +
-                "&redirect_uri=" + redirectUri)
+            .post(baseServiceOauth2Url
+                + "/oauth2/authorize?response_type=code"
+                + "&client_id=" + clientId
+                + "&redirect_uri=" + redirectUri)
             .asString();
 
         ObjectMapper mapper = new ObjectMapper();
