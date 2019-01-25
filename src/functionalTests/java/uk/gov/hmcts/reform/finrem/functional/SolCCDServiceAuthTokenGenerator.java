@@ -39,6 +39,10 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${auth.idam.client.baseUrl}")
     private String baseServiceOauth2Url = "";
 
+    @Value("${clientCode.authorization}")
+    private String clientCodeAuthorization = "";
+
+
     @Autowired
     private ServiceAuthTokenGenerator tokenGenerator;
 
@@ -89,7 +93,7 @@ public class SolCCDServiceAuthTokenGenerator {
         String code = "";
         String jsonResponse = given()
             .relaxedHTTPSValidation()
-            .header("Authorization", "Basic dGVzdEBURVNULkNPTToxMjM=")
+            .header("Authorization", clientCodeAuthorization)
             .post(baseServiceOauth2Url
                 + "/oauth2/authorize?response_type=code"
                 + "&client_id=" + clientId
