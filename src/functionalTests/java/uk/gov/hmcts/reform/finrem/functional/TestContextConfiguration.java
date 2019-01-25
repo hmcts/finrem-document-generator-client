@@ -25,8 +25,8 @@ public class TestContextConfiguration {
     }
 
     @Bean
-    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}") String s2sUrl,
-                                                               @Value("${s2s-auth.totp_secret}") String secret,
+    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
+                                                               @Value("${idam.auth.secret}") String secret,
                                                                @Value("${service.name}") String microservice) {
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
             .encoder(new JacksonEncoder())

@@ -26,16 +26,16 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.oauth2.client.secret}")
     private String clientSecret = "";
 
-    @Value("${idam.oauth2.redirect_uri}")
+    @Value("${auth.idam.client.redirectUri}")
     private String redirectUri = "";
 
     @Value("${service.name}")
     private String serviceName = "";
 
-    @Value("${service.auth.provider.base.url}")
+    @Value("${idam.s2s-auth.url}")
     private String baseServiceAuthUrl = "";
 
-    @Value("${user.auth.provider.oauth2.url}")
+    @Value("${auth.idam.client.baseUrl}")
     private String baseServiceOauth2Url = "";
 
     @Autowired

@@ -35,7 +35,7 @@ public class FunctionalTestUtils {
     @Value("${user.id.url}")
     private String userId;
 
-    @Value("${user.auth.provider.oauth2.url}")
+    @Value("${auth.idam.client.baseUrl}")
     private String baseServiceOauth2Url = "";
 
     private String serviceToken;
