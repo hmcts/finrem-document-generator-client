@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
 
-public class FinancialRemedyDocumentGeneratorTests1 extends IntegrationTestBase {
+public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     private static String SOLICITOR_FIRM = "Michael Jones & Partners";
     private static String SOLICITOR_NAME = "Jane Smith";
@@ -61,7 +61,6 @@ public class FinancialRemedyDocumentGeneratorTests1 extends IntegrationTestBase 
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
         String url = documentUrl.replaceAll(REPLACE_URL, DOCUMENT_GET_URL);
-        // replace right URL
         String documentContent = utils.downloadPdfAndParseToString(url);
         String actual = utils.getJsonFromFile("documentGeneratePayload.json");
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
