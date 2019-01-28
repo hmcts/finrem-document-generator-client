@@ -110,8 +110,10 @@ public class FunctionalTestUtils {
             pdfStripper = new PDFTextStripper();
             pdDoc = new PDDocument(cosDoc);
             parsedText = pdfStripper.getText(pdDoc);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable t) {
+            t.printStackTrace();
+
+
             try {
                 if (cosDoc != null) {
                     cosDoc.close();
@@ -121,10 +123,14 @@ public class FunctionalTestUtils {
                     pdDoc.close();
                 }
             } catch (Exception e1) {
-                e.printStackTrace();
+                e1.printStackTrace();
+
+
             }
+            throw new Error(t);
 
         }
+
         return parsedText;
     }
 
