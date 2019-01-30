@@ -65,5 +65,5 @@ variable "common_tags" {
 
 variable "pdf_service_url" {
     type = "string"
-    default = "https://docmosis-development.platform.hmcts.net"
+    default = "https://docmosis-development.platform.hmcts.net/rs/render"
 }
