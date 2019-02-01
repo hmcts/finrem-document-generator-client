@@ -38,10 +38,9 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUplo
 public class EvidenceManagementServiceTest {
 
     private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
-    private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
     public static final String DOC_CONTENT = "welcome doc";
-    public static final String FILE_URL = "http://dm-store/JKlkm";
+    public static final String FILE_NAME = "JKlkm";
 
     @Autowired
     private EvidenceManagementService service;
@@ -64,7 +63,7 @@ public class EvidenceManagementServiceTest {
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
             .andRespond(withSuccess(jsonResponse(fileUploadResponse()), MediaType.APPLICATION_JSON));
 
-        FileUploadResponse result = service.storeDocument(DOC_CONTENT.getBytes(), AUTH_TOKEN);
+        FileUploadResponse result = service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN);
         assertThat(result, is(equalTo(fileUploadResponse())));
 
         mockServer.verify();
@@ -80,7 +79,7 @@ public class EvidenceManagementServiceTest {
                 withSuccess(jsonResponse(new FileUploadResponse(HttpStatus.BAD_REQUEST)), MediaType.APPLICATION_JSON));
 
         try {
-            service.storeDocument(DOC_CONTENT.getBytes(), AUTH_TOKEN);
+            service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN);
             fail("should have thrown DocumentStorageException");
         } catch (DocumentStorageException e) {
             assertThat(e, is(notNullValue()));

@@ -16,6 +16,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @Api(value = "Document Generation", tags = {"Document Generation"})
@@ -44,7 +45,8 @@ public class DocumentController {
                                     DocumentRequest templateData) {
         log.info("Document generation requested with templateName [{}], placeholders map of size[{}]",
                 templateData.getTemplate(), templateData.getValues().size());
-        return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getValues(),
+        return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getFileName(),
+            templateData.getValues(),
             authorizationToken);
     }
 }
