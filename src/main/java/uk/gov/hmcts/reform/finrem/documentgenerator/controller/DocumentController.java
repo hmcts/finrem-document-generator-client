@@ -16,7 +16,6 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @Api(value = "Document Generation", tags = {"Document Generation"})

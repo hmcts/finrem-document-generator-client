@@ -35,7 +35,8 @@ public class DocumentControllerTest {
         final Map<String, Object> placeholder = Collections.emptyMap();
 
         final Document expected = Document.builder().build();
-        when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN)).thenReturn(expected);
+        when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN))
+            .thenReturn(expected);
 
         Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, FILE_NAME, placeholder));
 
