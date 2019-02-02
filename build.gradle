@@ -273,8 +273,6 @@ pitest {
 
 def sonarExclusions = [
     '**uk/gov/hmcts/reform/finrem/documentgenerator/error/*',
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/config/SwaggerConfiguration.java',
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/config/HttpConnectionConfiguration.java',
     '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java'
 ]
 
