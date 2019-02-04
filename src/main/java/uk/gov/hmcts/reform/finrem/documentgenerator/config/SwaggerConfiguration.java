@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -36,16 +35,4 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .description("Given a case data, This service will generate PDF documents")
                 .build();
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        WebMvcConfigurer.super.addResourceHandlers(registry);
-        if (swaggerEnabled) {
-            registry.addResourceHandler("/swagger-ui.html**")
-                    .addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
-            registry.addResourceHandler("/webjars/**")
-                    .addResourceLocations("classpath:/META-INF/resources/webjars/");
-        }
-    }
-
 }
