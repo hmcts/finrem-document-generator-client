@@ -37,6 +37,7 @@ module "finrem-dgcs" {
     REFORM_TEAM                                           = "${var.reform_team}"
     REFORM_ENVIRONMENT                                    = "${var.env}"
     PDF_SERVICE_BASEURL                                   = "${var.pdf_service_url}"
+    PDF_SERVICE_HEALTH_URL                                = "${var.pdf_service_health_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL                = "${local.evidence_management_client_api_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
