@@ -7,7 +7,6 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
 import java.util.Map;
-import java.util.function.Function;
 
 import static java.lang.String.format;
 
@@ -20,14 +19,6 @@ public class DocumentManagementService {
 
     @Autowired
     private EvidenceManagementService evidenceManagementService;
-
-    private static final Function<FileUploadResponse, Document> CONVERTER = (response -> Document.builder()
-        .fileName(response.getFileName())
-        .url(response.getFileUrl())
-        .binaryUrl(toBinaryUrl(response))
-        .mimeType(response.getMimeType())
-        .createdOn(response.getCreatedOn())
-        .build());
 
     public Document storeDocument(String templateName,
                                   String fileName,
@@ -46,7 +37,17 @@ public class DocumentManagementService {
         log.debug("Store document requested with document of size [{}]", document.length);
         FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken);
 
-        return CONVERTER.apply(response);
+        return convert(response);
+    }
+
+    private static Document convert(FileUploadResponse response) {
+        return Document.builder()
+            .fileName(response.getFileName())
+            .url(response.getFileUrl())
+            .binaryUrl(toBinaryUrl(response))
+            .mimeType(response.getMimeType())
+            .createdOn(response.getCreatedOn())
+            .build();
     }
 
     private static String toBinaryUrl(FileUploadResponse response) {

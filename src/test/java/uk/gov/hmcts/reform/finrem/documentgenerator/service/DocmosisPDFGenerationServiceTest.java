@@ -82,7 +82,7 @@ public class DocmosisPDFGenerationServiceTest {
             .andRespond(withBadRequest());
 
         try {
-            pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS);
+            byte[] result = pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS);
             fail("should have thrown bad-request exception");
         } catch (PDFGenerationException e) {
             HttpStatus httpStatus = ((HttpClientErrorException) e.getCause()).getStatusCode();
@@ -98,10 +98,5 @@ public class DocmosisPDFGenerationServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void nullTemplateName() {
         pdfGenerationService.generateDocFrom(null, PLACEHOLDERS);
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void nullPlaceHoldersMap() {
-        pdfGenerationService.generateDocFrom(TEMPLATE_NAME, null);
     }
 }
