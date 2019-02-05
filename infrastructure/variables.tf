@@ -62,3 +62,8 @@ variable "vault_env" {}
 variable "common_tags" {
     type = "map"
 }
+
+variable "pdf_service_url" {
+    type = "string"
+    default = "https://docmosis-development.platform.hmcts.net/rs/render"
+}

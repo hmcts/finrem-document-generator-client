@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageExcepti
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -27,7 +28,7 @@ import static java.util.Objects.requireNonNull;
 public class EvidenceManagementService {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String FILE_PARAMETER = "file";
-    private static final String DEFAULT_NAME_FOR_PDF_FILE = "MiniFormA.pdf";
+    private static final String DEFAULT_NAME_FOR_PDF_FILE = "generated-file.pdf";
 
     @Value("${service.evidence-management-client-api.uri}")
     private String evidenceManagementEndpoint;
@@ -38,10 +39,10 @@ public class EvidenceManagementService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public FileUploadResponse storeDocument(byte[] document, String authorizationToken) {
+    public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
         log.info("Save document call to evidence management is made document of size [{}]", document.length);
 
-        FileUploadResponse fileUploadResponse = save(document, authorizationToken);
+        FileUploadResponse fileUploadResponse = save(document, fileName, authorizationToken);
 
         if (fileUploadResponse.getStatus() == HttpStatus.OK) {
             return fileUploadResponse;
@@ -50,18 +51,22 @@ public class EvidenceManagementService {
         }
     }
 
-    private FileUploadResponse save(byte[] document, String authorizationToken) {
+    private FileUploadResponse save(byte[] document, String fileName, String authorizationToken) {
         requireNonNull(document);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
                 HttpMethod.POST,
                 new HttpEntity<>(
-                        buildStoreDocumentRequest(document, DEFAULT_NAME_FOR_PDF_FILE),
+                        buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
                     getHttpHeaders(authorizationToken)),
                 new ParameterizedTypeReference<List<FileUploadResponse>>() {
                 });
 
         return responseEntity.getBody().get(0);
+    }
+
+    private static String fileToBeNamed(String name) {
+        return Optional.ofNullable(name).orElse(DEFAULT_NAME_FOR_PDF_FILE);
     }
 
     private HttpHeaders getHttpHeaders(String authToken) {

@@ -21,8 +21,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentControllerTest {
 
-    public static final String FILE_URL = "file_url";
-    public static final String AUTH_TOKEN = "AUTH_TOKEN";
+    private static final String FILE_NAME = "file_name";
+    private static final String AUTH_TOKEN = "AUTH_TOKEN";
     @Mock
     private DocumentManagementService documentManagementService;
 
@@ -35,11 +35,13 @@ public class DocumentControllerTest {
         final Map<String, Object> placeholder = Collections.emptyMap();
 
         final Document expected = Document.builder().build();
-        when(documentManagementService.storeDocument(templateName, placeholder, AUTH_TOKEN)).thenReturn(expected);
+        when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN))
+            .thenReturn(expected);
 
-        Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, placeholder));
+        Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, FILE_NAME, placeholder));
 
         assertThat(actual, is(expected));
-        verify(documentManagementService, times(1)).storeDocument(templateName, placeholder, AUTH_TOKEN);
+        verify(documentManagementService, times(1))
+            .storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN);
     }
 }

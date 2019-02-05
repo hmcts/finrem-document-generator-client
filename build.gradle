@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.5.RELEASE'
+        springBootVersion = '2.0.8.RELEASE'
     }
     repositories {
         mavenLocal()
@@ -272,9 +272,7 @@ pitest {
 }
 
 def sonarExclusions = [
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/model/**/*',
     '**uk/gov/hmcts/reform/finrem/documentgenerator/error/*',
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/config/**/*',
     '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java'
 ]
 

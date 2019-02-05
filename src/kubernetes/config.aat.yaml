@@ -7,7 +7,7 @@ data:
   APPLICATION_INSIGHTS_IKEY : "97f6a0e1-6be6-44b0-97bf-d03852b7791f"
   SLOT : "PRODUCTION"
   REFORM_ENVIRONMENT : "aat"
-  PDF_SERVICE_BASEURL : "https://dws2.docmosis.com/services/rs/render"
+  PDF_SERVICE_BASEURL : "https://docmosis-development.platform.hmcts.net/rs/render"
   REFORM_SERVICE_NAME : "dgcs"
   EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT : "/health"
   EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL : "http://finrem-emca-aat.service.core-compute-aat.internal"

@@ -21,6 +21,7 @@ public class DocumentManagementService {
     private EvidenceManagementService evidenceManagementService;
 
     public Document storeDocument(String templateName,
+                                  String fileName,
                                   Map<String, Object> placeholders,
                                   String authorizationToken) {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
@@ -28,12 +29,13 @@ public class DocumentManagementService {
 
         return storeDocument(
             pdfGenerationService.generateDocFrom(templateName, placeholders),
+            fileName,
             authorizationToken);
     }
 
-    private Document storeDocument(byte[] document, String authorizationToken) {
+    private Document storeDocument(byte[] document, String fileName, String authorizationToken) {
         log.debug("Store document requested with document of size [{}]", document.length);
-        FileUploadResponse response = evidenceManagementService.storeDocument(document, authorizationToken);
+        FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken);
 
         return convert(response);
     }
