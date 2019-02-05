@@ -12,8 +12,9 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfDocumentRequest;
 
 import java.util.Map;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static java.util.Objects.requireNonNull;
 
 @Service
 @Slf4j
@@ -36,10 +37,8 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
 
     @Override
     public byte[] generateDocFrom(String templateName, Map<String, Object> placeholders) {
-        if (isNullOrEmpty(templateName)) {
-            throw new IllegalArgumentException("document generation template cannot be empty");
-        }
-        requireNonNull(placeholders);
+        checkArgument(!isNullOrEmpty(templateName), "document generation template cannot be empty");
+        checkNotNull(placeholders, "placeholders map cannot be null");
 
         log.info("Making request to pdf service to generate pdf document with template "
             + "and placeholders of size [{}]", templateName, placeholders.size());

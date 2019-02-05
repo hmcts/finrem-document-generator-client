@@ -44,11 +44,9 @@ public class EvidenceManagementService {
 
         FileUploadResponse fileUploadResponse = save(document, fileName, authorizationToken);
 
-        if (fileUploadResponse.getStatus() == HttpStatus.OK) {
-            return fileUploadResponse;
-        } else {
-            throw new DocumentStorageException("Failed to store document");
-        }
+        return Optional.of(fileUploadResponse)
+            .filter(response -> response.getStatus() == HttpStatus.OK)
+            .orElseThrow(() -> new DocumentStorageException("Failed to store document"));
     }
 
     private FileUploadResponse save(byte[] document, String fileName, String authorizationToken) {
