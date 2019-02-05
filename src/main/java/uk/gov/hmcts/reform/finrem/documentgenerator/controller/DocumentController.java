@@ -29,7 +29,7 @@ public class DocumentController {
             + "it in the evidence management.", tags = {"Document Generation"})
     @ApiResponses({
             @ApiResponse(code = 200, message = "PDF was generated successfully and stored in the evidence management."
-                    + " Returns the url to the stored document.", response = String.class),
+                    + " Returns the stored document information.", response = String.class),
             @ApiResponse(code = 400, message = "Returned when input parameters are invalid or template not found",
                     response = String.class),
             @ApiResponse(code = 503, message = "Returned when the PDF Service or Evidence Management Client Api "
