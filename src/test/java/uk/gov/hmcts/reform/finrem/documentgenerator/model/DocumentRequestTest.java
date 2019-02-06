@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.Assert.assertThat;
 
 public class DocumentRequestTest {
@@ -17,7 +16,6 @@ public class DocumentRequestTest {
         DocumentRequest request = documentRequest();
         assertThat(request.getTemplate(), is(TEMPLATE));
         assertThat(request.getValues(), is(ImmutableMap.of()));
-        assertThat(request.getFileName(), isEmptyString());
     }
 
     @Test
@@ -26,7 +24,7 @@ public class DocumentRequestTest {
     }
 
     private DocumentRequest documentRequest() {
-        return new DocumentRequest(TEMPLATE, "", ImmutableMap.of());
+        return new DocumentRequest(TEMPLATE, ImmutableMap.of());
     }
 
 
