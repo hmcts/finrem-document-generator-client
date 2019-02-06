@@ -34,11 +34,11 @@ final class TestSupport {
     }
 
     static String templateValuesNotSuppliedRequest() throws JsonProcessingException {
-        return MAPPER.writeValueAsString(new DocumentRequest("test", FILE_NAME, null));
+        return MAPPER.writeValueAsString(new DocumentRequest("test", null));
     }
 
     static String templateNotSuppliedRequest() throws JsonProcessingException {
-        return MAPPER.writeValueAsString(new DocumentRequest(null, FILE_NAME, ImmutableMap.of()));
+        return MAPPER.writeValueAsString(new DocumentRequest(null, ImmutableMap.of()));
     }
 
     static byte[] pdfServiceResponse() throws JsonProcessingException {
