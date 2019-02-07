@@ -16,7 +16,7 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @Slf4j
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
-@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application_local.properties"})
+@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-${env}.properties"})
 public class TestContextConfiguration {
 
     @Bean
@@ -26,14 +26,15 @@ public class TestContextConfiguration {
 
     @Bean
     public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
-                                                               @Value("${idam.auth.secret}") String secret,
-                                                               @Value("${service.name}") String microservice) {
+                                                               @Value("${idam.api.secret}") String secret,
+                                                               @Value("${idam.s2s-auth.microservice}")
+                                                                       String microservice) {
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
             .encoder(new JacksonEncoder())
             .contract(new SpringMvcContract())
             .target(ServiceAuthorisationApi.class, s2sUrl);
         log.info("S2S URL: {}", s2sUrl);
-        log.info("service.name: {}", microservice);
+        log.info("idam.s2s-auth.microservice: {}", microservice);
         return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
     }
 }

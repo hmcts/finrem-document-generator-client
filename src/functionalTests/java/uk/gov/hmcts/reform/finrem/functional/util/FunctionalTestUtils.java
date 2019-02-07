@@ -21,8 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-
 import javax.annotation.PostConstruct;
+
 
 import static io.restassured.RestAssured.given;
 
@@ -37,7 +37,7 @@ public class FunctionalTestUtils {
     @Value("${user.id.url}")
     private String userId;
 
-    @Value("${auth.idam.client.baseUrl}")
+    @Value("${idam.api.url}")
     private String baseServiceOauth2Url = "";
 
     private String serviceToken;
@@ -77,6 +77,7 @@ public class FunctionalTestUtils {
     public Headers getHeadersWithUserId() {
         return getHeadersWithUserId(serviceToken, userId);
     }
+
 
     private Headers getHeadersWithUserId(String serviceToken, String userId) {
         return Headers.headers(
