@@ -6,6 +6,7 @@
             <HTTP enabled="true"/>
         </BuiltIn>
         <Class name="uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService">
+            <Method name="generateDocumentFrom" reportCaughtExceptions="true" reportExecutionTime="true"/>
             <Method name="storeDocument" reportCaughtExceptions="true" reportExecutionTime="true"/>
         </Class>
         <Class name="uk.gov.hmcts.reform.finrem.documentgenerator.service.EvidenceManagementService">

@@ -29,14 +29,17 @@ public class DocumentManagementService {
         .createdOn(response.getCreatedOn())
         .build());
 
+    public byte[] generateDocumentFrom(String templateName, Map<String, Object> placeholders) {
+        return pdfGenerationService.generateDocFrom(templateName, placeholders);
+    }
+
     public Document storeDocument(String templateName,
                                   Map<String, Object> placeholders,
                                   String authorizationToken) {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
             templateName, placeholders.size());
 
-        return storeDocument(
-            pdfGenerationService.generateDocFrom(templateName, placeholders), authorizationToken);
+        return storeDocument(generateDocumentFrom(templateName, placeholders), authorizationToken);
     }
 
     private Document storeDocument(byte[] document, String authorizationToken) {
