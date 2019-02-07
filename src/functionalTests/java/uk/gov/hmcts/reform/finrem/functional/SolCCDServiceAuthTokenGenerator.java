@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationCodeResponse;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationResponse;
-import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
 import java.io.IOException;
 
@@ -45,9 +44,6 @@ public class SolCCDServiceAuthTokenGenerator {
 
     @Autowired
     private ServiceAuthTokenGenerator tokenGenerator;
-
-    @Autowired
-    protected FunctionalTestUtils utils;
 
 
     public String generateServiceToken() {
