@@ -19,22 +19,22 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-aat.properties"})
 public class TestContextConfiguration {
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @Bean
-    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
-                                                               @Value("${idam.api.secret}") String secret,
-                                                               @Value("${idam.s2s-auth.microservice}")
-                                                                       String microservice) {
-        final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
-            .encoder(new JacksonEncoder())
-            .contract(new SpringMvcContract())
-            .target(ServiceAuthorisationApi.class, s2sUrl);
-        log.info("S2S URL: {}", s2sUrl);
-        log.info("idam.s2s-auth.microservice: {}", microservice);
-        return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
-    }
+//    @Bean
+//    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+//        return new PropertySourcesPlaceholderConfigurer();
+//    }
+//
+//    @Bean
+//    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
+//                                                               @Value("${idam.api.secret}") String secret,
+//                                                               @Value("${idam.s2s-auth.microservice}")
+//                                                                       String microservice) {
+//        final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
+//            .encoder(new JacksonEncoder())
+//            .contract(new SpringMvcContract())
+//            .target(ServiceAuthorisationApi.class, s2sUrl);
+//        log.info("S2S URL: {}", s2sUrl);
+//        log.info("idam.s2s-auth.microservice: {}", microservice);
+//        return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
+//    }
 }
