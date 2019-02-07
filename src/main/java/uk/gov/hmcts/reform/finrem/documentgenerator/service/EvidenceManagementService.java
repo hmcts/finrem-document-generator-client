@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageExcepti
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,11 +44,9 @@ public class EvidenceManagementService {
 
         FileUploadResponse fileUploadResponse = save(document, authorizationToken);
 
-        if (fileUploadResponse.getStatus() == HttpStatus.OK) {
-            return fileUploadResponse;
-        } else {
-            throw new DocumentStorageException("Failed to store document");
-        }
+        return Optional.of(fileUploadResponse)
+            .filter(response -> response.getStatus() == HttpStatus.OK)
+            .orElseThrow(() -> new DocumentStorageException("Failed to store document"));
     }
 
     private FileUploadResponse save(byte[] document, String authorizationToken) {

@@ -1,5 +1,6 @@
 {
     "template":"FL-FRM-APP-ENG-00002.docx",
+    "fileName": "FILE_NAME",
     "values": {
         "case_details": {
             "id" : "12345678",

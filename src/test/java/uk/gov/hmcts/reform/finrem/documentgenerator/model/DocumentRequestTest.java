@@ -3,16 +3,29 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class DocumentRequestTest {
 
-    public static final String TEMPLATE = "template";
+    private static final String TEMPLATE = "template";
 
     @Test
     public void properties() {
-        DocumentRequest request = new DocumentRequest(TEMPLATE, ImmutableMap.of());
-        assertEquals(TEMPLATE, request.getTemplate());
-        assertEquals(ImmutableMap.of(), request.getValues());
+        DocumentRequest request = documentRequest();
+        assertThat(request.getTemplate(), is(TEMPLATE));
+        assertThat(request.getValues(), is(ImmutableMap.of()));
     }
+
+    @Test
+    public void valueTest() {
+        assertThat(documentRequest(), is(equalTo(documentRequest())));
+    }
+
+    private DocumentRequest documentRequest() {
+        return new DocumentRequest(TEMPLATE, ImmutableMap.of());
+    }
+
+
 }

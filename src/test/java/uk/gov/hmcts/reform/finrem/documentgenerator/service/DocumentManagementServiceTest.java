@@ -27,7 +27,6 @@ public class DocumentManagementServiceTest {
     public static final String TEMPLATE_NAME = "templateName";
     public static final ImmutableMap<String, Object> PLACEHOLDERS = ImmutableMap.of("key", "value");
     private static final String AUTH_TOKEN = "Bearer BBJHJbbIIBHBLB";
-    private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
 
     @Autowired
     private DocumentManagementService service;

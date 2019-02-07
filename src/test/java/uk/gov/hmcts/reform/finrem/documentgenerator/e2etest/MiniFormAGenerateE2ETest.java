@@ -26,7 +26,6 @@ import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.documentResponse;
@@ -44,7 +43,6 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.v
 @AutoConfigureMockMvc
 public class MiniFormAGenerateE2ETest {
     private static final String API_URL = "/version/1/generatePDF";
-    private static final String DELETE_API_URL = "/version/1/delete-pdf-document";
 
     @Autowired
     private MockMvc webClient;

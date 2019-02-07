@@ -38,10 +38,8 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUplo
 public class EvidenceManagementServiceTest {
 
     private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
-    private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
     public static final String DOC_CONTENT = "welcome doc";
-    public static final String FILE_URL = "http://dm-store/JKlkm";
 
     @Autowired
     private EvidenceManagementService service;

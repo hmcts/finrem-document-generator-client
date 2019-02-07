@@ -8,7 +8,6 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 
   evidence_management_client_api_url = "http://${var.evidence_management_client_api_url_part}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-  pdf_service_url                    = "https://dws2.docmosis.com/services/rs/render"
 
   previewVaultName = "${var.reform_team}-aat"
   nonPreviewVaultName = "${var.reform_team}-${var.env}"
@@ -37,7 +36,8 @@ module "finrem-dgcs" {
     REFORM_SERVICE_NAME                                   = "${var.reform_service_name}"
     REFORM_TEAM                                           = "${var.reform_team}"
     REFORM_ENVIRONMENT                                    = "${var.env}"
-    PDF_SERVICE_BASEURL                                   = "${local.pdf_service_url}"
+    PDF_SERVICE_BASEURL                                   = "${var.pdf_service_url}"
+    PDF_SERVICE_HEALTH_URL                                = "${var.pdf_service_health_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL                = "${local.evidence_management_client_api_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
