@@ -34,6 +34,14 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 sourceSets {
+    testSmoke {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
     test {
         java.srcDir 'src/test/java'
         resources.srcDir 'src/test/resources'
@@ -213,6 +221,11 @@ dependencies {
     }
 
     testCompile('org.springframework.security:spring-security-test')
+
+    testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testSmokeCompile sourceSets.main.runtimeClasspath
+    testSmokeCompile sourceSets.test.runtimeClasspath
+    
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime("org.springframework.boot:spring-boot-properties-migrator")
 
@@ -234,6 +247,20 @@ dependencies {
     functionalTestsCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
 }
 
+sourceSets {
+    testSmoke {
+        java {
+            compileClasspath += main.output
+            runtimeClasspath += main.output
+            srcDir file('src/smokeTest/java')
+        }
+        resources.srcDir file('src/smokeTest/resources')
+    }
+    test {
+        java.srcDir 'src/test/java'
+        resources.srcDir 'src/test/resources'
+    }
+
 
 dependencies {
     integrationTestCompile(sourceSets.test.output)
@@ -241,9 +268,8 @@ dependencies {
 }
 
 task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
-    useJUnit {2
-        includeCategories 'uk.gov.hmcts.reform.finrem.documentgenerator.category.SmokeTest'
-    }
+    setTestClassesDirs(sourceSets.testSmoke.output.classesDirs)
+    setClasspath(sourceSets.testSmoke.runtimeClasspath)
 }
 
 task functionalTests(type: Test) {
