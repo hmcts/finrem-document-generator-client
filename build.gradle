@@ -60,7 +60,7 @@ sourceSets {
 
     }
 
-    functionalTests {
+    testFunctional {
         java {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
@@ -209,7 +209,6 @@ dependencies {
     compile group:'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: versions.gradlePitest
     compile group:'org.codehaus.sonar-plugins', name:'sonar-pitest-plugin', version: versions.sonarPitest
     compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testCompile group: 'com.github.tomakehurst', name:'wiremock', version: versions.wiremockVersion
     testCompile group: 'org.powermock', name:'powermock-api-mockito2', version:versions.powerMock
     testCompile group: 'org.powermock', name: 'powermock-api-mockito-common', version:versions.powerMock
@@ -229,39 +228,23 @@ dependencies {
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime("org.springframework.boot:spring-boot-properties-migrator")
 
-    functionalTestsCompile group: 'junit', name: 'junit', version: versions.junit
-    functionalTestsCompile group: 'net.serenity-bdd', name: 'serenity-core', version: '2.0.11'
-    functionalTestsCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.0.11'
-    functionalTestsCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: '2.0.11'
-    functionalTestsCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.0.11'
-    functionalTestsCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
-    functionalTestsCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '1.0.4'
-    functionalTestsCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-    functionalTestsCompile group: 'junit', name: 'junit', version: versions.junit
-    functionalTestsCompile group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
-    functionalTestsCompile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3
-    functionalTestsCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    functionalTestsCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    functionalTestsCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    functionalTestsCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
-    functionalTestsCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+    testFunctionalCompile group: 'junit', name: 'junit', version: versions.junit
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: '2.0.11'
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: '2.0.11'
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: '2.0.11'
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: '2.0.11'
+    testFunctionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+    testFunctionalCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '1.0.4'
+    testFunctionalCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testFunctionalCompile group: 'junit', name: 'junit', version: versions.junit
+    testFunctionalCompile group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
+    testFunctionalCompile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3
+    testFunctionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testFunctionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testFunctionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    testFunctionalCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+    testFunctionalCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
 }
-
-sourceSets {
-    testSmoke {
-        java {
-            compileClasspath += main.output
-            runtimeClasspath += main.output
-            srcDir file('src/smokeTest/java')
-        }
-        resources.srcDir file('src/smokeTest/resources')
-    }
-    test {
-        java.srcDir 'src/test/java'
-        resources.srcDir 'src/test/resources'
-    }
-}
-
 
     dependencies {
         integrationTestCompile(sourceSets.test.output)
@@ -271,12 +254,13 @@ sourceSets {
     task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
         setTestClassesDirs(sourceSets.testSmoke.output.classesDirs)
         setClasspath(sourceSets.testSmoke.runtimeClasspath)
+        finalizedBy aggregate
     }
 
-    task functionalTests(type: Test) {
+    task testFunctional(type: Test) {
         description = "Runs functional Tests"
-        setTestClassesDirs(sourceSets.functionalTests.output.classesDirs)
-        setClasspath(sourceSets.functionalTests.runtimeClasspath)
+        setTestClassesDirs(sourceSets.testFunctional.output.classesDirs)
+        setClasspath(sourceSets.testFunctional.runtimeClasspath)
         finalizedBy aggregate
     }
 
@@ -325,7 +309,7 @@ sourceSets {
     }
 
     jacocoTestReport {
-        executionData(test, functionalTests)
+        executionData(test, testFunctional)
 
         reports {
             xml {
