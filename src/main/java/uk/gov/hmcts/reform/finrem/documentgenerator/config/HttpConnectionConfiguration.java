@@ -26,6 +26,10 @@ public class HttpConnectionConfiguration {
     @Value("${http.connect.request.timeout}")
     private int httpConnectRequestTimeout;
 
+    @Value("${http.connect.read.timeout}")
+    private int httpConnectReadTimeout;
+
+
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -42,6 +46,7 @@ public class HttpConnectionConfiguration {
         RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(httpConnectTimeout)
                 .setConnectionRequestTimeout(httpConnectRequestTimeout)
+                .setSocketTimeout(httpConnectReadTimeout) // read time out
                 .build();
 
         CloseableHttpClient client = HttpClientBuilder

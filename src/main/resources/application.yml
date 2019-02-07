@@ -16,9 +16,11 @@ service:
 
 http:
   connect:
-    timeout: 60000
+    timeout: 30000
     request:
-      timeout: 60000
+      timeout: 30000
+    read:
+      timeout: 30000
 
 info:
   app:
