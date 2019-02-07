@@ -260,96 +260,97 @@ sourceSets {
         java.srcDir 'src/test/java'
         resources.srcDir 'src/test/resources'
     }
-
-
-dependencies {
-    integrationTestCompile(sourceSets.test.output)
-    functionalTestsCompile(sourceSets.test.output)
 }
 
-task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.testSmoke.output.classesDirs)
-    setClasspath(sourceSets.testSmoke.runtimeClasspath)
-}
 
-task functionalTests(type: Test) {
-    description = "Runs functional Tests"
-    setTestClassesDirs(sourceSets.functionalTests.output.classesDirs)
-    setClasspath(sourceSets.functionalTests.runtimeClasspath)
-    finalizedBy aggregate
-}
-
-task printVersion {
-    doLast {
-        print project.version
+    dependencies {
+        integrationTestCompile(sourceSets.test.output)
+        functionalTestsCompile(sourceSets.test.output)
     }
-}
 
-pmd {
-    toolVersion = "5.8.1"
-    ignoreFailures = true
-    sourceSets = [sourceSets.main, sourceSets.test]
-    reportsDir = file("$project.buildDir/reports/pmd")
-    ruleSetFiles = files("ruleset.xml")
-}
-
-pitest {
-    targetClasses = ['**uk.gov.hmcts.reform.finrem.documentgenerator.*']
-    excludedClasses = ['uk.gov.hmcts.reform.finrem.documentgenerator.config.*']
-    threads = 10
-    outputFormats = ['XML', 'HTML']
-    timestampedReports = true
-    mutationThreshold = 90
-}
-
-def sonarExclusions = [
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/error/*',
-    '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java'
-]
-
-sonarqube {
-    println "echo sonarqube"
-    properties {
-        property "sonar.exclusions", sonarExclusions.join(', ')
-        property "sonar.host.url", "https://sonar.reform.hmcts.net/"
-        property "sonar.dynamicAnalysis", "reuseReports"
-        property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+    task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
+        setTestClassesDirs(sourceSets.testSmoke.output.classesDirs)
+        setClasspath(sourceSets.testSmoke.runtimeClasspath)
     }
-}
 
-task developAddRelaseSuffix() {
-    version = "${version}-SNAPSHOT"
-}
+    task functionalTests(type: Test) {
+        description = "Runs functional Tests"
+        setTestClassesDirs(sourceSets.functionalTests.output.classesDirs)
+        setClasspath(sourceSets.functionalTests.runtimeClasspath)
+        finalizedBy aggregate
+    }
 
-jacocoTestReport {
-    executionData(test, functionalTests)
-
-    reports {
-        xml {
-            enabled true
-        }
-
-        html {
-            enabled true
+    task printVersion {
+        doLast {
+            print project.version
         }
     }
-}
 
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.8
+    pmd {
+        toolVersion = "5.8.1"
+        ignoreFailures = true
+        sourceSets = [sourceSets.main, sourceSets.test]
+        reportsDir = file("$project.buildDir/reports/pmd")
+        ruleSetFiles = files("ruleset.xml")
+    }
+
+    pitest {
+        targetClasses = ['**uk.gov.hmcts.reform.finrem.documentgenerator.*']
+        excludedClasses = ['uk.gov.hmcts.reform.finrem.documentgenerator.config.*']
+        threads = 10
+        outputFormats = ['XML', 'HTML']
+        timestampedReports = true
+        mutationThreshold = 90
+    }
+
+    def sonarExclusions = [
+        '**uk/gov/hmcts/reform/finrem/documentgenerator/error/*',
+        '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java'
+    ]
+
+    sonarqube {
+        println "echo sonarqube"
+        properties {
+            property "sonar.exclusions", sonarExclusions.join(', ')
+            property "sonar.host.url", "https://sonar.reform.hmcts.net/"
+            property "sonar.dynamicAnalysis", "reuseReports"
+            property "sonar.java.coveragePlugin", "jacoco"
+            property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+            property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+        }
+    }
+
+    task developAddRelaseSuffix() {
+        version = "${version}-SNAPSHOT"
+    }
+
+    jacocoTestReport {
+        executionData(test, functionalTests)
+
+        reports {
+            xml {
+                enabled true
+            }
+
+            html {
+                enabled true
             }
         }
     }
-}
 
-def debug = System.getProperty("debug")
-run {
-    if (debug == 'true') {
-        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5010']
+    jacocoTestCoverageVerification {
+        violationRules {
+            rule {
+                limit {
+                    minimum = 0.8
+                }
+            }
+        }
     }
-}
+
+    def debug = System.getProperty("debug")
+    run {
+        if (debug == 'true') {
+            jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5010']
+        }
+    }
