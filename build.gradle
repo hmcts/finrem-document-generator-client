@@ -214,6 +214,7 @@ dependencies {
     testCompile group: 'org.powermock', name: 'powermock-api-mockito-common', version:versions.powerMock
     testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: versions.powerMock
     testCompile group: 'org.mockito', name: 'mockito-core', version: versions.mockito
+    testCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
     testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot) {
         exclude(module: 'commons-logging')
