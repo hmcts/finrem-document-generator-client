@@ -246,11 +246,6 @@ task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verificatio
     }
 }
 
-task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.functionalTests.output.classesDirs)
-    setClasspath(sourceSets.functionalTests.runtimeClasspath)
-}
-
 task functionalTests(type: Test) {
     description = "Runs functional Tests"
     setTestClassesDirs(sourceSets.functionalTests.output.classesDirs)
