@@ -16,7 +16,7 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @Slf4j
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
-@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-${env}.properties"})
+@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-aat.properties"})
 public class TestContextConfiguration {
 
     @Bean
