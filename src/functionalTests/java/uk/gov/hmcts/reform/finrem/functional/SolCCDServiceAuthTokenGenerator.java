@@ -20,26 +20,26 @@ import static io.restassured.RestAssured.post;
 @Component
 public class SolCCDServiceAuthTokenGenerator {
 
-    @Value("${idam.oauth2.client.id}")
-    private String clientId = "";
-
-    @Value("${idam.oauth2.client.secret}")
-    private String clientSecret = "";
-
-    @Value("${auth.idam.client.redirectUri}")
-    private String redirectUri = "";
-
-    @Value("${idam.s2s-auth.microservice}")
-    private String serviceName = "";
-
-    @Value("${idam.s2s-auth.url}")
-    private String baseServiceAuthUrl = "";
-
-    @Value("${idam.api.url}")
-    private String baseServiceOauth2Url = "";
-
-    @Value("${clientCode.authorization}")
-    private String clientCodeAuthorization = "";
+//    @Value("${idam.oauth2.client.id}")
+//    private String clientId = "";
+//
+//    @Value("${idam.oauth2.client.secret}")
+//    private String clientSecret = "";
+//
+//    @Value("${auth.idam.client.redirectUri}")
+//    private String redirectUri = "";
+//
+//    @Value("${idam.s2s-auth.microservice}")
+//    private String serviceName = "";
+//
+//    @Value("${idam.s2s-auth.url}")
+//    private String baseServiceAuthUrl = "";
+//
+//    @Value("${idam.api.url}")
+//    private String baseServiceOauth2Url = "";
+//
+//    @Value("${clientCode.authorization}")
+//    private String clientCodeAuthorization = "";
 
 
 //    @Autowired

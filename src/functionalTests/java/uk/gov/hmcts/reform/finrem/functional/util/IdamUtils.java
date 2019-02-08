@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.finrem.functional.util;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +18,14 @@ public class IdamUtils implements IdamUserClient {
     private String idamRedirectUri;
 
 
-
     @Value("${idam.api.secret}")
     private String idamSecret;
 
+    @Autowired
+    private FunctionalTestUtils utils;
+
     public String generateUserTokenWithNoRoles(String username, String password) {
+        utils.createNewUser();
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 

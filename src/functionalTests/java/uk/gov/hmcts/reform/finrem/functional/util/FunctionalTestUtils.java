@@ -97,7 +97,7 @@ public class FunctionalTestUtils {
     }
 
     public Headers getNewHeaders() {
-        createNewUser();
+
         return Headers.headers(
             new Header("Authorization", idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)),
             new Header("Content-Type", ContentType.JSON.toString()));
