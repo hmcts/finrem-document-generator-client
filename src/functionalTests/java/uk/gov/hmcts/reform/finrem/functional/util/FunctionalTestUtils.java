@@ -45,7 +45,7 @@ public class FunctionalTestUtils {
     private String idamUserPassword;
 
     @Value("${idam.api.url}")
-    private String baseServiceOauth2Url = "";
+    public String baseServiceOauth2Url = "";
 
     @Autowired
     private IdamUtils idamUtils;

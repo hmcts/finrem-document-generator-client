@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
 
 
@@ -27,13 +28,27 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     @Value("${document.get.url}")
     private String documentGetUrl;
 
+
     @Test
+    public void test()
+    {
+        given().headers("Content-type", "application/json")
+            .relaxedHTTPSValidation()
+            .body(utils.getJsonFromFile("userCreation.json"))
+            .post(utils.baseServiceOauth2Url + "/testing-support/accounts")
+            .then()
+            .assertThat().statusCode(200);;
+    }
+
+
+
+    //@Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
 
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    @Test
+    //@Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
