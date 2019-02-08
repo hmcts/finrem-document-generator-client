@@ -52,7 +52,7 @@ public class IdamUtils implements IdamUserClient {
     }
 
     private String idamTokenUrl(String code) {
-        String myUrl=idamUserBaseUrl + "/oauth2/token"
+        String myUrl = idamUserBaseUrl + "/oauth2/token"
             + "?code=" + code
             + "&client_id=finrem"
             + "&client_secret=" + idamSecret
