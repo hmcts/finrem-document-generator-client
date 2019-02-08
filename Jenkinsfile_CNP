@@ -21,7 +21,7 @@ def channel = '#finrem-dev'
 
 List<LinkedHashMap<String, Object>> secrets = [
     secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
-    secret(finrem-idam-secret-key ,"OAUTH2_CLIENT_FINREM")
+    secret("finrem-idam-secret-key" ,"OAUTH2_CLIENT_FINREM")
     //secret(gov-uk-notification-test-key,"NOTIFICATION_KEY")
 ]
 
