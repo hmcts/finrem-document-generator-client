@@ -30,8 +30,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
 
     @Test
-    public void test()
-    {
+    public void test() {
         given().headers("Content-type", "application/json")
             .relaxedHTTPSValidation()
             .body(utils.getJsonFromFile("userCreation.json"))
