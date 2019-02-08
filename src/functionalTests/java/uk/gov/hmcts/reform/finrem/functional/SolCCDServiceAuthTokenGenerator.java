@@ -42,69 +42,69 @@ public class SolCCDServiceAuthTokenGenerator {
     private String clientCodeAuthorization = "";
 
 
-    @Autowired
-    private ServiceAuthTokenGenerator tokenGenerator;
+//    @Autowired
+//    private ServiceAuthTokenGenerator tokenGenerator;
 
 
-    public String generateServiceToken() {
-        return tokenGenerator.generate();
-    }
-
-    public String getClientToken() {
-        return generateClientToken();
-    }
-
-    public String getUserId() {
-        String clientToken = generateClientToken();
-
-        String withoutSignature = clientToken.substring(0, clientToken.lastIndexOf('.') + 1);
-        Claims claims = Jwts.parser().parseClaimsJwt(withoutSignature).getBody();
-
-        return claims.get("id", String.class);
-    }
-
-    private String generateClientToken() {
-        String code = generateClientCode();
-        String token = "";
-        String jsonResponse = post(baseServiceOauth2Url
-            + "/oauth2/token?code=" + code
-            + "&client_secret=" + clientSecret
-            + "&client_id=" + clientId
-            + "&redirect_uri=" + redirectUri
-            + "&grant_type=authorization_code")
-            .body().asString();
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            token = mapper.readValue(jsonResponse, ClientAuthorizationResponse.class).accessToken;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return token;
-    }
-
-    private String generateClientCode() {
-        String code = "";
-        String jsonResponse = given()
-            .relaxedHTTPSValidation()
-            .header("Authorization", clientCodeAuthorization)
-            .post(baseServiceOauth2Url
-                + "/oauth2/authorize?response_type=code"
-                + "&client_id=" + clientId
-                + "&redirect_uri=" + redirectUri)
-            .asString();
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            code = mapper.readValue(jsonResponse, ClientAuthorizationCodeResponse.class).code;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return code;
-    }
+//    public String generateServiceToken() {
+//        return tokenGenerator.generate();
+//    }
+//
+//    public String getClientToken() {
+//        return generateClientToken();
+//    }
+//
+//    public String getUserId() {
+//        String clientToken = generateClientToken();
+//
+//        String withoutSignature = clientToken.substring(0, clientToken.lastIndexOf('.') + 1);
+//        Claims claims = Jwts.parser().parseClaimsJwt(withoutSignature).getBody();
+//
+//        return claims.get("id", String.class);
+//    }
+//
+//    private String generateClientToken() {
+//        String code = generateClientCode();
+//        String token = "";
+//        String jsonResponse = post(baseServiceOauth2Url
+//            + "/oauth2/token?code=" + code
+//            + "&client_secret=" + clientSecret
+//            + "&client_id=" + clientId
+//            + "&redirect_uri=" + redirectUri
+//            + "&grant_type=authorization_code")
+//            .body().asString();
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        try {
+//            token = mapper.readValue(jsonResponse, ClientAuthorizationResponse.class).accessToken;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return token;
+//    }
+//
+//    private String generateClientCode() {
+//        String code = "";
+//        String jsonResponse = given()
+//            .relaxedHTTPSValidation()
+//            .header("Authorization", clientCodeAuthorization)
+//            .post(baseServiceOauth2Url
+//                + "/oauth2/authorize?response_type=code"
+//                + "&client_id=" + clientId
+//                + "&redirect_uri=" + redirectUri)
+//            .asString();
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//        try {
+//            code = mapper.readValue(jsonResponse, ClientAuthorizationCodeResponse.class).code;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return code;
+//    }
 
 }

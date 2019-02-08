@@ -24,19 +24,19 @@ public class TestContextConfiguration {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean
-    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
-                                                               @Value("${idam.api.secret}") String secret,
-                                                               @Value("${idam.s2s-auth.microservice}")
-                                                                       String microservice) {
-        final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
-            .encoder(new JacksonEncoder())
-            .contract(new SpringMvcContract())
-            .target(ServiceAuthorisationApi.class, s2sUrl);
+    //@Bean
+    //public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}") String s2sUrl,
+    //                                                           @Value("${idam.api.secret}") String secret,
+    //                                                          @Value("${idam.s2s-auth.microservice}")
+    //                                                                  String microservice) {
+    //   final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
+    //       .encoder(new JacksonEncoder())
+    //       .contract(new SpringMvcContract())
+    //       .target(ServiceAuthorisationApi.class, s2sUrl);
 
 
-        log.info("S2S URL: {}", s2sUrl);
-        log.info("idam.s2s-auth.microservice: {}", microservice);
-        return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
-    }
+    //   log.info("S2S URL: {}", s2sUrl);
+    //   log.info("idam.s2s-auth.microservice: {}", microservice);
+    //   return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
+    //}
 }

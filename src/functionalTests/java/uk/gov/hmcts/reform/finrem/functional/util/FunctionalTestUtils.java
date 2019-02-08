@@ -53,15 +53,15 @@ public class FunctionalTestUtils {
     private String serviceToken;
     private String clientToken;
 
-    @PostConstruct
-    public void init() {
-        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
-        clientToken = serviceAuthTokenGenerator.getClientToken();
-        if (userId == null || userId.isEmpty()) {
-            createNewUser();
-            userId = serviceAuthTokenGenerator.getUserId();
-        }
-    }
+    //@PostConstruct
+    //public void init() {
+    //   serviceToken = serviceAuthTokenGenerator.generateServiceToken();
+    //   clientToken = serviceAuthTokenGenerator.getClientToken();
+    //   if (userId == null || userId.isEmpty()) {
+    //       createNewUser();
+    //       userId = serviceAuthTokenGenerator.getUserId();
+    //   }
+    //}
 
     public String getJsonFromFile(String fileName) {
         try {
