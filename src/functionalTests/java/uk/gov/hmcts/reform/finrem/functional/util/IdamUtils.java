@@ -25,6 +25,7 @@ public class IdamUtils implements IdamUserClient {
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 
+
         Response response = RestAssured.given()
                 .header("Authorization", authHeader)
                 .relaxedHTTPSValidation()
@@ -51,11 +52,13 @@ public class IdamUtils implements IdamUserClient {
     }
 
     private String idamTokenUrl(String code) {
-        return idamUserBaseUrl + "/oauth2/token"
-                + "?code=" + code
-                + "&client_id=finrem"
-                + "&client_secret=" + idamSecret
-                + "&redirect_uri=" + idamRedirectUri
-                + "&grant_type=authorization_code";
+        String myUrl=idamUserBaseUrl + "/oauth2/token"
+            + "?code=" + code
+            + "&client_id=finrem"
+            + "&client_secret=" + idamSecret
+            + "&redirect_uri=" + idamRedirectUri
+            + "&grant_type=authorization_code";
+        System.out.println(myUrl);
+        return myUrl;
     }
 }
