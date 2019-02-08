@@ -30,18 +30,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
 
     @Test
-    public void test() {
-        given().headers("Content-type", "application/json")
-            .relaxedHTTPSValidation()
-            .body(utils.getJsonFromFile("userCreation.json"))
-            .post(utils.baseServiceOauth2Url + "/testing-support/accounts")
-            .then()
-            .assertThat().statusCode(200);;
-    }
-
-
-
-    //@Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
 
         validatePostSuccess("documentGeneratePayload.json");
