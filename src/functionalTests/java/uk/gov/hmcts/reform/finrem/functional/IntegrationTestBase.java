@@ -29,7 +29,7 @@ public abstract class IntegrationTestBase {
     }
 
     @Autowired
-    public void documentGeneratorServiceUrl(@Value("${divorce.document.generator.uri}")
+    public void documentGeneratorServiceUrl(@Value("${document.generator.uri}")
                                                     String documentGeneratorServiceUrl) {
         this.documentGeneratorServiceUrl = documentGeneratorServiceUrl;
         RestAssured.baseURI = documentGeneratorServiceUrl;
