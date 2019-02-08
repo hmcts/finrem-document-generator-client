@@ -2,7 +2,6 @@ package uk.gov.hmcts.reform.finrem.functional.util;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,28 +20,25 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.api.secret}")
     private String idamSecret;
 
-    @Autowired
-    private FunctionalTestUtils utils;
 
     public String generateUserTokenWithNoRoles(String username, String password) {
-        utils.createNewUser();
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 
 
         Response response = RestAssured.given()
-                .header("Authorization", authHeader)
-                .relaxedHTTPSValidation()
-                .post(idamCodeUrl());
+            .header("Authorization", authHeader)
+            .relaxedHTTPSValidation()
+            .post(idamCodeUrl());
 
         if (response.getStatusCode() >= 300) {
             throw new IllegalStateException("Token generation failed with code: " + response.getStatusCode()
-                    + " body: " + response.getBody().prettyPrint());
+                + " body: " + response.getBody().prettyPrint());
         }
 
         response = RestAssured.given()
-                .relaxedHTTPSValidation()
-                .post(idamTokenUrl(response.getBody().path("code")));
+            .relaxedHTTPSValidation()
+            .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
         return "Bearer " + token;
@@ -50,9 +46,9 @@ public class IdamUtils implements IdamUserClient {
 
     private String idamCodeUrl() {
         return idamUserBaseUrl + "/oauth2/authorize"
-                + "?response_type=code"
-                + "&client_id=finrem"
-                + "&redirect_uri=" + idamRedirectUri;
+            + "?response_type=code"
+            + "&client_id=finrem"
+            + "&redirect_uri=" + idamRedirectUri;
     }
 
     private String idamTokenUrl(String code) {
