@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+
 import java.util.Base64;
 
 @Component
@@ -41,7 +42,9 @@ public class IdamUtils implements IdamUserClient {
             .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
-        return "Bearer " + token;
+
+
+        return token;
     }
 
     private String idamCodeUrl() {

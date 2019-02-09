@@ -35,7 +35,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    //@Test
+    @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -43,7 +43,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
-    //@Test
+    @Test
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -57,7 +57,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
 
-    //@Test
+    @Test
     public void downloadDocumentAndVerifyContentAgainstOriginalJsonFileInput() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -87,7 +87,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeaders())
+            .headers(utils.getNewHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
         return jsonResponse;
@@ -96,7 +96,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private void validatePostSuccessForaccessingGeneratedDocument(String url) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithUserId())
+            .headers(utils.getNewHeadersWithUserId())
             .when().get(url)
             .then().assertThat().statusCode(200);
 
@@ -105,7 +105,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private Response accessGeneratedDocument(String url) {
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getHeadersWithUserId())
+            .headers(utils.getNewHeadersWithUserId())
             .when().get(url)
             .andReturn();
         return jsonResponse;
