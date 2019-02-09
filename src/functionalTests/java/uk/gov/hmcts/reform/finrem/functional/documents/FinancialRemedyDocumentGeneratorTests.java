@@ -29,13 +29,13 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private String documentGetUrl;
 
 
-    @Test
+    //@Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
 
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    @Test
+    //@Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();

@@ -135,7 +135,7 @@ public class FunctionalTestUtils {
     public String downloadPdfAndParseToString(String documentUrl) {
         Response document = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(getHeadersWithUserId())
+            .headers(getNewHeadersWithUserId())
             .when().get(documentUrl).andReturn();
 
         return parsePDFToString(document.getBody().asInputStream());
