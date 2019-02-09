@@ -45,6 +45,10 @@ public class FunctionalTestUtils {
     private String idamUserName;
     @Value("${idam.userpassword}")
     private String idamUserPassword;
+    @Value("${idam.s2s-auth.microservice}")
+    private String microservice;
+
+
     @Autowired
     private IdamUtils idamUtils;
 
@@ -124,6 +128,7 @@ public class FunctionalTestUtils {
 
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
+            .body("microservice :" + microservice)
             .post(idamS2sUrl + "/lease");
 
         String token1 = response.getBody().toString();

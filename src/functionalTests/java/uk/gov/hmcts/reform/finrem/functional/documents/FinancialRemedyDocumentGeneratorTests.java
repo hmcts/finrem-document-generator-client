@@ -31,7 +31,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     @Test
     public void newTest() {
-       utils.getHeadersWithUserId();
+        utils.getHeadersWithUserId();
     }
 
 
