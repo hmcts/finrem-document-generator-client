@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
+import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
 import uk.gov.hmcts.reform.finrem.functional.idam.IdamUtils;
@@ -56,11 +57,14 @@ public class FunctionalTestUtils {
     @Autowired
     protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
 
+    @Autowired
+    private AuthTokenGenerator authTokenGenerator;
+
 
 
     @PostConstruct
     public void init() {
-        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
+        serviceToken = authTokenGenerator.generate();
 
         if (userId == null || userId.isEmpty()) {
             serviceAuthTokenGenerator.createNewUser();
