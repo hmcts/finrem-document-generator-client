@@ -131,6 +131,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
+            .contentType("application/json")
             .body("microservice :" + microservice)
             .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease");
 
@@ -138,6 +139,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
         RestAssured.given()
             .relaxedHTTPSValidation()
+            .contentType("application/json")
             .body("microservice :" + microservice)
             .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease").then().assertThat().statusCode(200);
 
