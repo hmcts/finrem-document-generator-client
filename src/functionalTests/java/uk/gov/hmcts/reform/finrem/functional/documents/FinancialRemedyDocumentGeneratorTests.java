@@ -141,8 +141,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .body("microservice :" + microservice)
             .post("/testing-support/lease").then().assertThat().statusCode(200);
 
-
-
     }
 
 }
