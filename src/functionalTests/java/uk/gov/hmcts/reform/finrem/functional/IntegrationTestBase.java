@@ -23,6 +23,9 @@ public abstract class IntegrationTestBase {
     private String documentGeneratorServiceUrl;
 
 
+    @Autowired
+    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
+
     public static String serviceAuthUrl;
 
 
