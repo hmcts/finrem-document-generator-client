@@ -34,7 +34,7 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.s2s-auth.url}")
     private String baseServiceAuthUrl;
 
-    @Value("${user.auth.provider.oauth2.url}")
+    @Value("${idam.api.url}")
     private String baseServiceOauth2Url;
 
     @Autowired
