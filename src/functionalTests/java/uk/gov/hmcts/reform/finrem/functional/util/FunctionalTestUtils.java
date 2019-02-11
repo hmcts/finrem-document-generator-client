@@ -62,10 +62,10 @@ public class FunctionalTestUtils {
     public void init() {
         serviceToken = serviceAuthTokenGenerator.generateServiceToken();
 
-        //if (userId == null || userId.isEmpty()) {
-        //    serviceAuthTokenGenerator.createNewUser();
-        //    userId = serviceAuthTokenGenerator.getUserId();
-        //}
+        if (userId == null || userId.isEmpty()) {
+            serviceAuthTokenGenerator.createNewUser();
+            userId = serviceAuthTokenGenerator.getUserId();
+        }
     }
 
 
