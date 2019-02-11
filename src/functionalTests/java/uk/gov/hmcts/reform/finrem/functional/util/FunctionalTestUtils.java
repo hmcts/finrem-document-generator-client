@@ -8,26 +8,22 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
-
 import org.pdfbox.cos.COSDocument;
 import org.pdfbox.pdfparser.PDFParser;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
-import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
+import uk.gov.hmcts.reform.finrem.functional.idam.IdamUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-
-import static io.restassured.RestAssured.given;
 
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
@@ -37,8 +33,6 @@ public class FunctionalTestUtils {
     public String baseServiceOauth2Url = "";
     @Value("${idam_s2s_url}")
     public String idamS2sUrl;
-    @Autowired
-    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
     @Value("${user.id.url}")
     private String userId;
     @Value("${idam.username}")
@@ -55,15 +49,6 @@ public class FunctionalTestUtils {
     private String serviceToken;
     private String clientToken;
 
-    //@PostConstruct
-    //public void init() {
-    //   serviceToken = serviceAuthTokenGenerator.generateServiceToken();
-    //   clientToken = serviceAuthTokenGenerator.getClientToken();
-    //   if (userId == null || userId.isEmpty()) {
-    //       createNewUser();
-    //       userId = serviceAuthTokenGenerator.getUserId();
-    //   }
-    //}
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -185,10 +170,4 @@ public class FunctionalTestUtils {
         return parsedText;
     }
 
-    public void createNewUser() {
-        given().headers("Content-type", "application/json")
-            .relaxedHTTPSValidation()
-            .body(getJsonFromFile("userCreation.json"))
-            .post(baseServiceOauth2Url + "/testing-support/accounts");
-    }
 }

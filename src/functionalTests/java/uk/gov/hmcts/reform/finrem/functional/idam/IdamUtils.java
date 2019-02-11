@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.finrem.functional.util;
+package uk.gov.hmcts.reform.finrem.functional.idam;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

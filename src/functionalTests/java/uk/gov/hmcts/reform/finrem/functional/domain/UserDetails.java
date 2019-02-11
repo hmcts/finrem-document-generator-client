@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.finrem.functional.util;
+package uk.gov.hmcts.reform.finrem.functional.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
