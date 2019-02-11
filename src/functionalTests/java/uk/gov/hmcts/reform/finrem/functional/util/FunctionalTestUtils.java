@@ -80,7 +80,7 @@ public class FunctionalTestUtils {
         return Headers.headers(
             new Header("ServiceAuthorization", serviceToken),
             new Header("user-roles", "caseworker-divorce"),
-            new Header("user-id", getUserId()));
+            new Header("user-id", "${idam.username}"));
     }
 
     public String getUserId() {
