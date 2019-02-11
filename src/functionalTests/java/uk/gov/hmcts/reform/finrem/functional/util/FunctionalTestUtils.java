@@ -96,7 +96,8 @@ public class FunctionalTestUtils {
 
     public Headers getNewHeadersWithUserId() {
         return Headers.headers(
-            new Header("ServiceAuthorization", getServiceAuthToken("serviceAuth.json")),
+            new Header("ServiceAuthorization", "Bearer "
+                + getServiceAuthToken("serviceAuth.json")),
             new Header("user-roles", "caseworker-divorce"),
             new Header("user-id", userId));
     }
