@@ -54,8 +54,6 @@ public class FunctionalTestUtils {
     private String serviceToken;
     private String clientToken;
 
-    @Autowired
-    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
 
     @Autowired
     private AuthTokenGenerator authTokenGenerator;
@@ -66,10 +64,6 @@ public class FunctionalTestUtils {
     public void init() {
         serviceToken = authTokenGenerator.generate();
 
-        if (userId == null || userId.isEmpty()) {
-            serviceAuthTokenGenerator.createNewUser();
-            userId = serviceAuthTokenGenerator.getUserId();
-        }
     }
 
 

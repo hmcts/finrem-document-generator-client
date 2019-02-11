@@ -37,12 +37,6 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.api.url}")
     private String baseServiceOauth2Url;
 
-    @Autowired
-    private ServiceAuthTokenGenerator tokenGenerator;
-
-    public String generateServiceToken() {
-        return tokenGenerator.generate();
-    }
 
     public String getUserId() {
         String clientToken = generateClientToken();
