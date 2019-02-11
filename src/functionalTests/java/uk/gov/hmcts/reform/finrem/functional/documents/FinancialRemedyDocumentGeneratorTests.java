@@ -130,7 +130,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
             .body("microservice :" + microservice)
-            .post(idamS2sUrl + "/lease");
+            .post(idamS2sUrl + "/testing-support/lease");
 
         System.out.println(response.getBody().toString());
 
