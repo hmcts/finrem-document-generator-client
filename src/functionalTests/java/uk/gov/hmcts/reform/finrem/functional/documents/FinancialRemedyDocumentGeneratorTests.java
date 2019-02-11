@@ -127,17 +127,19 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     public void getServiceAuthToken() {
 
+        setServiceAuthUrlAsBaseUri();
+
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
             .body("microservice :" + microservice)
-            .post(idamS2sUrl + "/testing-support/lease");
+            .post("/testing-support/lease");
 
         System.out.println(response.getBody().toString());
 
         RestAssured.given()
             .relaxedHTTPSValidation()
             .body("microservice :" + microservice)
-            .post(idamS2sUrl + "/testing-support/lease").then().assertThat().statusCode(200);
+            .post("/testing-support/lease").then().assertThat().statusCode(200);
 
 
 

@@ -23,6 +23,9 @@ public abstract class IntegrationTestBase {
     private String documentGeneratorServiceUrl;
 
 
+    public static String serviceAuthUrl;
+
+
     public IntegrationTestBase() {
         this.springIntegration = new SpringIntegrationMethodRule();
 
@@ -34,4 +37,15 @@ public abstract class IntegrationTestBase {
         this.documentGeneratorServiceUrl = documentGeneratorServiceUrl;
         RestAssured.baseURI = documentGeneratorServiceUrl;
     }
+
+    @Autowired
+    public void serviceAuthUrl(@Value("${idam_s2s_url}")String serviceAuthUrl) {
+        this.serviceAuthUrl = serviceAuthUrl;
+
+    }
+
+    public static void setServiceAuthUrlAsBaseUri() {
+        RestAssured.baseURI = serviceAuthUrl;
+    }
+
 }
