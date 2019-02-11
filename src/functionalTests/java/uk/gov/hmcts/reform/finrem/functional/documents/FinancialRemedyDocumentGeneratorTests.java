@@ -24,7 +24,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
-    private static String REPLACE_URL   = "http://document-management-store:8080";
+    private static String REPLACE_URL   = "http://dm-store-aat.service.aat.platform.hmcts.net";
 
     @Value("${document.get.url}")
     private String documentGetUrl;
@@ -49,7 +49,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    //@Test
+    @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -57,19 +57,17 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
-    @Test
+    //@Test
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
-        //validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
-        //Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
-        validatePostSuccessForaccessingGeneratedDocument(documentGetUrl);
-        //Response response1 = accessGeneratedDocument( documentGetUrl);
-        //JsonPath jsonPathEvaluator1 = response1.jsonPath();
-        //assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
-        //assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
-        //assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
+        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        JsonPath jsonPathEvaluator1 = response1.jsonPath();
+        assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
+        assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
+        assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
 
