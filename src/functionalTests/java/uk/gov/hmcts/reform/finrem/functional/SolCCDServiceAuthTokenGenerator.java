@@ -31,7 +31,7 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.s2s-auth.microservice}")
     private String serviceName;
 
-    @Value("${service.auth.provider.base.url}")
+    @Value("${idam.s2s-auth.url}")
     private String baseServiceAuthUrl;
 
     @Value("${user.auth.provider.oauth2.url}")
