@@ -65,11 +65,11 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         //validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         //Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         validatePostSuccessForaccessingGeneratedDocument(documentGetUrl);
-        Response response1 = accessGeneratedDocument( documentGetUrl);
-        JsonPath jsonPathEvaluator1 = response1.jsonPath();
-        assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
-        assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
-        assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
+        //Response response1 = accessGeneratedDocument( documentGetUrl);
+        //JsonPath jsonPathEvaluator1 = response1.jsonPath();
+        //assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
+        //assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
+        //assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
 
