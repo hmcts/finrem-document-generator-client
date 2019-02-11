@@ -127,19 +127,19 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     public void getServiceAuthToken() {
 
-        setServiceAuthUrlAsBaseUri();
+        //setServiceAuthUrlAsBaseUri();
 
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
             .body("microservice :" + microservice)
-            .post("/testing-support/lease");
+            .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease");
 
-        System.out.println(response.getBody().toString());
+//        System.out.println(response.getBody().toString());
 
         RestAssured.given()
             .relaxedHTTPSValidation()
             .body("microservice :" + microservice)
-            .post("/testing-support/lease").then().assertThat().statusCode(200);
+            .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease").then().assertThat().statusCode(200);
 
     }
 
