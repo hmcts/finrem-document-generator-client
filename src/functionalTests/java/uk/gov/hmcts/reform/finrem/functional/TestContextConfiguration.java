@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @Slf4j
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
-@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-local.properties"})
+@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application-aat.properties"})
 public class TestContextConfiguration {
 
 }
