@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
+import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
 import uk.gov.hmcts.reform.finrem.functional.idam.IdamUtils;
 
@@ -24,6 +25,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+
+
+import javax.annotation.PostConstruct;
 
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
@@ -49,6 +53,21 @@ public class FunctionalTestUtils {
     private String serviceToken;
     private String clientToken;
 
+    @Autowired
+    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
+
+
+
+    @PostConstruct
+    public void init() {
+        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
+
+        if (userId == null || userId.isEmpty()) {
+            serviceAuthTokenGenerator.createNewUser();
+            userId = serviceAuthTokenGenerator.getUserId();
+        }
+    }
+
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -72,7 +91,7 @@ public class FunctionalTestUtils {
     }
 
     public Headers getHeadersWithUserId() {
-        return getHeadersWithUserId(serviceToken, userId);
+        return getHeadersWithUserId(serviceToken, idamUserName);
     }
 
 
@@ -80,7 +99,7 @@ public class FunctionalTestUtils {
         return Headers.headers(
             new Header("ServiceAuthorization", serviceToken),
             new Header("user-roles", "caseworker-divorce"),
-            new Header("user-id", getUserId()));
+            new Header("user-id", userId));
     }
 
     public String getUserId() {
