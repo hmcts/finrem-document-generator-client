@@ -24,7 +24,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
-    private static String REPLACE_URL   = "http://dm-store-aat.service.aat.platform.hmcts.net";
+    private static String REPLACE_URL   = "http://dm-store-aat.service.core-compute-aat.internal";
 
     @Value("${document.get.url}")
     private String documentGetUrl;
