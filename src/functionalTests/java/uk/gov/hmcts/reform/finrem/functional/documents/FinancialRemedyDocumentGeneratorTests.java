@@ -56,6 +56,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
+        System.out.println(url);
         System.out.println(url.replaceAll(REPLACE_URL, documentGetUrl));
         validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         //Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
