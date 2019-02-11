@@ -58,7 +58,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         String url = jsonPathEvaluator.get("url");
         System.out.println(url);
         System.out.println(url.replaceAll(REPLACE_URL, documentGetUrl));
-        validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        validatePostSuccessForaccessingGeneratedDocument(url);
+        //validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         //Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         //JsonPath jsonPathEvaluator1 = response1.jsonPath();
         //assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
