@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGeneratorFactory;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+
 
 @Slf4j
 @Configuration
