@@ -37,7 +37,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
 
 
-    @Test
+    //@Test
     public void testServiceAuthKey() {
         getServiceAuthToken("serviceAuth.json");
     }
@@ -49,7 +49,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    //@Test
+    @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -57,7 +57,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
-    //@Test
+    @Test
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
