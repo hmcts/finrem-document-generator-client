@@ -113,8 +113,9 @@ public class FunctionalTestUtils {
 
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
+            .contentType("application/json")
             .body("microservice :" + microservice)
-            .post(idamS2sUrl + "/lease");
+            .post(idamS2sUrl + "/testing-support/lease");
 
         String token1 = response.getBody().toString();
 

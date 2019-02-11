@@ -39,7 +39,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     @Test
     public void testServiceAuthKey() {
-        getServiceAuthToken();
+        getServiceAuthToken("serviceAuth.json");
     }
 
 
@@ -125,22 +125,23 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         return jsonResponse;
     }
 
-    public void getServiceAuthToken() {
+    public void getServiceAuthToken(String jsonFileName) {
 
         //setServiceAuthUrlAsBaseUri();
+
 
         Response response = RestAssured.given()
             .relaxedHTTPSValidation()
             .contentType("application/json")
-            .body("microservice :" + microservice)
+            .body(utils.getJsonFromFile(jsonFileName))
             .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease");
-
-        //System.out.println(response.getBody().toString());
+        System.out.println(response.getBody().toString());
 
         RestAssured.given()
             .relaxedHTTPSValidation()
             .contentType("application/json")
             .body("microservice :" + microservice)
+            .body(utils.getJsonFromFile(jsonFileName))
             .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease").then().assertThat().statusCode(200);
 
     }
