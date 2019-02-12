@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.functional;
 
+import com.netflix.ribbon.proxy.annotation.ClientProperties;
 import feign.Feign;
 import feign.jackson.JacksonEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,8 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 @Configuration
 @ComponentScan("uk.gov.hmcts.reform.finrem")
 @EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
-@PropertySource(ignoreResourceNotFound = true, value = {"classpath:application.properties"})
+@PropertySource(value = {"classpath:application.properties"})
+@PropertySource(value = {"classpath:application-${env}.properties"})
 public class TestContextConfiguration {
 
     @Bean
