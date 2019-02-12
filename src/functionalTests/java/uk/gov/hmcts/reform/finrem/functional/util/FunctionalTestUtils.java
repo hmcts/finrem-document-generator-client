@@ -54,7 +54,6 @@ public class FunctionalTestUtils {
         }
     }
 
-
     public Headers getHeadersWithUserId() {
 
         return Headers.headers(
