@@ -60,12 +60,6 @@ public class FunctionalTestUtils {
     protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
 
 
-    @PostConstruct
-    public void init() {
-        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
-
-    }
-
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -88,16 +82,12 @@ public class FunctionalTestUtils {
             new Header("Content-Type", ContentType.JSON.toString()));
     }
 
+
     public Headers getHeadersWithUserId() {
-        return getHeadersWithUserId(serviceToken, idamUserName);
-    }
-
-
-    private Headers getHeadersWithUserId(String serviceToken, String userId) {
         return Headers.headers(
-            new Header("ServiceAuthorization", serviceToken),
+            new Header("ServiceAuthorization", serviceAuthTokenGenerator.generateServiceToken()),
             new Header("user-roles", "caseworker-divorce"),
-            new Header("user-id", userId));
+            new Header("user-id", idamUserName));
     }
 
     public String getUserId() {
