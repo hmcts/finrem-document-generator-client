@@ -42,7 +42,8 @@ module "finrem-dgcs" {
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
-    UK_GOV_NOTIFY_API_TEST_KEY                             = “${data.azurerm_key_vault_secret.gov-uk-notification-test-key.value}”
+    UK_GOV_NOTIFY_API_TEST_KEY                            = “${data.azurerm_key_vault_secret.gov-uk-notification-test-key.value}”
+    AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = “${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}”
 
   }
 }
@@ -54,5 +55,10 @@ data "azurerm_key_vault" "finrem_key_vault" {
 
 data "azurerm_key_vault_secret" "pdf-service-access-key" {
     name      = "pdf-service-access-key"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
+    name      = "finrem-doc-s2s-auth-secret"
     vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
