@@ -44,12 +44,9 @@ public class FunctionalTestUtils {
     private String microservice;
     @Autowired
     private IdamUtils idamUtils;
-    private String clientToken;
-    private String serviceToken;
 
     @PostConstruct
     public void init() {
-        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
 
         if (userId == null || userId.isEmpty()) {
             serviceAuthTokenGenerator.createNewUser();
@@ -70,7 +67,7 @@ public class FunctionalTestUtils {
 
 
     public Headers getHeaders() {
-        return getHeaders(clientToken);
+        return getHeaders(serviceAuthTokenGenerator.generateServiceToken());
     }
 
     public Headers getHeaders(String clientToken) {
@@ -89,8 +86,6 @@ public class FunctionalTestUtils {
     }
 
     public Headers getNewHeaders() {
-
-
         return Headers.headers(
             new Header("Authorization", "Bearer "
                 + idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)),
