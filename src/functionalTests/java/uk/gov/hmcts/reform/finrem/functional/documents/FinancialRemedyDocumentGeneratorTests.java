@@ -22,7 +22,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
-    private static String REPLACE_URL = "http://dm-store-aat.service.core-compute-aat.internal";
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
 

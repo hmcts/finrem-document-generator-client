@@ -23,8 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-import javax.annotation.PostConstruct;
-
 
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
@@ -45,15 +43,6 @@ public class FunctionalTestUtils {
     @Autowired
     private IdamUtils idamUtils;
 
-    @PostConstruct
-    public void init() {
-
-        if (userId == null || userId.isEmpty()) {
-            serviceAuthTokenGenerator.createNewUser();
-            userId = serviceAuthTokenGenerator.getUserId();
-        }
-    }
-
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -66,17 +55,6 @@ public class FunctionalTestUtils {
     }
 
 
-    public Headers getHeaders() {
-        return getHeaders(serviceAuthTokenGenerator.generateServiceToken());
-    }
-
-    public Headers getHeaders(String clientToken) {
-        return Headers.headers(
-            new Header("Authorization", clientToken),
-            new Header("Content-Type", ContentType.JSON.toString()));
-    }
-
-
     public Headers getHeadersWithUserId() {
 
         return Headers.headers(
@@ -85,7 +63,7 @@ public class FunctionalTestUtils {
             new Header("user-id", userId));
     }
 
-    public Headers getNewHeaders() {
+    public Headers getHeaders() {
         return Headers.headers(
             new Header("Authorization", "Bearer "
                 + idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)),
