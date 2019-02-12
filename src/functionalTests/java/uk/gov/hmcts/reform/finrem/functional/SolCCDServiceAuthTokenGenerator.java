@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationCodeResponse;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationResponse;
+import uk.gov.hmcts.reform.finrem.functional.util.FunctionalTestUtils;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.oauth2.client.secret}")
     private String clientSecret;
 
-    @Value("${auth.idam.client.redirectUri}")
+    @Value("${idam.client.redirectUri}")
     private String redirectUri;
 
     @Value("${idam.s2s-auth.microservice}")
@@ -39,6 +40,9 @@ public class SolCCDServiceAuthTokenGenerator {
 
     @Autowired
     private ServiceAuthTokenGenerator tokenGenerator;
+
+    @Autowired
+    private FunctionalTestUtils utilsl;
 
     public String generateServiceToken() {
         return tokenGenerator.generate();
@@ -100,5 +104,12 @@ public class SolCCDServiceAuthTokenGenerator {
         }
 
         return code;
+    }
+
+    public void createNewUser() {
+        given().headers("Content-type", "application/json")
+            .relaxedHTTPSValidation()
+            .body(utilsl.getJsonFromFile("userCreation.json"))
+            .post(baseServiceOauth2Url + "/testing-support/accounts");
     }
 }
