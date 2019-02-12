@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+import javax.annotation.PostConstruct;
+
+
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
 public class FunctionalTestUtils {
@@ -42,6 +45,18 @@ public class FunctionalTestUtils {
     @Autowired
     private IdamUtils idamUtils;
     private String clientToken;
+    private String serviceToken;
+
+    @PostConstruct
+    public void init() {
+        serviceToken = serviceAuthTokenGenerator.generateServiceToken();
+
+        if (userId == null || userId.isEmpty()) {
+            serviceAuthTokenGenerator.createNewUser();
+            userId = serviceAuthTokenGenerator.getUserId();
+        }
+    }
+
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -66,13 +81,15 @@ public class FunctionalTestUtils {
 
 
     public Headers getHeadersWithUserId() {
+
         return Headers.headers(
             new Header("ServiceAuthorization", serviceAuthTokenGenerator.generateServiceToken()),
             new Header("user-roles", "caseworker-divorce"),
-            new Header("user-id", idamUserName));
+            new Header("user-id", userId));
     }
 
     public Headers getNewHeaders() {
+
 
         return Headers.headers(
             new Header("Authorization", "Bearer "

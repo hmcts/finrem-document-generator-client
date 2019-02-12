@@ -48,6 +48,7 @@ public class SolCCDServiceAuthTokenGenerator {
         return tokenGenerator.generate();
     }
 
+
     public String getUserId() {
         String clientToken = generateClientToken();
 

@@ -76,7 +76,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private void validatePostSuccess(String jsonFileName) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getNewHeaders())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post()
             .then()
@@ -88,7 +88,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(utils.getNewHeaders())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
         return jsonResponse;
