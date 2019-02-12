@@ -35,7 +35,7 @@ public class TestContextConfiguration {
             .target(ServiceAuthorisationApi.class, s2sUrl);
         log.info("S2S URL: {}", s2sUrl);
         log.info("service.name: {}", microservice);
-        log.info(": {idam.s2s-auth.microservice}", secret);
+        log.info(": {idam.oauth2.client.secret}", secret);
         return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
     }
     //@Bean
