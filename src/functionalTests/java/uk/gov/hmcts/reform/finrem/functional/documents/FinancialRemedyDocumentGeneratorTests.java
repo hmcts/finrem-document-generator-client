@@ -46,7 +46,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    //@Test
+    @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
@@ -59,29 +59,24 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
-        System.out.println(url);
-        System.out.println("========================================================================================");
-        System.out.println(url.replaceAll(REPLACE_URL, documentGetUrl));
-        System.out.println("========================================================================================");
-        System.out.println("idam.oauth2.client.secret :    " + authClientSecret);
-        System.out.println("========================================================================================");
         validatePostSuccessForaccessingGeneratedDocument(url);
         //validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
-        //Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
-        //JsonPath jsonPathEvaluator1 = response1.jsonPath();
-        //assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
-        //assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
-        //assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
+        validatePostSuccessForaccessingGeneratedDocument(url);
+        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        JsonPath jsonPathEvaluator1 = response1.jsonPath();
+        assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
+        assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
+        assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
 
-    //@Test
+    @Test
     public void downloadDocumentAndVerifyContentAgainstOriginalJsonFileInput() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
-        String url = documentUrl.replaceAll(REPLACE_URL, documentGetUrl);
-        String documentContent = utils.downloadPdfAndParseToString(url);
+        //String url = documentUrl.replaceAll(REPLACE_URL, documentGetUrl);
+        String documentContent = utils.downloadPdfAndParseToString(documentUrl);
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
         assertTrue(documentContent.contains(SOLICITOR_NAME));
         assertTrue(documentContent.contains(APPLICANT_NAME));
@@ -127,27 +122,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .when().get(url)
             .andReturn();
         return jsonResponse;
-    }
-
-    public void getServiceAuthToken(String jsonFileName) {
-
-        //setServiceAuthUrlAsBaseUri();
-
-
-        Response response = RestAssured.given()
-            .relaxedHTTPSValidation()
-            .contentType("application/json")
-            .body(utils.getJsonFromFile(jsonFileName))
-            .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease");
-        System.out.println(response.getBody().toString());
-
-        RestAssured.given()
-            .relaxedHTTPSValidation()
-            .contentType("application/json")
-            .body("microservice :" + microservice)
-            .body(utils.getJsonFromFile(jsonFileName))
-            .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease").then().assertThat().statusCode(200);
-
     }
 
 }

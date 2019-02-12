@@ -90,25 +90,6 @@ public class FunctionalTestUtils {
             new Header("user-id", idamUserName));
     }
 
-    public String getUserId() {
-
-        Claims claims = Jwts.parser()
-            .parseClaimsJwt(idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)
-                .substring(0, idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)
-                    .lastIndexOf('.') + 1)).getBody();
-
-        return claims.get("id", String.class);
-
-    }
-
-    public Headers getNewHeadersWithUserId() {
-        return Headers.headers(
-            new Header("ServiceAuthorization", "Bearer "
-                + getServiceAuthToken("serviceAuth.json")),
-            new Header("user-roles", "caseworker"),
-            new Header("user-id", userId));
-    }
-
     public Headers getNewHeaders() {
 
         return Headers.headers(
@@ -117,23 +98,10 @@ public class FunctionalTestUtils {
             new Header("Content-Type", ContentType.JSON.toString()));
     }
 
-    public String getServiceAuthToken(String jsonFileName) {
-
-        Response response = RestAssured.given()
-            .relaxedHTTPSValidation()
-            .contentType("application/json")
-            .body(getJsonFromFile(jsonFileName))
-            .post("http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/testing-support/lease");
-        String token1 = response.getBody().toString();
-
-        return token1;
-    }
-
-
     public String downloadPdfAndParseToString(String documentUrl) {
         Response document = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(getNewHeadersWithUserId())
+            .headers(getHeadersWithUserId())
             .when().get(documentUrl).andReturn();
 
         return parsePDFToString(document.getBody().asInputStream());
