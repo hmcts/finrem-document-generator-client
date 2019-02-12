@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
+
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationCodeResponse;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationResponse;
 
