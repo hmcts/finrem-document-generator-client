@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationCodeResponse;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationResponse;
 
@@ -37,6 +38,13 @@ public class SolCCDServiceAuthTokenGenerator {
     @Value("${idam.api.url}")
     private String baseServiceOauth2Url;
 
+
+    @Autowired
+    private ServiceAuthTokenGenerator tokenGenerator;
+
+    public String generateServiceToken() {
+        return tokenGenerator.generate();
+    }
 
     public String getUserId() {
         String clientToken = generateClientToken();
