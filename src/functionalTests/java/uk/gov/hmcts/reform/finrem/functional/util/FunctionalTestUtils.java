@@ -29,8 +29,6 @@ public class FunctionalTestUtils {
 
     @Value("${idam.api.url}")
     public String baseServiceOauth2Url = "";
-    @Value("${idam_s2s_url}")
-    public String idamS2sUrl;
     @Autowired
     protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
     @Value("${user.id.url}")
