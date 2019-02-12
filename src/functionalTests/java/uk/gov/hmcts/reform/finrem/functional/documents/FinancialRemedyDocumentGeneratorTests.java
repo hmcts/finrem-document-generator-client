@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.finrem.functional.documents;
 
 
-import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -11,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertTrue;
 
 
@@ -24,20 +22,16 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
-    private static String REPLACE_URL   = "http://dm-store-aat.service.core-compute-aat.internal";
-
-    @Value("${document.get.url}")
-    private String documentGetUrl;
-
+    private static String REPLACE_URL = "http://dm-store-aat.service.core-compute-aat.internal";
     @Value("${idam_s2s_url}")
     public String idamS2sUrl;
-
+    @Value("${document.get.url}")
+    private String documentGetUrl;
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
 
     @Value("${idam.oauth2.client.secret}")
     private String authClientSecret;
-
 
 
     @Test
@@ -60,9 +54,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         JsonPath jsonPathEvaluator = response.jsonPath();
         String url = jsonPathEvaluator.get("url");
         validatePostSuccessForaccessingGeneratedDocument(url);
-        //validatePostSuccessForaccessingGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
         validatePostSuccessForaccessingGeneratedDocument(url);
-        Response response1 = accessGeneratedDocument(url.replaceAll(REPLACE_URL, documentGetUrl));
+        Response response1 = accessGeneratedDocument(url);
         JsonPath jsonPathEvaluator1 = response1.jsonPath();
         assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("MiniFormA.pdf"));
         assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
@@ -75,7 +68,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
-        //String url = documentUrl.replaceAll(REPLACE_URL, documentGetUrl);
         String documentContent = utils.downloadPdfAndParseToString(documentUrl);
         assertTrue(documentContent.contains(SOLICITOR_FIRM));
         assertTrue(documentContent.contains(SOLICITOR_NAME));

@@ -1,8 +1,5 @@
 package uk.gov.hmcts.reform.finrem.functional.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -17,8 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.ResourceUtils;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.SolCCDServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.TestContextConfiguration;
 import uk.gov.hmcts.reform.finrem.functional.idam.IdamUtils;
@@ -28,9 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-
-import javax.annotation.PostConstruct;
-
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
 public class FunctionalTestUtils {
@@ -39,6 +31,8 @@ public class FunctionalTestUtils {
     public String baseServiceOauth2Url = "";
     @Value("${idam_s2s_url}")
     public String idamS2sUrl;
+    @Autowired
+    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
     @Value("${user.id.url}")
     private String userId;
     @Value("${idam.username}")
@@ -47,19 +41,9 @@ public class FunctionalTestUtils {
     private String idamUserPassword;
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
-
-
     @Autowired
     private IdamUtils idamUtils;
-
-    private String serviceToken;
     private String clientToken;
-
-
-    @Autowired
-    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
-
-
 
     public String getJsonFromFile(String fileName) {
         try {

@@ -6,11 +6,9 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationCodeResponse;
 import uk.gov.hmcts.reform.finrem.functional.model.ClientAuthorizationResponse;
-
 
 import java.io.IOException;
 
@@ -83,15 +81,15 @@ public class SolCCDServiceAuthTokenGenerator {
     private String generateClientCode() {
         String code = "";
         String jsonResponse = given()
-                .relaxedHTTPSValidation()
-                .header("Authorization", "Basic dGVzdEBURVNULkNPTToxMjM=")
-                .post(baseServiceOauth2Url
-                    + "/oauth2/authorize?response_type=code"
-                    + "&client_id="
-                    + clientId
-                    + "&redirect_uri="
-                    + redirectUri)
-                    .asString();
+            .relaxedHTTPSValidation()
+            .header("Authorization", "Basic dGVzdEBURVNULkNPTToxMjM=")
+            .post(baseServiceOauth2Url
+                + "/oauth2/authorize?response_type=code"
+                + "&client_id="
+                + clientId
+                + "&redirect_uri="
+                + redirectUri)
+            .asString();
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -102,13 +100,5 @@ public class SolCCDServiceAuthTokenGenerator {
         }
 
         return code;
-    }
-
-    public void createNewUser() {
-        given().headers("Content-type", "application/json")
-                .relaxedHTTPSValidation()
-                .body("{ \"email\":\"test@TEST.COM\", \"forename\":\"test@TEST.COM\""
-                    + ",\"surname\":\"test@TEST.COM\",\"password\":\"123\",\"continue-url\":\"test\"}")
-                .post(baseServiceOauth2Url + "/testing-support/accounts");
     }
 }

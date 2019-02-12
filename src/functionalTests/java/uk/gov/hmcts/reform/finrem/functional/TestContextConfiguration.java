@@ -11,8 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGeneratorFactory;
 import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 
 
@@ -25,10 +23,11 @@ public class TestContextConfiguration {
 
     @Bean
     public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}")
-        String s2sUrl,
-        @Value("${idam.oauth2.client.secret}")
-        String secret,
-        @Value("${idam.s2s-auth.microservice}") String microservice) {
+                                                                   String s2sUrl,
+                                                               @Value("${idam.oauth2.client.secret}")
+                                                                   String secret,
+                                                               @Value("${idam.s2s-auth.microservice}")
+                                                                       String microservice) {
         final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
             .encoder(new JacksonEncoder())
             .contract(new SpringMvcContract())
@@ -38,12 +37,4 @@ public class TestContextConfiguration {
         log.info(": {idam.oauth2.client.secret}", secret);
         return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
     }
-    //@Bean
-    //public AuthTokenGenerator serviceAuthTokenGenerator(
-    //    @Value("${idam.oauth2.client.secret}") final String secret,
-    //    @Value("${idam.s2s-auth.microservice}") final String microService,
-    //    final ServiceAuthorisationApi serviceAuthorisationApi
-    //) {
-    //    return AuthTokenGeneratorFactory.createDefaultGenerator(secret, microService, serviceAuthorisationApi);
-    //}
 }
