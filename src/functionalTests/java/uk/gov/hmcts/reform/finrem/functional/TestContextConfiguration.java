@@ -25,25 +25,25 @@ public class TestContextConfiguration {
 
     @Bean
     public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}")
-     String s2sUrl,
-    @Value("${s2s-auth.totp_secret}")
-     String secret,
-    @Value("${service.name}") String microservice) {
-    final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
-    .encoder(new JacksonEncoder())
-    .contract(new SpringMvcContract())
-    .target(ServiceAuthorisationApi.class, s2sUrl);
-    log.info("S2S URL: {}", s2sUrl);
-    log.info("service.name: {}", microservice);
-    return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
+        String s2sUrl,
+        @Value("${s2s-auth.totp_secret}")
+        String secret,
+        @Value("${service.name}") String microservice) {
+        final ServiceAuthorisationApi serviceAuthorisationApi = Feign.builder()
+            .encoder(new JacksonEncoder())
+            .contract(new SpringMvcContract())
+            .target(ServiceAuthorisationApi.class, s2sUrl);
+        log.info("S2S URL: {}", s2sUrl);
+        log.info("service.name: {}", microservice);
+        return new ServiceAuthTokenGenerator(secret, microservice, serviceAuthorisationApi);
     }
-//    @Bean
-//    public AuthTokenGenerator serviceAuthTokenGenerator(
-//        @Value("${idam.oauth2.client.secret}") final String secret,
-//        @Value("${idam.s2s-auth.microservice}") final String microService,
-//        final ServiceAuthorisationApi serviceAuthorisationApi
-//    ) {
-//        return AuthTokenGeneratorFactory.createDefaultGenerator(secret, microService, serviceAuthorisationApi);
-//    }
+    //@Bean
+    //public AuthTokenGenerator serviceAuthTokenGenerator(
+    //    @Value("${idam.oauth2.client.secret}") final String secret,
+    //    @Value("${idam.s2s-auth.microservice}") final String microService,
+    //    final ServiceAuthorisationApi serviceAuthorisationApi
+    //) {
+    //    return AuthTokenGeneratorFactory.createDefaultGenerator(secret, microService, serviceAuthorisationApi);
+    //}
 
 }
