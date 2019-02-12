@@ -24,7 +24,7 @@ import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 public class TestContextConfiguration {
 
     @Bean
-    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${service.auth.provider.base.url}")
+    public ServiceAuthTokenGenerator serviceAuthTokenGenerator(@Value("${idam.s2s-auth.url}")
         String s2sUrl,
         @Value("${s2s-auth.totp_secret}")
         String secret,
