@@ -40,7 +40,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
 
 
-    //@Test
+    @Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
 
         validatePostSuccess("documentGeneratePayload.json");
