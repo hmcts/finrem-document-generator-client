@@ -26,7 +26,8 @@ public class SwaggerConfiguration implements WebMvcConfigurer {
                 .apis(RequestHandlerSelectors.basePackage(DocumentGeneratorApplication.class.getPackage().getName()))
                 .build()
                 .useDefaultResponseMessages(true)
-                .apiInfo(apiInfo());
+                .apiInfo(apiInfo())
+                .enable(swaggerEnabled);
     }
 
     private ApiInfo apiInfo() {

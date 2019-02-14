@@ -9,8 +9,8 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.CREATED_BY;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_NAME;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_URL;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.MIME_TYPE;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.URL;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 
 public class FileUploadResponseTest {
@@ -20,7 +20,7 @@ public class FileUploadResponseTest {
         FileUploadResponse response = fileUploadResponse();
 
         assertThat(response.getStatus(), is(equalTo(HttpStatus.OK)));
-        assertThat(response.getFileUrl(), is(equalTo(URL)));
+        assertThat(response.getFileUrl(), is(equalTo(FILE_URL)));
         assertThat(response.getFileName(), is(equalTo(FILE_NAME)));
         assertThat(response.getMimeType(), is(equalTo(MIME_TYPE)));
         assertThat(response.getCreatedBy(), is(equalTo(CREATED_BY)));

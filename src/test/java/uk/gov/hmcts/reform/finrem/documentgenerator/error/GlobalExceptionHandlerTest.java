@@ -6,67 +6,48 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class GlobalExceptionHandlerTest {
 
+    private static final String SOME_MESSAGE = "some message";
     private final GlobalExceptionHandler classUnderTest = new GlobalExceptionHandler();
 
     @Test
     public void badRequest() {
-        final Exception exception = new Exception();
-
-        ResponseEntity<Object> response = classUnderTest.handleBadRequestException(exception);
-
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        ResponseEntity<Object> response = classUnderTest.handleBadRequestException(new Exception());
+        assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
     }
 
     @Test
     public void pdfGenerationExceptionWith301Status() {
-        final HttpStatus httpStatus = HttpStatus.MOVED_PERMANENTLY;
-
-        final HttpClientErrorException httpClientErrorException = new HttpClientErrorException(httpStatus);
-        final String message = "some message";
-
-        final PDFGenerationException pdfGenerationException =
-                new PDFGenerationException(message, httpClientErrorException);
-
         ResponseEntity<Object> response = classUnderTest
-                .handlePdfGenerationException(pdfGenerationException);
+                .handlePdfGenerationException(pdfGenerationException(HttpStatus.MOVED_PERMANENTLY));
 
-        assertEquals(httpStatus, response.getStatusCode());
-        assertEquals(message, response.getBody());
+        assertThat(response.getStatusCode(), is(HttpStatus.MOVED_PERMANENTLY));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
     @Test
     public void pdfGenerationExceptionWith400Status() {
-        final HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-
-        final HttpClientErrorException httpClientErrorException = new HttpClientErrorException(httpStatus);
-        final String message = "some message";
-
-        final PDFGenerationException pdfGenerationException =
-                new PDFGenerationException(message, httpClientErrorException);
-
         ResponseEntity<Object> response =
-                classUnderTest.handlePdfGenerationException(pdfGenerationException);
+                classUnderTest.handlePdfGenerationException(pdfGenerationException(HttpStatus.BAD_REQUEST));
 
-        assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.getStatusCode());
-        assertEquals(message, response.getBody());
+        assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
     @Test
     public void documentStorageException() {
-        final String message = "some message";
-        final Exception exception = new Exception();
-
-        DocumentStorageException documentStorageException = new DocumentStorageException(message, exception);
+        DocumentStorageException documentStorageException =
+            new DocumentStorageException(SOME_MESSAGE, new Exception());
 
         ResponseEntity<Object> response =
                 classUnderTest.handleDocumentStorageException(documentStorageException);
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals(message, response.getBody());
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
     @Test
@@ -74,8 +55,8 @@ public class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response =
             classUnderTest.handleClientException(new HttpClientErrorException(HttpStatus.NOT_FOUND));
 
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-        assertEquals(GlobalExceptionHandler.CLIENT_ERROR_MSG, response.getBody());
+        assertThat(response.getStatusCode(), is(HttpStatus.NOT_FOUND));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.CLIENT_ERROR_MSG));
     }
 
     @Test
@@ -83,7 +64,12 @@ public class GlobalExceptionHandlerTest {
         ResponseEntity<Object> response =
             classUnderTest.handleServerError(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-        assertEquals(GlobalExceptionHandler.SERVER_ERROR_MSG, response.getBody());
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
+
+    private PDFGenerationException pdfGenerationException(HttpStatus httpStatus) {
+        return new PDFGenerationException(SOME_MESSAGE, new HttpClientErrorException(httpStatus));
+    }
+
 }

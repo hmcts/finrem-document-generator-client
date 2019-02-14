@@ -33,7 +33,7 @@ evidence-management-api:
 
 documentation:
   swagger:
-    enabled: true
+    enabled: ${SWAGGER_ENABLED:true}
 
 spring:
   application:

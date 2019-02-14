@@ -56,14 +56,9 @@ public class GlobalExceptionHandler {
 
         if (exception.getCause() != null && exception.getCause() instanceof HttpClientErrorException) {
             HttpStatus httpClientErrorException = ((HttpClientErrorException) exception.getCause()).getStatusCode();
-
-            if (httpClientErrorException == HttpStatus.BAD_REQUEST) {
-                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(exception.getMessage());
-            } else {
-                return ResponseEntity.status(httpClientErrorException).body(exception.getMessage());
-            }
+            return ResponseEntity.status(httpClientErrorException).body(SERVER_ERROR_MSG);
         }
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(SERVER_ERROR_MSG);
     }
 }
