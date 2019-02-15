@@ -8,16 +8,16 @@ import static java.lang.String.format;
 
 public class TestResource {
 
-    public static final String URL = "some_url";
-    public static final String BINARY_URL = format("%s/binary", URL);
-    public static final String FILE_NAME = "file_name";
-    public static final String CREATED_ON = "11 October 2018";
-    public static final String MIME_TYPE = "application/pdf";
-    public static final String CREATED_BY = "anonymous";
+    public static final String FILE_URL = "url";
+    public static final String BINARY_URL = format("%s/binary", FILE_URL);
+    public static final String FILE_NAME = "name";
+    public static final String CREATED_ON = "20th October 2018";
+    public static final String MIME_TYPE = "app/pdf";
+    public static final String CREATED_BY = "user";
 
     public static FileUploadResponse fileUploadResponse() {
         FileUploadResponse response = new FileUploadResponse(HttpStatus.OK);
-        response.setFileUrl(URL);
+        response.setFileUrl(FILE_URL);
         response.setFileName(FILE_NAME);
         response.setMimeType(MIME_TYPE);
         response.setCreatedOn(CREATED_ON);
@@ -29,7 +29,7 @@ public class TestResource {
 
     public static Document document() {
         return Document.builder()
-            .url(URL)
+            .url(FILE_URL)
             .fileName(FILE_NAME)
             .binaryUrl(BINARY_URL)
             .createdOn(CREATED_ON)
