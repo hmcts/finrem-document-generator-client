@@ -42,7 +42,7 @@ public abstract class IntegrationTestBase {
     }
 
     @Autowired
-    public void serviceAuthUrl(@Value("${idam_s2s_url}")String serviceAuthUrl) {
+    public void serviceAuthUrl(@Value("${idam.s2s-auth.url}")String serviceAuthUrl) {
         this.serviceAuthUrl = serviceAuthUrl;
 
     }

@@ -45,8 +45,8 @@ module "finrem-dgcs" {
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
-      AAT_USERNAME                                          = "${data.azurerm_key_vault_secret.aat-username.value}"
-      AAT_PASSWORD                                          = "${data.azurerm_key_vault_secret.aat-password.value}"
+    AAT_USERNAME                                          = "${data.azurerm_key_vault_secret.aat-username.value}"
+    AAT_PASSWORD                                          = "${data.azurerm_key_vault_secret.aat-password.value}"
 
   }
 }
