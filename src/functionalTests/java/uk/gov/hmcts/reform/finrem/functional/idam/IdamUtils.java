@@ -19,10 +19,11 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.whitelist.url}")
     private String idamRedirectUri;
 
-
     @Value("${idam.api.secret}")
     private String idamSecret;
 
+    @Value("${env}")
+    private String environment;
 
     public String generateUserTokenWithNoRoles(String username, String password) {
         String userLoginDetails = String.join(":", username, password);
@@ -55,7 +56,7 @@ public class IdamUtils implements IdamUserClient {
             + "&client_id=finrem"
             + "&redirect_uri=" + idamRedirectUri;
         System.out.println(myUrl);
-
+        System.out.println("environment--->" + environment);
         return myUrl;
     }
 
@@ -68,6 +69,7 @@ public class IdamUtils implements IdamUserClient {
             + "&grant_type=authorization_code";
 
         System.out.println(myUrl);
+        System.out.println("environment--->" + environment);
         return myUrl;
     }
 }

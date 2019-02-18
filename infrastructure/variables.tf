@@ -76,3 +76,7 @@ variable "pdf_service_health_url" {
 variable "swagger_enabled" {
     default = true
 }
+
+variable "idam_s2s_url_prefix" {
+    default = "rpe-service-auth-provider"
+}
