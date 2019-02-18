@@ -48,24 +48,12 @@ sourceSets {
 
     }
 
-    integrationTest {
-        java {
-            compileClasspath += main.output + test.output
-            runtimeClasspath += main.output + test.output
-            srcDirs = ['src/integrationTest/java']
-        }
-        resources {
-            srcDirs = ['src/integrationTest/resources']
-        }
-
-    }
-
     functional {
         java {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
             srcDirs = ['src/functionalTests/java']
-            
+
 
         }
         resources {
@@ -76,8 +64,6 @@ sourceSets {
 }
 
 configurations {
-    integrationTestCompile.extendsFrom testCompile
-    integrationTestRuntime.extendsFrom testRuntime
     functionalCompile.extendsFrom testCompile
     functionalRuntime.extendsFrom testRuntime
 }
@@ -178,7 +164,6 @@ def versions = [
 ]
 
 dependencies {
-    integrationTestCompile group: 'junit', name: 'junit', version: versions.junit
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
     compile group: 'com.puppycrawl.tools', name: 'checkstyle', version:  versions.puppyCrawl
@@ -226,7 +211,7 @@ dependencies {
     testSmokeCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testSmokeCompile sourceSets.main.runtimeClasspath
     testSmokeCompile sourceSets.test.runtimeClasspath
-    
+
     runtime('org.springframework.boot:spring-boot-devtools')
     runtime("org.springframework.boot:spring-boot-properties-migrator")
 
@@ -249,7 +234,6 @@ dependencies {
 }
 
     dependencies {
-        integrationTestCompile(sourceSets.test.output)
         functionalCompile(sourceSets.test.output)
     }
 
