@@ -20,16 +20,29 @@ public class DocumentGeneratorSmokeTests {
     @Value("${url}")
     private String url;
 
+    @Value("${http.connect.timeout}")
+    private int connectionTimeOut;
+
     private RestAssuredConfig config;
+
+    @Value("${http.socket.timeout}")
+    private int socketTimeOut;
+
+    @Value("${http.connect.connectionManager.timeout}")
+    private int connectionManagerTimeOut;
+
+    @Value("${http.connect.request.timeout}")
+    private int requestTimeOut;
 
     @Before
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         config = RestAssured.config()
                 .httpClient(HttpClientConfig.httpClientConfig()
-                        .setParam("http.connection.timeout", 60000)
-                        .setParam("http.socket.timeout", 60000)
-                        .setParam("http.connection-manager.timeout", 60000));
+                    .setParam("http.connection.timeout", connectionTimeOut)
+                    .setParam("http.socket.timeout", socketTimeOut)
+                    .setParam("http.connection-manager.timeout", connectionManagerTimeOut)
+                    .setParam("http.connect.request.timeout", requestTimeOut));
     }
 
     @Test
