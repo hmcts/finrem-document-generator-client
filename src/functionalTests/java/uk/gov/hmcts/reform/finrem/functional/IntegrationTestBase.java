@@ -20,24 +20,16 @@ public abstract class IntegrationTestBase {
     @Autowired
     protected FunctionalTestUtils utils;
 
-    private String documentGeneratorServiceUrl;
-
-
-    @Autowired
-    protected SolCCDServiceAuthTokenGenerator serviceAuthTokenGenerator;
-
     public static String serviceAuthUrl;
 
 
     public IntegrationTestBase() {
         this.springIntegration = new SpringIntegrationMethodRule();
-
     }
 
     @Autowired
     public void documentGeneratorServiceUrl(@Value("${document.generator.uri}")
                                                     String documentGeneratorServiceUrl) {
-        this.documentGeneratorServiceUrl = documentGeneratorServiceUrl;
         RestAssured.baseURI = documentGeneratorServiceUrl;
     }
 
