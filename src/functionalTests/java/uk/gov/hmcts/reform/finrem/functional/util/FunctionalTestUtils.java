@@ -35,15 +35,15 @@ public class FunctionalTestUtils {
 
     @Value("${user.id.url}")
     private String userId;
-    @Value("${idam.username}")
-    private String idamUserName;
-    @Value("${idam.userpassword}")
-    private String idamUserPassword;
+
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
     @Autowired
     private IdamUtils idamUtils;
 
+    public void deleteIdamUser() {
+        idamUtils.deleteIdamTestUser();
+    }
 
     public String getJsonFromFile(String fileName) {
         try {
@@ -66,7 +66,7 @@ public class FunctionalTestUtils {
     public Headers getHeaders() {
         return Headers.headers(
             new Header("Authorization", "Bearer "
-                + idamUtils.generateUserTokenWithNoRoles(idamUserName, idamUserPassword)),
+                + idamUtils.getIdamTestUserToken()),
             new Header("Content-Type", ContentType.JSON.toString()));
     }
 
@@ -112,10 +112,7 @@ public class FunctionalTestUtils {
 
             }
             throw new Error(t);
-
         }
-
         return parsedText;
     }
-
 }

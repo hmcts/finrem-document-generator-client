@@ -1,17 +1,24 @@
 package uk.gov.hmcts.reform.finrem.functional.idam;
 
+import com.google.common.collect.ImmutableList;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.reform.finrem.functional.ResourceLoader;
+import uk.gov.hmcts.reform.finrem.functional.model.CreateUserRequest;
+import uk.gov.hmcts.reform.finrem.functional.model.UserCode;
 
 
 import java.util.Base64;
+import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
-public class IdamUtils implements IdamUserClient {
+public class IdamUtils {
 
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
@@ -22,8 +29,64 @@ public class IdamUtils implements IdamUserClient {
     @Value("${idam.api.secret}")
     private String idamSecret;
 
-    @Value("${env}")
-    private String environment;
+    private String idamUsername;
+    private String idamPassword;
+    private String testUserJwtToken;
+
+    public List<Integer> responseCodes = ImmutableList.of(200, 204);
+
+    public String getIdamTestUserToken() {
+        if (StringUtils.isBlank(testUserJwtToken)) {
+            createUserAndToken();
+        }
+        return testUserJwtToken;
+    }
+
+    public void deleteIdamTestUser() {
+        if (!StringUtils.isBlank(testUserJwtToken)) {
+            deleteUser();
+        }
+    }
+
+    private void deleteUser() {
+        Response response = RestAssured.given()
+            .delete(idamCreateUrl() + "/" + idamUsername);
+        if(responseCodes.contains(response.getStatusCode())) {
+            testUserJwtToken = null;
+        }
+    }
+
+    protected void createUserAndToken() {
+        createUserInIdam();
+        testUserJwtToken = generateUserTokenWithNoRoles(idamUsername, idamPassword);
+    }
+
+    private void createUserInIdam() {
+        idamUsername = "simulate-delivered" + UUID.randomUUID() + "@notifications.service.gov.uk";
+        idamPassword = UUID.randomUUID().toString();
+
+        createUser(idamUsername, idamPassword);
+    }
+
+    public void createUser(String username, String password) {
+        CreateUserRequest userRequest = CreateUserRequest.builder()
+            .email(username)
+            .password(password)
+            .forename("Test")
+            .surname("User")
+            .roles(new UserCode[] { UserCode.builder().code("citizen").build() })
+            .userGroup(UserCode.builder().code("divorce-private-beta").build())
+            .build();
+
+        RestAssured.given()
+            .header("Content-Type", "application/json")
+            .body(ResourceLoader.objectToJson(userRequest))
+            .post(idamCreateUrl());
+    }
+
+    private String idamCreateUrl() {
+        return idamUserBaseUrl + "/testing-support/accounts";
+    }
 
     public String generateUserTokenWithNoRoles(String username, String password) {
         String userLoginDetails = String.join(":", username, password);
@@ -55,8 +118,6 @@ public class IdamUtils implements IdamUserClient {
             + "?response_type=code"
             + "&client_id=finrem"
             + "&redirect_uri=" + idamRedirectUri;
-        System.out.println(myUrl);
-        System.out.println("environment--->" + environment);
         return myUrl;
     }
 
@@ -68,8 +129,6 @@ public class IdamUtils implements IdamUserClient {
             + "&redirect_uri=" + idamRedirectUri
             + "&grant_type=authorization_code";
 
-        System.out.println(myUrl);
-        System.out.println("environment--->" + environment);
         return myUrl;
     }
 }
