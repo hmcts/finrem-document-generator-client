@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+
 public class PdfDocumentConfigTest {
 
     public static final String TEMPLATE_KEY = "templateKey";

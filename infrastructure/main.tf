@@ -9,6 +9,8 @@ locals {
 
   evidence_management_client_api_url = "http://${var.evidence_management_client_api_url_part}-${local.local_env}.service.core-compute-${local.local_env}.internal"
 
+  idam_s2s_url   = "http://${var.idam_s2s_url_prefix}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+
   previewVaultName = "${var.reform_team}-aat"
   nonPreviewVaultName = "${var.reform_team}-${var.env}"
   vaultName = "${var.env == "preview" ? local.previewVaultName : local.nonPreviewVaultName}"
@@ -32,6 +34,7 @@ module "finrem-dgcs" {
   asp_name                        = "${local.asp_name}"
   asp_rg                          = "${local.asp_rg}"
 
+
   app_settings = {
     REFORM_SERVICE_NAME                                   = "${var.reform_service_name}"
     REFORM_TEAM                                           = "${var.reform_team}"
@@ -42,6 +45,9 @@ module "finrem-dgcs" {
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
+    OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
+    AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
+    AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
   }
 }
 
@@ -52,5 +58,20 @@ data "azurerm_key_vault" "finrem_key_vault" {
 
 data "azurerm_key_vault_secret" "pdf-service-access-key" {
     name      = "pdf-service-access-key"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
+    name      = "finrem-doc-s2s-auth-secret"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
+    name      = "finrem-doc-s2s-auth-secret"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+}
+
+data "azurerm_key_vault_secret" "idam-secret" {
+    name      = "idam-secret"
     vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
