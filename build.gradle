@@ -295,7 +295,7 @@ dependencies {
     }
 
     jacocoTestReport {
-        executionData(test, functional)
+        executionData(test)
 
         reports {
             xml {
