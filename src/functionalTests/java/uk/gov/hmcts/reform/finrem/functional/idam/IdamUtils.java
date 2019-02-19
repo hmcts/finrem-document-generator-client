@@ -51,7 +51,7 @@ public class IdamUtils {
     private void deleteUser() {
         Response response = RestAssured.given()
             .delete(idamCreateUrl() + "/" + idamUsername);
-        if(responseCodes.contains(response.getStatusCode())) {
+        if (responseCodes.contains(response.getStatusCode())) {
             testUserJwtToken = null;
         }
     }

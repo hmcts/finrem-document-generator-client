@@ -114,7 +114,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
     private String fileRetrieveUrl(String url) {
-        if(url != null && url.contains("document-management-store:8080")) {
+        if (url != null && url.contains("document-management-store:8080")) {
             return url.replace("http://document-management-store:8080", dmStoreBaseUrl);
         }
 
