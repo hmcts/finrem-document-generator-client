@@ -312,7 +312,7 @@ dependencies {
         violationRules {
             rule {
                 limit {
-                    minimum = 0.1
+                    minimum = 0.8
                 }
             }
         }
