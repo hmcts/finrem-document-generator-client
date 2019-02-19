@@ -75,14 +75,3 @@ data "azurerm_key_vault_secret" "idam-secret" {
     name      = "idam-secret"
     vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
-
-
-data "azurerm_key_vault_secret" "aat-username" {
-    name      = "aat-username"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
-}
-
-data "azurerm_key_vault_secret" "aat-password" {
-    name      = "aat-password"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
-}
