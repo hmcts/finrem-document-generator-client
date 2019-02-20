@@ -19,11 +19,15 @@ def component = "dgcs"
 
 def channel = '#finrem-dev'
 
+List<LinkedHashMap<String, Object>> docmosis_secret = [
+    secret("docmosis-access-key", "DOCMOSIS_ACCESS_KEY"),
+]
+
 List<LinkedHashMap<String, Object>> secrets = [
+    secret("docmosis-access-key", "DOCMOSIS_ACCESS_KEY"),
     secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
     secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
     secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
-    //secret(gov-uk-notification-test-key,"NOTIFICATION_KEY")
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -38,6 +42,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type , product, component) {
     enableDockerBuild()
     enableDeployToAKS()
+
+    loadVaultSecrets(docmosis_secret)
+    setVaultName("docmosisiaasdevkv")
+
     loadVaultSecrets(secrets)
     setVaultName(product)
 
