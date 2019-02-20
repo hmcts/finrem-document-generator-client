@@ -44,6 +44,16 @@ First you need to create distribution by executing following command:
 When the distribution has been created in `build/install/div-document-generator` directory,
 you can run the application by executing following command:
 
+1) Run
+```
+docker build . -t hmcts/finrem-document-generator-client:latest
+```
+
+2) Export docmosis-api-access-key (ask finrem dev members to provide one)
+```
+export PDF_SERVICE_ACCESS_KEY=<ACTUAL_KEY>
+```
+3) Run
 ```bash
     docker-compose up
 ```
