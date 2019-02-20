@@ -62,6 +62,7 @@ data "azurerm_key_vault" "finrem_key_vault" {
 
 data "azurerm_key_vault" "docmosis_key_vault" {
     name                = "${local.docmosisVaultName}"
+    resource_group_name = "docmosis-iaas-dev-rg"
 }
 
 data "azurerm_key_vault_secret" "docmosis-api-access-key" {
