@@ -15,5 +15,5 @@ output "docmosis_vault" {
 }
 
 output "docmosis_api_access_key" {
-    value = "${data.azurerm_key_vault_secret.docmosis-api-access-key}"
+    value = "${data.azurerm_key_vault_secret.docmosis-api-access-key.value}"
 }
