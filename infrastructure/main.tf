@@ -18,6 +18,9 @@ locals {
 
   asp_name = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
   asp_rg = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
+
+  docmosisVaultName = "${var.docmosis_vault}"
+  docmosisVaultUri  = "${data.azurerm_key_vault.docmosis_key_vault.vault_uri}"
 }
 
 module "finrem-dgcs" {
@@ -48,12 +51,23 @@ module "finrem-dgcs" {
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
+    DOCMOSIS_ACCESS_KEY                                   = "${data.azurerm_key_vault_secret.docmosis-api-access-key.value}"
   }
 }
 
 data "azurerm_key_vault" "finrem_key_vault" {
     name                = "${local.vaultName}"
     resource_group_name = "${local.vaultName}"
+}
+
+data "azurerm_key_vault" "docmosis_key_vault" {
+    name                = "${local.docmosisVaultName}"
+    resource_group_name = "${local.docmosisVaultName}"
+}
+
+data "azurerm_key_vault_secret" "docmosis-api-access-key" {
+    name      = "${var.docmosis-api-access-key}"
+    vault_uri = "${data.azurerm_key_vault.docmosis_key_vault.vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "pdf-service-access-key" {

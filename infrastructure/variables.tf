@@ -81,6 +81,10 @@ variable "idam_s2s_url_prefix" {
     default = "rpe-service-auth-provider"
 }
 
-variable "api-access-key" {
-    default = "api-access-key"
+variable "docmosis-api-access-key" {
+    default = "docmosis-access-key"
+}
+
+variable "docmosis_vault" {
+    default = "docmosis-iaas-dev-vault"
 }
