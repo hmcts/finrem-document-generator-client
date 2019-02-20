@@ -86,5 +86,5 @@ variable "docmosis-api-access-key" {
 }
 
 variable "docmosis_vault" {
-    default = "docmosisiaasdevkv"
+    default = "docmosis-iaas-dev-vault"
 }
