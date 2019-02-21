@@ -23,19 +23,22 @@ List<LinkedHashMap<String, Object>> docmosis_secrets = [
     secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY"),
 ]
 
-def buildEnvironment = '${env}'
+String buildEnvironment() {
+    return '${env}'
+}
 
 def secrets = [
     'finrem-${env}'              : [
         secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
         secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
         secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")    ],
-    (docmosisVaultName(buildEnvironment)): [
+    (docmosisVaultName()): [
         secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY")
     ]
 ]
 
-String docmosisVaultName(environmentResult) {
+String docmosisVaultName() {
+    String environmentResult = buildEnvironment();
     echo 'Name of the environment is -----> ' + environmentResult
 
     String vaultName = environmentResult.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
