@@ -36,7 +36,7 @@ def secrets = [
 String buildEnvironment() {
     String env = params.ENVIRONMENT
     println('Name of the environment is -----> ' + env)
-    return env = params.ENVIRONMENT
+    return env
 }
 
 String docmosisVaultName(environmentResult) {
