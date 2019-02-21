@@ -82,9 +82,9 @@ variable "idam_s2s_url_prefix" {
 }
 
 variable "docmosis-api-access-key" {
-    default = "docmosis-access-key"
+    default = "docmosis-api-key"
 }
 
 variable "docmosis_vault" {
-    default = "docmosis-iaas-dev-vault"
+    default = "docmosisiaasdevkv"
 }
