@@ -34,7 +34,7 @@ def secrets = [
 ]
 
 String buildEnvironment() {
-    println('Name of the environment is -----> ${ -> env}')
+    println('Name of the environment is -----> ' + secrets)
     return '${ -> env}'
 }
 
