@@ -1,15 +1,15 @@
 #!groovy
 
 properties([
-    parameters([
-        string(name: 'PRODUCT_NAME', defaultValue: 'finrem', description: 'Financial Remedy'),
-        string(name: 'APP', defaultValue: 'dgcs', description: 'Financial Remedy Document Generator Client'),
-        string(name: 'TYPE', defaultValue: 'java', description: ''),
-        string(name: 'ENVIRONMENT', defaultValue: 'saat', description: 'Environment where code should be built and deployed'),
-        choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')
+    [
+        $class: 'GithubProjectProperty',
+        displayName: 'Financial Remedy Document Generator Client',
+        projectUrlStr: 'https://github.com/hmcts/finrem-document-generator-client.git'
+    ],
+    pipelineTriggers([
+        [$class: 'GitHubPushTrigger']
     ])
 ])
-
 
 @Library("Infrastructure")
 
@@ -18,9 +18,6 @@ def product = "finrem"
 def component = "dgcs"
 
 def channel = '#finrem-dev'
-environment = params.ENVIRONMENT
-
-echo "Building '${product}' in '${environment}'"
 
 List<LinkedHashMap<String, Object>> docmosis_secrets = [
     secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY"),
@@ -37,9 +34,8 @@ def secrets = [
 ]
 
 String buildEnvironment() {
-    String env = params.ENVIRONMENT
-    println('Name of the environment is -----> ' + env)
-    return env
+    println('Name of the environment is -----> ${env}')
+    return '${ -> env}'
 }
 
 String docmosisVaultName(environmentResult) {
@@ -48,6 +44,8 @@ String docmosisVaultName(environmentResult) {
 
     return vaultName
 }
+
+
 
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
