@@ -35,7 +35,7 @@ def secrets = [
 ]
 
 String docmosisVaultName(env) {
-    echo 'Name of the environment is -----> + ' env
+    echo 'Name of the environment is -----> + ' (env == null ? 'no env' : env)
     String vaultName = env.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     echo ' the vault name is vaultName'
 
