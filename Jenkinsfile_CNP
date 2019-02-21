@@ -23,11 +23,15 @@ List<LinkedHashMap<String, Object>> docmosis_secrets = [
     secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY"),
 ]
 
-List<LinkedHashMap<String, Object>> secrets = [
-    secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY"),
-    secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
-    secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
-    secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
+
+def secrets = [
+    'finrem-${env}'      : [
+        secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
+        secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
+        secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")    ],
+    'docmosisiaasdevkv'      : [
+        secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY")
+    ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -40,14 +44,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline(type , product, component) {
+    loadVaultSecrets(secrets)
     enableDockerBuild()
     enableDeployToAKS()
-
-    loadVaultSecrets(secrets)
-    setVaultName(product)
-
-    loadVaultSecrets(docmosis_secrets)
-    setVaultName('docmosisiaasdevkv')
 
     after('checkout') {
         echo '${product}-${component} checked out'
