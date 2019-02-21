@@ -34,19 +34,16 @@ def secrets = [
 ]
 
 String buildEnvironment() {
+    println('Name of the environment is -----> ${env}')
     return '${env}'
 }
 
 String docmosisVaultName(environmentResult) {
-    echo 'Name of the environment is -----> ' + environmentResult
-
     String vaultName = environmentResult.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     echo ' the vault name is vaultName' + vaultName
 
     return vaultName
 }
-
-
 
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
