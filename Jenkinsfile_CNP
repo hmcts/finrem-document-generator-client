@@ -43,11 +43,11 @@ withPipeline(type , product, component) {
     enableDockerBuild()
     enableDeployToAKS()
 
-    loadVaultSecrets(docmosis_secrets)
-    setVaultName('docmosisiaasdevkv')
-
     loadVaultSecrets(secrets)
     setVaultName(product)
+
+    loadVaultSecrets(docmosis_secrets)
+    setVaultName('docmosisiaasdevkv')
 
     after('checkout') {
         echo '${product}-${component} checked out'
