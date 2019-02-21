@@ -37,7 +37,7 @@ def secrets = [
 String docmosisVaultName(environmentResult) {
     echo 'Name of the environment is -----> ${environmentResult}'
 
-    String vaultName = env.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
+    String vaultName = environmentResult.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     echo ' the vault name is vaultName' + vaultName
 
     return vaultName
