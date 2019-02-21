@@ -36,8 +36,14 @@ def secrets = [
 
 String docmosisVaultName(env) {
     echo 'Name of the environment is -----> + ' env
-    env.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
+    String vaultName = env.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
+    echo ' the vault name is vaultName'
+
+    return vaultName
 }
+
+
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
