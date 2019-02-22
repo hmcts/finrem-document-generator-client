@@ -34,8 +34,8 @@ def secrets = [
 ]
 
 String buildEnvironment() {
-    println('Name of the environment is -----> ${ -> env}')
-    return '${ -> env}'
+    println("Name of the environment is -----> ${env}")
+    return "${env}"
 }
 
 String docmosisVaultName(environmentResult) {
@@ -44,9 +44,6 @@ String docmosisVaultName(environmentResult) {
 
     return vaultName
 }
-
-
-
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
