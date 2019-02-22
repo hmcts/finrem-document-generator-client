@@ -39,6 +39,8 @@ String buildEnvironment() {
 }
 
 String docmosisVaultName(environmentResult) {
+    println("Name of the environment again -----> " + environmentResult.toLowerCase)
+
     String vaultName = environmentResult.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     echo ' the vault name is vaultName' + vaultName
 
