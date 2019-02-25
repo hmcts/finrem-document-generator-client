@@ -35,11 +35,11 @@ def secrets = [
 
 String buildEnvironment() {
     println("Name of the environment is -----> ${env}")
-    return "${env}"
+    return '${env}'
 }
 
 String docmosisVaultName(environmentResult) {
-    println("Name of the environment again -----> " + environmentResult.toLowerCase())
+    println("Name of the environment again -----> " + env.BRANCH_NAME)
 
     String vaultName = environmentResult.toLowerCase() == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     echo ' the vault name is vaultName' + vaultName
@@ -55,11 +55,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
       envVariable: envVar
     ]
 }
-
-def vaultOverrides = [
-    'preview': 'aat',
-    'spreview': 'saat'
-]
 
 withPipeline(type , product, component) {
     loadVaultSecrets(secrets)
