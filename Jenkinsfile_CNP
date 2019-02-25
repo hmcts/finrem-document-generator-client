@@ -19,10 +19,16 @@ def component = "dgcs"
 
 def channel = '#finrem-dev'
 
-List<LinkedHashMap<String, Object>> secrets = [
-    secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
-    secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
-    secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
+def secrets = [
+    'finrem-${env}'              : [
+        secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
+        secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
+        secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")    ],
+    'docmosisiaasdevkv': [
+        secret("docmosis-api-key", "PDF_SERVICE_ACCESS_KEY"),
+        secret("docmosis-endpoint", "PDF_SERVICE_BASEURL"),
+        secret("docmosis-endpoint", "PDF_SERVICE_HEALTH_URL")
+    ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -35,10 +41,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline(type , product, component) {
+    loadVaultSecrets(secrets)
     enableDockerBuild()
     enableDeployToAKS()
-    loadVaultSecrets(secrets)
-    setVaultName(product)
 
     after('checkout') {
         echo '${product}-${component} checked out'
