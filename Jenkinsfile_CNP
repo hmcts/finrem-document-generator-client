@@ -24,27 +24,10 @@ def secrets = [
         secret("pdf-service-access-key", "PDF_SERVICE_ACCESS_KEY"),
         secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
         secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")    ],
-    (docmosisVaultName()): [
+    'docmosisiaasdevkv': [
         secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY")
     ]
 ]
-
-String docmosisVaultName() {
-    println("steps..." + steps)
-    println("steps.env..." + steps.env)
-    println("ENV-->" + env)
-    println("env.subscription-->" + env.subscription)
-    println("env.environment-->" + env.environment)
-    println("env.params.product-->" + env.product)
-    println("env.BRANCH_NAME---->" + env.BRANCH_NAME)
-    println("NONPROD_ENVIRONMENT_NAME -----> " + env.NONPROD_ENVIRONMENT_NAME)
-    println("env.DEMO_ENVIRONMENT_NAME -----> " + env.DEMO_ENVIRONMENT_NAME)
-    println("env.PREVIEW_ENVIRONMENT_NAME -----> " + env.PREVIEW_ENVIRONMENT_NAME)
-    println("env.HMCTSDEMO_ENVIRONMENT_NAME -----> " + env.HMCTSDEMO_ENVIRONMENT_NAME)
-
-    String vaultName = env.SUBSCRIPTION_NAME == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
-    return vaultName
-}
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
