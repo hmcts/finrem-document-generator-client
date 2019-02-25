@@ -14,6 +14,10 @@ output "docmosis_vault" {
     value = "${local.docmosisVaultUri}"
 }
 
-output "docmosis_api_access_key" {
-    value = "${data.azurerm_key_vault_secret.docmosis-api-access-key.value}"
+output "pdf-service-access-key" {
+    value = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
+}
+
+output "pdf-service-base-url" {
+    value = "${data.azurerm_key_vault_secret.docmosis_endpoint.value}"
 }

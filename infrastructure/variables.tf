@@ -63,26 +63,12 @@ variable "common_tags" {
     type = "map"
 }
 
-variable "pdf_service_url" {
-    type = "string"
-    default = "https://docmosis-development.platform.hmcts.net/rs/render"
-}
-
-variable "pdf_service_health_url" {
-    type = "string"
-    default = "https://docmosis-development.platform.hmcts.net/rs/status"
-}
-
 variable "swagger_enabled" {
     default = true
 }
 
 variable "idam_s2s_url_prefix" {
     default = "rpe-service-auth-provider"
-}
-
-variable "docmosis-api-access-key" {
-    default = "docmosis-api-key"
 }
 
 variable "docmosis_vault" {

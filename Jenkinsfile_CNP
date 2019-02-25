@@ -25,8 +25,8 @@ def secrets = [
         secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
         secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY")    ],
     'docmosisiaasdevkv': [
-        secret("docmosis-api-key", "DOCMOSIS_ACCESS_KEY"),
-        secret("docmosis-endpoint", "DOCMOSIS_ENDPOINT")
+        secret("docmosis-api-key", "PDF_SERVICE_ACCESS_KEY"),
+        secret("docmosis-endpoint", "PDF_SERVICE_BASEURL")
     ]
 ]
 

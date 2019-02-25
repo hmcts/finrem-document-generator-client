@@ -41,8 +41,8 @@ module "finrem-dgcs" {
     REFORM_SERVICE_NAME                                   = "${var.reform_service_name}"
     REFORM_TEAM                                           = "${var.reform_team}"
     REFORM_ENVIRONMENT                                    = "${var.env}"
-    PDF_SERVICE_BASEURL                                   = "${var.pdf_service_url}"
-    PDF_SERVICE_HEALTH_URL                                = "${var.pdf_service_health_url}"
+    PDF_SERVICE_BASEURL                                   = "${data.azurerm_key_vault_secret.docmosis_endpoint.value}rs/render"
+    PDF_SERVICE_HEALTH_URL                                = "${data.azurerm_key_vault_secret.docmosis_endpoint.value}rs/status"
     EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL                = "${local.evidence_management_client_api_url}"
     EVIDENCE_MANAGEMENT_CLIENT_API_HEALTH_ENDPOINT        = "${var.evidence_management_client_api_health_endpoint}"
     PDF_SERVICE_ACCESS_KEY                                = "${data.azurerm_key_vault_secret.pdf-service-access-key.value}"
@@ -50,7 +50,6 @@ module "finrem-dgcs" {
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
-    DOCMOSIS_ACCESS_KEY                                   = "${data.azurerm_key_vault_secret.docmosis-api-access-key.value}"
   }
 }
 
@@ -59,14 +58,14 @@ data "azurerm_key_vault" "finrem_key_vault" {
     resource_group_name = "${local.vaultName}"
 }
 
-data "azurerm_key_vault_secret" "docmosis-api-access-key" {
-    name      = "${var.docmosis-api-access-key}"
+data "azurerm_key_vault_secret" "pdf-service-access-key" {
+    name      = "docmosis-api-key"
     vault_uri = "${local.docmosisVaultUri}"
 }
 
-data "azurerm_key_vault_secret" "pdf-service-access-key" {
-    name      = "pdf-service-access-key"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+data "azurerm_key_vault_secret" "docmosis_endpoint" {
+    name      = "docmosis-endpoint"
+    vault_uri = "${local.docmosisVaultUri}"
 }
 
 data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
