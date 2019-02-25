@@ -12,9 +12,6 @@ data:
   EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL : "http://finrem-emca-aat.service.core-compute-aat.internal"
   REFORM_TEAM : "finrem"
   ENVIRONMENT_NAME : "aat"
-  VAULTNAME : "finrem-aat"
-  VAULTURI : "https://finrem-aat.vault.azure.net/"
-  DOCMOSISVAULTURI: "https://docmosisiaasdevkv.vault.azure.net/"
   APPINSIGHTS_INSTRUMENTATIONKEY : "97f6a0e1-6be6-44b0-97bf-d03852b7791f"
   PDF_SERVICE_BASEURL: ${PDF_SERVICE_BASEURL}rs/render
   PDF_SERVICE_HEALTH_URL: ${PDF_SERVICE_HEALTH_URL}rs/status
