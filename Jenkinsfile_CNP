@@ -30,6 +30,8 @@ def secrets = [
 ]
 
 String docmosisVaultName() {
+    println("steps..." + steps)
+    println("steps.env..." + steps.env)
     println("ENV-->" + env)
     println("env.subscription-->" + env.subscription)
     println("env.environment-->" + env.environment)
