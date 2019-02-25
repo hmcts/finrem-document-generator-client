@@ -30,7 +30,7 @@ def secrets = [
 ]
 
 String docmosisVaultName() {
-    println("Name of the environment again -----> " + env.SUBSCRIPTION_NAME)
+    println("Name of the environment again -----> " + env.REFORM_ENVIRONMENT)
 
     String vaultName = env.SUBSCRIPTION_NAME == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     return vaultName
