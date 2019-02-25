@@ -257,7 +257,7 @@ dependencies {
     }
 
     pmd {
-        toolVersion = "5.8.1"
+        toolVersion = "6.5.0"
         ignoreFailures = true
         sourceSets = [sourceSets.main, sourceSets.test]
         reportsDir = file("$project.buildDir/reports/pmd")
