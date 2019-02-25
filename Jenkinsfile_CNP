@@ -30,8 +30,16 @@ def secrets = [
 ]
 
 String docmosisVaultName() {
-    println("Name of the environment again -----> " + env.REFORM_ENVIRONMENT)
+    println("ENV-->" + env)
+    println("System.properties-->" + System.properties)
 
+    println("REFORM_ENVIRONMENT-->" + System.properties['REFORM_ENVIRONMENT'])
+    println("env.ENV_SUFFIX---->" + env.ENV_SUFFIX)
+    println("NONPROD_ENVIRONMENT_NAME -----> " + env.NONPROD_ENVIRONMENT_NAME)
+    println("env.DEMO_ENVIRONMENT_NAME -----> " + env.DEMO_ENVIRONMENT_NAME)
+    println("env.PREVIEW_ENVIRONMENT_NAME -----> " + env.PREVIEW_ENVIRONMENT_NAME)
+    println("env.HMCTSDEMO_ENVIRONMENT_NAME -----> " + env.HMCTSDEMO_ENVIRONMENT_NAME)
+    
     String vaultName = env.SUBSCRIPTION_NAME == 'prod' ? 'docmosisiaasprodkv' : 'docmosisiaasdevkv'
     return vaultName
 }
