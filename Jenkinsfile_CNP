@@ -31,7 +31,7 @@ def secrets = [
 
 String docmosisVaultName() {
     println("ENV-->" + env)
-    println("ENV-->" + System.getenv())
+    println("env.SUBSCRIPTION-->" + env.SUBSCRIPTION)
     println("env.ENVIRONMENT-->" + env.ENVIRONMENT)
     println("env.BRANCH_NAME---->" + env.BRANCH_NAME)
     println("NONPROD_ENVIRONMENT_NAME -----> " + env.NONPROD_ENVIRONMENT_NAME)
