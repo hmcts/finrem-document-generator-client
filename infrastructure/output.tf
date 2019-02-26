@@ -17,3 +17,7 @@ output "pdf-service-access-key" {
 output "pdf-service-base-url" {
     value = "${data.azurerm_key_vault_secret.docmosis_endpoint.value}"
 }
+
+output "oauth2_client_finrem" {
+    value = "${data.azurerm_key_vault_secret.idam-secret.value}"
+}
