@@ -18,8 +18,6 @@ locals {
 
   asp_name = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
   asp_rg = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
-
-  docmosisVaultUri = "https://${var.docmosis_vault}.vault.azure.net/"
 }
 
 module "finrem-dgcs" {
@@ -60,12 +58,12 @@ data "azurerm_key_vault" "finrem_key_vault" {
 
 data "azurerm_key_vault_secret" "pdf-service-access-key" {
     name      = "docmosis-api-key"
-    vault_uri = "${local.docmosisVaultUri}"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "docmosis_endpoint" {
     name      = "docmosis-endpoint"
-    vault_uri = "${local.docmosisVaultUri}"
+    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
