@@ -28,7 +28,7 @@ import static java.util.Objects.requireNonNull;
 public class EvidenceManagementService {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String FILE_PARAMETER = "file";
-    private static final String DEFAULT_NAME_FOR_PDF_FILE = "MiniFormA.pdf";
+    private static final String DEFAULT_NAME_FOR_PDF_FILE = "OnlineFormA.pdf";
 
     @Value("${service.evidence-management-client-api.uri}")
     private String evidenceManagementEndpoint;
