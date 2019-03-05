@@ -41,7 +41,7 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.v
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @PropertySource(value = "classpath:application.properties")
 @AutoConfigureMockMvc
-public class MiniFormAGenerateE2ETest {
+public class OnlineFormAGenerateE2ETest {
     private static final String API_URL = "/version/1/generatePDF";
 
     @Autowired
