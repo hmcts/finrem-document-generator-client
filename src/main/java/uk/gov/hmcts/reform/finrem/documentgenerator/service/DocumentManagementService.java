@@ -34,17 +34,21 @@ public class DocumentManagementService {
     }
 
     public Document storeDocument(String templateName,
+                                  String fileName,
                                   Map<String, Object> placeholders,
                                   String authorizationToken) {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
             templateName, placeholders.size());
 
-        return storeDocument(generateDocumentFrom(templateName, placeholders), authorizationToken);
+        return storeDocument(
+            generateDocumentFrom(templateName, placeholders),
+            fileName,
+            authorizationToken);
     }
 
-    private Document storeDocument(byte[] document, String authorizationToken) {
+    private Document storeDocument(byte[] document, String fileName, String authorizationToken) {
         log.debug("Store document requested with document of size [{}]", document.length);
-        FileUploadResponse response = evidenceManagementService.storeDocument(document, authorizationToken);
+        FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken);
 
         return CONVERTER.apply(response);
     }
