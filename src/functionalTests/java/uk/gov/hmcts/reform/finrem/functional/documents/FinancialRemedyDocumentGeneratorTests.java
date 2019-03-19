@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,11 +34,13 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         utils.deleteIdamUser();
     }
 
+    @Ignore
     @Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
+    @Ignore
     @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
@@ -46,6 +49,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
+    @Ignore
     @Test
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
@@ -60,6 +64,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
+    @Ignore
     @Test
     public void downloadDocumentAndVerifyContentAgainstOriginalJsonFileInput() {
         Response response = generateDocument("documentGeneratePayload.json");
