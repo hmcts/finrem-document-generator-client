@@ -13,7 +13,6 @@ import uk.gov.hmcts.reform.finrem.functional.model.CreateUserRequest;
 import uk.gov.hmcts.reform.finrem.functional.model.UserCode;
 
 
-import java.awt.*;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
