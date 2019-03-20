@@ -6,12 +6,14 @@ import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.finrem.functional.ResourceLoader;
 import uk.gov.hmcts.reform.finrem.functional.model.CreateUserRequest;
 import uk.gov.hmcts.reform.finrem.functional.model.UserCode;
 
 
+import java.awt.*;
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
@@ -63,7 +65,7 @@ public class IdamUtils {
 
     private void createUserInIdam() {
         idamUsername = "simulate-delivered" + UUID.randomUUID() + "@notifications.service.gov.uk";
-        idamPassword = UUID.randomUUID().toString();
+        idamPassword = "testPassword123";
 
         createUser(idamUsername, idamPassword);
     }
@@ -75,7 +77,7 @@ public class IdamUtils {
             .forename("Test")
             .surname("User")
             .roles(new UserCode[] { UserCode.builder().code("citizen").build() })
-            .userGroup(UserCode.builder().code("divorce-private-beta").build())
+            .userGroup(UserCode.builder().code("citizens").build())
             .build();
 
         RestAssured.given()
@@ -95,6 +97,7 @@ public class IdamUtils {
 
         Response response = RestAssured.given()
             .header("Authorization", authHeader)
+            .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .relaxedHTTPSValidation()
             .post(idamCodeUrl());
 
@@ -104,6 +107,7 @@ public class IdamUtils {
         }
 
         response = RestAssured.given()
+            .header("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .relaxedHTTPSValidation()
             .post(idamTokenUrl(response.getBody().path("code")));
 

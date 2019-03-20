@@ -34,13 +34,13 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         utils.deleteIdamUser();
     }
 
-    @Ignore
+
     @Test
     public void verifyDocumentGenerationShouldReturnOkResponseCode() {
         validatePostSuccess("documentGeneratePayload.json");
     }
 
-    @Ignore
+
     @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
@@ -49,7 +49,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
-    @Ignore
+
     @Test
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
@@ -64,7 +64,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
 
-    @Ignore
+
     @Test
     public void downloadDocumentAndVerifyContentAgainstOriginalJsonFileInput() {
         Response response = generateDocument("documentGeneratePayload.json");
