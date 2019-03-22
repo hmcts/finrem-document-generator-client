@@ -93,7 +93,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
 
-        System.out.println("response received---->" + jsonResponse.prettyPrint());
         return jsonResponse;
     }
 
