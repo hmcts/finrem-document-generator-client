@@ -92,6 +92,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
+
+        System.out.println("response received---->" + jsonResponse.prettyPrint());
         return jsonResponse;
     }
 
