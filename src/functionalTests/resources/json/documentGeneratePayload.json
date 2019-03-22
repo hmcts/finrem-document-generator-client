@@ -1,6 +1,6 @@
 {
     "template":"FL-FRM-APP-ENG-00002.docx",
-    "fileName": "FILE_NAME",
+    "fileName": "TestFile.pdf",
     "values": {
         "displayTemplateOnly": 1,
         "caseDetails": {
