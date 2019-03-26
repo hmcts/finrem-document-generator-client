@@ -42,6 +42,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
+        System.out.println("Response Body" + response.getBody().prettyPrint());
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
@@ -50,6 +51,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     public void verifyGeneratedDocumentCanBeAccessedAndVerifyGetResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
+        System.out.println("Response Body" + response.getBody().prettyPrint());
         String url = jsonPathEvaluator.get("url");
         validatePostSuccessForaccessingGeneratedDocument(fileRetrieveUrl(url));
         validatePostSuccessForaccessingGeneratedDocument(fileRetrieveUrl(url));
