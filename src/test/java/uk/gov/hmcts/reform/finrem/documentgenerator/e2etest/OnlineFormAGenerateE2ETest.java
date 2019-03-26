@@ -122,6 +122,7 @@ public class OnlineFormAGenerateE2ETest {
         externalServicesSetUp();
 
         MvcResult result = webClient.perform(post(API_URL)
+            .header("Authorization", "AUTH_TOKEN")
             .content(validRequest().toString())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
