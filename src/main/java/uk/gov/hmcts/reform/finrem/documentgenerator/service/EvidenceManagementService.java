@@ -28,7 +28,6 @@ import static java.util.Objects.requireNonNull;
 @Service
 @Slf4j
 public class EvidenceManagementService {
-    private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String FILE_PARAMETER = "file";
     private static final String DEFAULT_NAME_FOR_PDF_FILE = "OnlineFormA.pdf";
 
@@ -91,7 +90,7 @@ public class EvidenceManagementService {
 
     private HttpHeaders getAuthHttpHeaders(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER, authToken);
+        headers.add(HttpHeaders.AUTHORIZATION, authToken);
 
         return headers;
     }
