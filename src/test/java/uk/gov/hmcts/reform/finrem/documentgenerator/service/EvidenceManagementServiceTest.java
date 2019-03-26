@@ -68,6 +68,16 @@ public class EvidenceManagementServiceTest {
         mockServer.verify();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void storeDocumentAuthTokenNUll() {
+        service.storeDocument(DOC_CONTENT.getBytes(), null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void storeDocumentAuthTokenEmpty() {
+        service.storeDocument(DOC_CONTENT.getBytes(), "");
+    }
+
     @Test
     public void storeDocumentDocumentStorageError() throws JsonProcessingException {
         mockServer.expect(requestTo(SAVE_DOC_URL))
