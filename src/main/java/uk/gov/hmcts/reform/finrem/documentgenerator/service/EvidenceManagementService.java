@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,14 +22,14 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 import java.util.List;
 import java.util.Optional;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.Objects.requireNonNull;
 
 @Service
 @Slf4j
 public class EvidenceManagementService {
-    private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String FILE_PARAMETER = "file";
-    private static final String DEFAULT_NAME_FOR_PDF_FILE = "generated-file.pdf";
+    private static final String DEFAULT_NAME_FOR_PDF_FILE = "OnlineFormA.pdf";
 
     @Value("${service.evidence-management-client-api.uri}")
     private String evidenceManagementEndpoint;
@@ -39,32 +40,29 @@ public class EvidenceManagementService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
+    public FileUploadResponse storeDocument(byte[] document, String authorizationToken) {
         log.info("Save document call to evidence management is made document of size [{}]", document.length);
+        Preconditions.checkArgument(!isNullOrEmpty(authorizationToken), "Auth token not supplied");
 
-        FileUploadResponse fileUploadResponse = save(document, fileName, authorizationToken);
+        FileUploadResponse fileUploadResponse = save(document, authorizationToken);
 
         return Optional.of(fileUploadResponse)
             .filter(response -> response.getStatus() == HttpStatus.OK)
             .orElseThrow(() -> new DocumentStorageException("Failed to store document"));
     }
 
-    private FileUploadResponse save(byte[] document, String fileName, String authorizationToken) {
+    private FileUploadResponse save(byte[] document, String authorizationToken) {
         requireNonNull(document);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
                 HttpMethod.POST,
                 new HttpEntity<>(
-                        buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
+                        buildStoreDocumentRequest(document, DEFAULT_NAME_FOR_PDF_FILE),
                     getHttpHeaders(authorizationToken)),
                 new ParameterizedTypeReference<List<FileUploadResponse>>() {
                 });
 
         return responseEntity.getBody().get(0);
-    }
-
-    private static String fileToBeNamed(String name) {
-        return Optional.ofNullable(name).orElse(DEFAULT_NAME_FOR_PDF_FILE);
     }
 
     private HttpHeaders getHttpHeaders(String authToken) {
@@ -92,7 +90,7 @@ public class EvidenceManagementService {
 
     private HttpHeaders getAuthHttpHeaders(String authToken) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER, authToken);
+        headers.add(HttpHeaders.AUTHORIZATION, authToken);
 
         return headers;
     }

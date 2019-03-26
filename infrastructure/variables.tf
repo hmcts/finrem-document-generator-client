@@ -70,3 +70,7 @@ variable "swagger_enabled" {
 variable "idam_s2s_url_prefix" {
     default = "rpe-service-auth-provider"
 }
+
+variable "dns_server" {
+    type = "string"
+}
