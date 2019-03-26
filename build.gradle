@@ -276,7 +276,8 @@ dependencies {
     def sonarExclusions = [
         '**uk/gov/hmcts/reform/finrem/documentgenerator/config/PdfDocumentConfig.java',
         '**uk/gov/hmcts/reform/finrem/documentgenerator/model/*',
-        '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java'
+        '**uk/gov/hmcts/reform/finrem/documentgenerator/DocumentGeneratorApplication.java',
+        '**uk/gov/hmcts/reform/finrem/documentgenerator/service/*'
     ]
 
     sonarqube {
