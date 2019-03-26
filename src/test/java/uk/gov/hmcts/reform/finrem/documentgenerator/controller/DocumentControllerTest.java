@@ -35,13 +35,13 @@ public class DocumentControllerTest {
         final Map<String, Object> placeholder = Collections.emptyMap();
 
         final Document expected = Document.builder().build();
-        when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN))
+        when(documentManagementService.storeDocument(templateName, placeholder, AUTH_TOKEN))
             .thenReturn(expected);
 
-        Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, FILE_NAME, placeholder));
+        Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, placeholder));
 
         assertThat(actual, is(expected));
         verify(documentManagementService, times(1))
-            .storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN);
+            .storeDocument(templateName, placeholder, AUTH_TOKEN);
     }
 }

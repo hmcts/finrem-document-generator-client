@@ -44,8 +44,7 @@ public class DocumentController {
                                     DocumentRequest templateData) {
         log.info("Document generation requested with templateName [{}], placeholders map of size[{}]",
                 templateData.getTemplate(), templateData.getValues().size());
-        return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getFileName(),
-            templateData.getValues(),
+        return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getValues(),
             authorizationToken);
     }
 }
