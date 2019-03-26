@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +22,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 import java.util.List;
 import java.util.Optional;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static java.util.Objects.requireNonNull;
 
 @Service
@@ -41,6 +43,7 @@ public class EvidenceManagementService {
 
     public FileUploadResponse storeDocument(byte[] document, String authorizationToken) {
         log.info("Save document call to evidence management is made document of size [{}]", document.length);
+        Preconditions.checkArgument(!isNullOrEmpty(authorizationToken), "Auth token not supplied");
 
         FileUploadResponse fileUploadResponse = save(document, authorizationToken);
 
