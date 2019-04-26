@@ -33,6 +33,10 @@ public class DocumentManagementService {
         return pdfGenerationService.generateDocFrom(templateName, placeholders);
     }
 
+    public void deleteDocument(String fileUrl, String authToken) {
+        evidenceManagementService.deleteDocument(fileUrl, authToken);
+    }
+
     public Document storeDocument(String templateName,
                                   String fileName,
                                   Map<String, Object> placeholders,

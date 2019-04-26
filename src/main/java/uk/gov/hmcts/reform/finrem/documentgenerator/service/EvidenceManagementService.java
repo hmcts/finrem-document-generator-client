@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
@@ -62,6 +63,14 @@ public class EvidenceManagementService {
                 });
 
         return responseEntity.getBody().get(0);
+    }
+
+    public void deleteDocument(String fileUrl, String authorizationToken) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementDeleteEndpoint);
+        builder.queryParam("fileUrl", fileUrl);
+
+        restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.DELETE,
+            new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), String.class);
     }
 
     private static String fileToBeNamed(String name) {
