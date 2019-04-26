@@ -47,7 +47,7 @@ public class OnlineFormAGenerateE2ETest {
     @Autowired
     private MockMvc webClient;
 
-    @Value("${service.pdf-service.uri}")
+    @Value("${service.pdf-service.uri}/rs/render")
     private String pdfServiceUri;
 
     @Value("${service.evidence-management-client-api.uri}")
