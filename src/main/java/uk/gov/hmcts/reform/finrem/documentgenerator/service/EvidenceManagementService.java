@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,14 +55,16 @@ public class EvidenceManagementService {
     private FileUploadResponse save(byte[] document, String fileName, String authorizationToken) {
         requireNonNull(document);
 
+        log.info("evidenceManagementEndpoint [{}], fileName [{}], authorizationToken [{}] ",
+            evidenceManagementEndpoint,  fileName, authorizationToken);
+
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
                 HttpMethod.POST,
                 new HttpEntity<>(
-                        buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
+                    buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
                     getHttpHeaders(authorizationToken)),
                 new ParameterizedTypeReference<List<FileUploadResponse>>() {
                 });
-
         return responseEntity.getBody().get(0);
     }
 
