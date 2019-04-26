@@ -42,8 +42,9 @@ public class DocumentController {
                                                      String authorizationToken, @RequestBody @Valid
         @ApiParam(value = "JSON object containing the templateName and the placeholder text map", required = true)
                                     DocumentRequest templateData) {
-        log.info("Document generation requested with templateName [{}], placeholders map of size[{}]",
-                templateData.getTemplate(), templateData.getValues().size());
+        log.info("Document generation requested with templateName [{}], placeholders map [{}]",
+                templateData.getTemplate(), templateData.getValues());
+
         return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getFileName(),
             templateData.getValues(),
             authorizationToken);
