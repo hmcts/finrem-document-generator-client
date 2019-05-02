@@ -40,7 +40,7 @@ public class DocmosisPDFGenerationServiceTest {
         ImmutableMap.of("caseDetails",caseDataMap());
 
     public static final String TEMPLATE_NAME = "template name";
-    public static final String PDF_SERVICE_URI = "https://doc-gen/test";
+    public static final String PDF_SERVICE_URI = "https://doc-gen/rs/render";
     @Autowired
     private DocmosisPDFGenerationService pdfGenerationService;
 

@@ -43,7 +43,7 @@ public class DocumentController {
         @ApiParam(value = "JSON object containing the templateName and the placeholder text map", required = true)
                                     DocumentRequest templateData) {
         log.info("Document generation requested with templateName [{}], placeholders map [{}]",
-                templateData.getTemplate(), templateData.getValues());
+                    templateData.getTemplate(), templateData.getValues());
 
         return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getFileName(),
             templateData.getValues(),
