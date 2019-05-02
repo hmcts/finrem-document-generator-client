@@ -10,7 +10,7 @@ public class PDFGeneratorServiceHealthCheck extends AbstractServiceHealthCheck {
 
     @Autowired
     public PDFGeneratorServiceHealthCheck(
-        @Value("${service.pdf-service.health.uri}") String uri,
+        @Value("${service.pdf-service.health.uri}/rs/status") String uri,
         RestTemplate restTemplate) {
         super(uri, restTemplate);
     }

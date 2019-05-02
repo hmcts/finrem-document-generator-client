@@ -29,7 +29,7 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
     @Autowired
     private PdfDocumentConfig pdfDocumentConfig;
 
-    @Value("${service.pdf-service.uri}")
+    @Value("${service.pdf-service.uri}/rs/render")
     private String pdfServiceEndpoint;
 
     @Value("${service.pdf-service.accessKey}")
@@ -40,8 +40,9 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
         checkArgument(!isNullOrEmpty(templateName), "document generation template cannot be empty");
         checkNotNull(placeholders, "placeholders map cannot be null");
 
-        log.info("Making request to pdf service to generate pdf document with template "
-            + "and placeholders of size [{}]", templateName, placeholders.size());
+        log.info("Making request to pdf service to generate pdf document with template [{}], "
+            + "placeholders of size [{}], pdfServiceEndpoint [{}] ",
+            templateName, placeholders.size(), pdfServiceEndpoint);
 
         try {
             ResponseEntity<byte[]> response =
