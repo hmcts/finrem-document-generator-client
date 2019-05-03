@@ -1,4 +1,5 @@
 # Temporary fix for template API version error on deployment
+# comment to force and build the terraform infrastrucure state on pipeline
 provider "azurerm" {
     version = "1.19.0"
 }
