@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
-import com.google.common.base.Preconditions;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,8 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
-
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +36,20 @@ public class EvidenceManagementService {
     @Value("${service.evidence-management-client-api.delete-uri}")
     private String evidenceManagementDeleteEndpoint;
 
+    @Value("${service.evidence-management-client-api.read-uri}")
+    private String evidenceManagementReadEndpoint;
+
     @Autowired
     private RestTemplate restTemplate;
+
+    //Todo coverage :Hasan
+    public ResponseEntity<byte[]> readDocument(String fileUrl,String authorizationToken) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementReadEndpoint);
+        builder.queryParam("fileUrl", fileUrl);
+
+        return restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
+            new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), byte[].class, String.class);
+    }
 
     public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
         log.info("Save document call to evidence management is made document of size [{}]", document.length);
@@ -59,12 +68,12 @@ public class EvidenceManagementService {
             evidenceManagementEndpoint,  fileName, authorizationToken);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
-                HttpMethod.POST,
-                new HttpEntity<>(
-                    buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
-                    getHttpHeaders(authorizationToken)),
-                new ParameterizedTypeReference<List<FileUploadResponse>>() {
-                });
+            HttpMethod.POST,
+            new HttpEntity<>(
+                buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
+                getHttpHeaders(authorizationToken)),
+            new ParameterizedTypeReference<List<FileUploadResponse>>() {
+            });
         return responseEntity.getBody().get(0);
     }
 
