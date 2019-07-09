@@ -60,7 +60,8 @@ public class ApprovedConsentOrderController {
             fetchPrintDocsService.getGeneratedDocuments(callbackRequest,authorizationToken);
 
         try {
-            pdfStampingService.stampDocument(generatedDocumentInfoList);
+            byte[] courSeal = pdfStampingService.getCourSeal();
+            pdfStampingService.stampDocument(generatedDocumentInfoList.get("caseDetails").getBytes(), courSeal);
         } catch (final Exception e) {
             log.error("Respondent pack bulk print failed for case {}", caseDetails.getId(), e);
         }
