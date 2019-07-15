@@ -2,9 +2,10 @@ package uk.gov.hmcts.reform.finrem.documentgenerator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import uk.gov.hmcts.reform.authorisation.healthcheck.ServiceAuthHealthIndicator;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(exclude = {ServiceAuthHealthIndicator.class})
+@EnableFeignClients (basePackages = {"uk.gov.hmcts.reform.sendletter"})
+@SpringBootApplication
 public class DocumentGeneratorApplication {
 
     public static void main(String[] args) {

@@ -74,3 +74,7 @@ variable "idam_s2s_url_prefix" {
 variable "dns_server" {
     type = "string"
 }
+
+variable "auth_provider_service_client_microservice" {
+    default = "finrem_document_generator"
+}
