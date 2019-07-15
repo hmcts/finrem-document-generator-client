@@ -98,4 +98,9 @@
         <gav regex="true">.*</gav>
         <cve>CVE-2019-0232</cve>
     </suppress>
+    <suppress>
+        <notes>check style needs upgrade </notes>
+        <cpe>cpe:2.3:a:checkstyle:checkstyle:7.2:*:*:*:*:*:*:*</cpe>
+        <cve>CVE-2019-9658</cve>
+    </suppress>
 </suppressions>
