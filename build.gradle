@@ -110,7 +110,7 @@ tasks.withType(JavaCompile) {
 }
 
 checkstyle {
-    toolVersion = '7.2'
+    toolVersion = '8.18'
     configFile = project(':').file('checkstyle.xml')
     configProperties = ["suppressionFile": project(':').file('suppressions.xml')]
 }
@@ -146,7 +146,7 @@ def versions = [
     pdfbox: '2.0.8',
     mockito: '2.8.9',
     powerMock: '1.7.3',
-    puppyCrawl: '7.6',
+    puppyCrawl: '8.18',
     reformsJavaLogging: '3.0.1',
     restAssured: '3.0.3',
     serenity: '2.0.11',
