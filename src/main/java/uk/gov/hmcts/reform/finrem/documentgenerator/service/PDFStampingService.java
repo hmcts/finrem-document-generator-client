@@ -1,39 +1,64 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import uk.gov.hmcts.reform.finrem.documentgenerator.config.PdfDocumentConfig;
+import org.springframework.stereotype.Service;
+import uk.gov.hmcts.reform.finrem.documentgenerator.error.StampDocumentException;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 
+import static java.lang.String.format;
+import static org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode.APPEND;
+import static org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject.createFromByteArray;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.WIDTH_AND_HEIGHT;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService.CONVERTER;
+
+@Service
+@Slf4j
 public class PDFStampingService {
 
     @Autowired
-    private PdfDocumentConfig config;
+    private EvidenceManagementService emService;
 
-    public byte[] stampDocument(byte[] inputFileInBytes, byte[] courtSealImage) throws Exception {
+    public Document stampDocument(Document document, String authorizationToken, boolean isAnnexNeeded) {
+        log.info("Stamp document : {}", document);
+        try {
+            byte[] docInBytes = emService.readDocument(document.getBinaryUrl(), authorizationToken);
+            byte[] stampedDoc = stampDocument(docInBytes, isAnnexNeeded);
+            FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authorizationToken);
+            return CONVERTER.apply(fileSaved);
+        } catch (Exception ex) {
+            throw new StampDocumentException(format("Failed to stamp PDF for document : %s , exception r : %s",
+                document, ex.getMessage()), ex);
+        }
+    }
 
-        //retrieve doc from DM store
-        ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-
-        PDDocument doc = PDDocument.load(inputFileInBytes);
-        //Retrieving the page
+    public byte[] stampDocument(byte[] inputDocInBytes, boolean isAnnexNeeded) throws Exception {
+        PDDocument doc = PDDocument.load(inputDocInBytes);
         PDPage page = doc.getPage(0);
+        PDFAnnexStampingInfo info = PDFAnnexStampingInfo.builder(page).build();
+        log.info("PDFAnnexStampingInfo data  = {}", info);
 
-        PDImageXObject pdImage = PDImageXObject.createFromByteArray(doc, courtSealImage, null);
-
-        PDPageContentStream contentStream = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND,
-            true, true);
-        contentStream.drawImage(pdImage, 100, 500, 170, 175);
-        contentStream.close();
-
+        PDImageXObject annexImage = createFromByteArray(doc, imageAsBytes(info.getAnnexFile()), null);
+        PDImageXObject courtSealImage = createFromByteArray(doc, imageAsBytes(info.getCourtSealFile()), null);
+        PDPageContentStream psdStream = new PDPageContentStream(doc, page, APPEND, true, true);
+        psdStream.drawImage(courtSealImage, info.getCourtSealPositionX(), info.getCourtSealPositionY(),
+            WIDTH_AND_HEIGHT, WIDTH_AND_HEIGHT);
+        if (isAnnexNeeded) {
+            psdStream.drawImage(annexImage, info.getAnnexPositionX(), info.getAnnexPositionY(),
+                WIDTH_AND_HEIGHT, WIDTH_AND_HEIGHT);
+        }
+        psdStream.close();
+        ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
         doc.save(outputBytes);
         doc.close();
 
@@ -41,19 +66,10 @@ public class PDFStampingService {
         return outputBytes.toByteArray();
     }
 
-    public byte[] getCourSeal() throws Exception {
-        try (InputStream inputStream = getClass().getResourceAsStream("/courtseal.png")) {
+    public byte[] imageAsBytes(String fileName) throws Exception {
+        try (InputStream inputStream = getClass().getResourceAsStream(fileName)) {
             return IOUtils.toByteArray(inputStream);
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        PDFStampingService service = new PDFStampingService();
-        FileInputStream inputFile = new FileInputStream("/Users/chandrashekharkorivi/Downloads/NCB_Test.pdf");
-        byte[] courSeal = service.getCourSeal();
-        byte[] bytes = service.stampDocument(IOUtils.toByteArray(inputFile), courSeal);
-        FileOutputStream fos = new FileOutputStream("/Users/chandrashekharkorivi/Downloads/NCB_Test_Stamped.pdf");
-        fos.write(bytes);
-        fos.close();
-    }
 }

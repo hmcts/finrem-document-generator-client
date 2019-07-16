@@ -50,6 +50,19 @@ public class GlobalExceptionHandlerTest {
         assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
+
+    @Test
+    public void stampDocumentException() {
+        StampDocumentException stampDocumentException =
+            new StampDocumentException(SOME_MESSAGE, new Exception());
+
+        ResponseEntity<Object> response =
+                classUnderTest.handleStampDocumentException(stampDocumentException);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
+    }
+
     @Test
     public void clientException() {
         ResponseEntity<Object> response =

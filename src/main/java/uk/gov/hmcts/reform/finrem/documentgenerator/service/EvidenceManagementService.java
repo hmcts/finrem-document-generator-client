@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +44,14 @@ public class EvidenceManagementService {
     private RestTemplate restTemplate;
 
     //Todo coverage :Hasan
-    public ResponseEntity<byte[]> readDocument(String fileUrl,String authorizationToken) {
+    public byte[] readDocument(String fileUrl, String authorizationToken) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementReadEndpoint);
         builder.queryParam("fileUrl", fileUrl);
 
-        return restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
+        ResponseEntity<byte[]> response = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
             new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), byte[].class, String.class);
+
+        return response.getBody();
     }
 
     public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
@@ -65,7 +68,7 @@ public class EvidenceManagementService {
         requireNonNull(document);
 
         log.info("evidenceManagementEndpoint [{}], fileName [{}], authorizationToken [{}] ",
-            evidenceManagementEndpoint,  fileName, authorizationToken);
+            evidenceManagementEndpoint, fileName, authorizationToken);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
             HttpMethod.POST,
@@ -115,7 +118,6 @@ public class EvidenceManagementService {
     private HttpHeaders getAuthHttpHeaders(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, authToken);
-
         return headers;
     }
 }
