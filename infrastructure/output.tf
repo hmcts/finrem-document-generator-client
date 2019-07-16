@@ -21,3 +21,7 @@ output "oauth2_client_finrem" {
 output "idam_s2s_url" {
     value = "${local.idam_s2s_url}"
 }
+
+output "send_letter_service_baseurl" {
+    value = "${local.send_letter_service_baseurl}"
+}
