@@ -19,6 +19,8 @@ locals {
 
   asp_name = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
   asp_rg = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
+  send_letter_service_baseurl       = "http://rpe-send-letter-service-${local.local_env}.service.core-compute-${local.local_env}.internal"
+
 }
 
 module "finrem-dgcs" {
@@ -48,8 +50,10 @@ module "finrem-dgcs" {
     SWAGGER_ENABLED                                       = "${var.swagger_enabled}"
     OAUTH2_CLIENT_FINREM                                  = "${data.azurerm_key_vault_secret.idam-secret.value}"
     AUTH_PROVIDER_SERVICE_CLIENT_BASEURL                  = "${local.idam_s2s_url}"
+    AUTH_PROVIDER_SERVICE_CLIENT_MICROSERVICE             = "${var.auth_provider_service_client_microservice}"
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
-    WEBSITE_DNS_SERVER                                    = "${var.dns_server}"
+    WEBSITE_DNS_SERVER                                    = "${var.dns_server}",
+    SEND_LETTER_SERIVCE_BASEURL                           = "${local.send_letter_service_baseurl}"
   }
 }
 
