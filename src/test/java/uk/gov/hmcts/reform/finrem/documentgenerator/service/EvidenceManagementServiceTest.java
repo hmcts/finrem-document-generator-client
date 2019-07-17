@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.DocumentStorageException;
@@ -39,6 +41,7 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUplo
 public class EvidenceManagementServiceTest {
 
     private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
+    private static final String DOWNLOAD_DOC_URL = "http://localhost:4006/emclientapi/version/1/download";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
     private static final String DOC_CONTENT = "welcome doc";
     private static final String FILE_NAME = "JKlkm";
@@ -99,6 +102,18 @@ public class EvidenceManagementServiceTest {
             .andRespond(withNoContent());
 
         service.deleteDocument(FILE_URL, AUTH_TOKEN);
+
+        mockServer.verify();
+    }
+
+    @Test
+    public void downloadDocument()  {
+        mockServer.expect(requestTo(DOWNLOAD_DOC_URL.concat("?binaryFileUrl=").concat(FILE_URL)))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(MockRestResponseCreators.withSuccess());
+
+        ResponseEntity<byte[]> result = service.downloadDocument( FILE_URL);
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
 
         mockServer.verify();
     }

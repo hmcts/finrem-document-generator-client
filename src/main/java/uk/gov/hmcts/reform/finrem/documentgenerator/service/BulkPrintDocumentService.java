@@ -1,0 +1,33 @@
+package uk.gov.hmcts.reform.finrem.documentgenerator.service;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.BulkPrintRequest;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Component
+@Slf4j
+public class BulkPrintDocumentService {
+
+    @Autowired
+    private EvidenceManagementService service;
+
+    public List<byte[]> downloadDocuments(BulkPrintRequest bulkPrintRequest) {
+        log.info("Downloading document for bulk print.");
+        return bulkPrintRequest.getBulkPrintDocuments().stream().map(bulkPrintDocument -> {
+            ResponseEntity<byte[]> response = service.downloadDocument(bulkPrintDocument.getBinaryFileUrl());
+            if (response.getStatusCode() != HttpStatus.OK) {
+                log.error("Download failed for url {} ",bulkPrintDocument.getBinaryFileUrl());
+                throw new RuntimeException(String.format("Unexpected error DM store: %s ", response.getStatusCode()));
+            }
+            return response.getBody();
+        }).collect(Collectors.toList());
+    }
+
+
+}
