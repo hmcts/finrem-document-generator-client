@@ -78,3 +78,7 @@ variable "dns_server" {
 variable "auth_provider_service_client_microservice" {
     default = "finrem_document_generator"
 }
+
+variable "document_mime_types" {
+    default = "application/pdf"
+}
