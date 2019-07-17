@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.finrem.functional.documents;
 
 
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import net.serenitybdd.junit.runners.SerenityRunner;
@@ -11,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import uk.gov.hmcts.reform.finrem.functional.IntegrationTestBase;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
@@ -21,12 +23,19 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
+    private static String BULKPRINT_URL = "/bulk-print";
+    private static String errMsg;
+
+    @Value("${bulk.print.uri}")
+    private String bulkprintUrl;
 
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
 
     @Value("${document.management.store.baseUrl}")
     private String dmStoreBaseUrl;
+
+
 
     @After
     public void tearDown() {
@@ -39,8 +48,17 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
     @Test
+    public void verifyBulkPrintingisSuccessful() {
+
+        validateBulkPrintSuccess("bulkprinting.json", bulkprintUrl);
+
+    }
+
+
+    @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
+        System.out.println("response is : " + response.prettyPrint());
         JsonPath jsonPathEvaluator = response.jsonPath();
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
         assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
@@ -84,6 +102,20 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .assertThat().statusCode(200);
     }
 
+    private void validateBulkPrintSuccess(String jsonFileName,String url) {
+        setBulkPrintingUri(url);
+        System.out.println("url is " + url);
+        Response response = SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .header("Content-Type", ContentType.JSON.toString())
+            .body(utils.getJsonFromFile(jsonFileName))
+            .and().post( );
+          errMsg= response.prettyPrint();
+        System.out.println("response is " + response.prettyPrint());
+        assertEquals(errMsg,200,response.getStatusCode());
+
+
+    }
 
     private Response generateDocument(String jsonFileName) {
 
