@@ -54,6 +54,7 @@ module "finrem-dgcs" {
     AUTH_PROVIDER_SERVICE_CLIENT_KEY                      = "${data.azurerm_key_vault_secret.finrem-doc-s2s-auth-secret.value}"
     WEBSITE_DNS_SERVER                                    = "${var.dns_server}",
     SEND_LETTER_SERIVCE_BASEURL                           = "${local.send_letter_service_baseurl}"
+      DOCUMENT_MIME_TYPES                                 = "${var.document_mime_types}"
   }
 }
 
