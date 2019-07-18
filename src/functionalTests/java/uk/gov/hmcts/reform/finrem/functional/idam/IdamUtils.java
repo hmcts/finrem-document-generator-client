@@ -2,12 +2,17 @@ package uk.gov.hmcts.reform.finrem.functional.idam;
 
 import com.google.common.collect.ImmutableList;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import uk.gov.hmcts.reform.authorisation.generators.ServiceAuthTokenGenerator;
 import uk.gov.hmcts.reform.finrem.functional.ResourceLoader;
 import uk.gov.hmcts.reform.finrem.functional.model.CreateUserRequest;
 import uk.gov.hmcts.reform.finrem.functional.model.UserCode;
@@ -21,6 +26,9 @@ import java.util.UUID;
 @Component
 public class IdamUtils {
 
+    @Value("${user.id.url}")
+    private String userId;
+
     @Value("${idam.api.url}")
     private String idamUserBaseUrl;
 
@@ -30,11 +38,37 @@ public class IdamUtils {
     @Value("${idam.api.secret}")
     private String idamSecret;
 
+    @Value("${idam.username}")
+    private String idamUserName1;
+    @Value("${idam.userpassword}")
+    private String idamUserPassword1;
+
     private String idamUsername;
     private String idamPassword;
     private String testUserJwtToken;
 
     public List<Integer> responseCodes = ImmutableList.of(200, 204);
+
+
+    @Autowired
+    private ServiceAuthTokenGenerator tokenGenerator;
+
+    public Headers getHeadersWithUserId() {
+
+        return Headers.headers(
+            new Header("ServiceAuthorization",   tokenGenerator.generate()),
+            new Header("user-roles", "caseworker-divorce"),
+            new Header("user-id", userId));
+    }
+
+    public Headers getHeaders() {
+        return Headers.headers(
+
+            new Header("Authorization", "Bearer "
+                + generateUserTokenWithNoRoles(idamUserName1, idamUserPassword1)),
+            //new Header("Authorization", "Bearer " + idamUtils.getClientAuthToken()),
+            new Header("Content-Type", ContentType.JSON.toString()));
+    }
 
     public String getIdamTestUserToken() {
         if (StringUtils.isBlank(testUserJwtToken)) {
