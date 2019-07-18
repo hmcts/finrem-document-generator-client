@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.finrem.documentgenerator.model.CaseDocument;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentValidationResponse;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentValidationResponse.DocumentValidationResponseBuilder;
 
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.singletonList;
 
@@ -40,20 +38,20 @@ public class DocumentValidationService {
         DocumentValidationResponseBuilder builder = DocumentValidationResponse.builder();
         if (Objects.isNull(responseEntity.getBody())) {
             builder.errors(singletonList("Downloaded document is empty"));
-        }
-        InputStream targetStream = new ByteArrayInputStream(responseEntity.getBody());
-        try {
-            tika = new Tika();
-            String detect = tika.detect(targetStream, new Metadata());
-            if (mimeTypes.contains(detect)) {
-                builder.mimeType(detect);
-            } else {
-                builder.errors(singletonList(fileUploadErrorMessage))
-                    .mimeType(detect);
+        } else {
+            InputStream targetStream = new ByteArrayInputStream(responseEntity.getBody());
+            try {
+                String detect = tika.detect(targetStream, new Metadata());
+                if (mimeTypes.contains(detect)) {
+                    builder.mimeType(detect);
+                } else {
+                    builder.errors(singletonList(fileUploadErrorMessage))
+                        .mimeType(detect);
+                }
+            } catch (IOException ex) {
+                log.error("Unable to detect the MimeType due to IOException", ex.getMessage());
+                builder.errors(singletonList("Unable to detect the MimeType due to IOException"));
             }
-        } catch (IOException ex) {
-            log.error("Unable to detect the MimeType due to IOException", ex.getMessage());
-            builder.errors(singletonList("Unable to detect the MimeType due to IOException"));
         }
 
         return builder.build();
