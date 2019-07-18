@@ -45,6 +45,7 @@ public abstract class IntegrationTestBase {
 
     @Autowired
     public static void setBulkPrintingUri(@Value("${bulk.print.uri}") String bulkPrintingUrl) {
-        RestAssured.baseURI=bulkPrintingUrl;}
+        RestAssured.baseURI = bulkPrintingUrl;
+    }
 
 }
