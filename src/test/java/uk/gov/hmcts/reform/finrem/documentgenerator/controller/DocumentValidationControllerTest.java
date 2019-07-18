@@ -29,7 +29,8 @@ public class DocumentValidationControllerTest {
     public void shouldReturnSuccessfulFileTypeCheckWithOutErrors() {
         when(service.validateFileType(FILE_BINARY_URL))
             .thenReturn(DocumentValidationResponse.builder().build());
-        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(AUTH_TOKEN, FILE_BINARY_URL);
+        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(
+            AUTH_TOKEN, FILE_BINARY_URL);
         assertThat(documentValidationResponse.getErrors(), CoreMatchers.nullValue());
     }
 
@@ -38,7 +39,8 @@ public class DocumentValidationControllerTest {
         when(service.validateFileType(FILE_BINARY_URL))
             .thenReturn(DocumentValidationResponse.builder()
                 .errors(singletonList("Invalid Mime Type")).build());
-        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(AUTH_TOKEN, FILE_BINARY_URL);
+        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(
+            AUTH_TOKEN, FILE_BINARY_URL);
         assertThat(documentValidationResponse.getErrors(), is(singletonList("Invalid Mime Type")));
     }
 }
