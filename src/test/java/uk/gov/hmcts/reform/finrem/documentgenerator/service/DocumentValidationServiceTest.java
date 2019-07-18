@@ -10,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.util.ReflectionTestUtils;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentValidationResponse;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentValidationServiceTest {
@@ -38,15 +38,13 @@ public class DocumentValidationServiceTest {
 
     @Before
     public void setUp() {
-        ReflectionTestUtils.setField(underTest, "mimeTypes", singletonList("application/pdf"));
-        ReflectionTestUtils.setField(underTest, "fileUploadErrorMessage", "Invalid fileType");
+        setField(underTest, "mimeTypes", singletonList("application/pdf"));
+        setField(underTest, "fileUploadErrorMessage", "Invalid fileType");
     }
 
     @Test
     public void shouldReturnSuccessValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok().
-            contentType(MediaType.APPLICATION_JSON)
-            .body(new byte[1025]);
+        ResponseEntity<byte[]> responseEntity = getResponseEntity();
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/pdf");
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -56,9 +54,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldReturnErrorsForInValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok().
-            contentType(MediaType.APPLICATION_JSON)
-            .body(new byte[1025]);
+        ResponseEntity<byte[]> responseEntity = getResponseEntity();
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/json");
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -67,9 +63,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldThrowErrorForValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok().
-            contentType(MediaType.APPLICATION_JSON)
-            .body(new byte[1025]);
+        ResponseEntity<byte[]> responseEntity = getResponseEntity();
         when(tika.detect(any(), any(Metadata.class))).thenThrow(new IOException());
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -77,12 +71,18 @@ public class DocumentValidationServiceTest {
     }
 
     @Test
-    public void shouldThrowErrorForEmptyFile() throws IOException {
-        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok().
-            contentType(MediaType.APPLICATION_JSON)
+    public void shouldThrowErrorForEmptyFile() {
+        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
             .body(null);
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
         assertThat(documentValidationResponse.getErrors(), hasItem("Downloaded document is empty"));
+    }
+
+    private ResponseEntity<byte[]> getResponseEntity() {
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(new byte[1025]);
     }
 }

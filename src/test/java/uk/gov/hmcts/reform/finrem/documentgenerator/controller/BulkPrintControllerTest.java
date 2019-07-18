@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.BulkPrintDocument;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.BulkPrintRequest;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.BulkPrintDocumentService;
@@ -16,6 +14,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.BulkPrintService;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -44,6 +43,7 @@ public class BulkPrintControllerTest {
 
     @Test
     public void shouldBulkPrintDocument() {
+        UUID randomuuid = UUID.randomUUID();
         bulkPrintRequest = BulkPrintRequest.builder()
             .caseId("1000")
             .letterType("others")
@@ -53,8 +53,11 @@ public class BulkPrintControllerTest {
         when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
             .thenReturn(documents);
 
-        ResponseEntity<Object> response = controller.bulkPrint(bulkPrintRequest);
-        assertThat(response.getStatusCode(), is(HttpStatus.ACCEPTED));
+        when(bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(), documents))
+            .thenReturn(randomuuid);
+
+        UUID response = controller.bulkPrint(bulkPrintRequest);
+        assertThat(response, is(randomuuid));
 
         verify(bulkPrintService, times(1)).send(bulkPrintRequest.getCaseId(),
             bulkPrintRequest.getLetterType(), documents);

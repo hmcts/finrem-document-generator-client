@@ -16,7 +16,7 @@ service:
       uri: ${EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL:http://localhost:4006}${service.evidence-management-client-api.health.context-path}
 
 send-letter:
-  url: ${SEND_LETTER_SERIVCE_BASEURL:http://localhost:8585}
+  url: ${SEND_LETTER_SERIVCE_BASEURL:http://rpe-send-letter-service-aat.service.core-compute-aat.internal}
 
 http:
   connect:
