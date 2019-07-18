@@ -98,7 +98,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private void validatePostSuccess(String jsonFileName) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(idamUtils.getHeaders())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post()
             .then()
@@ -124,7 +124,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(idamUtils.getHeaders())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
 
@@ -134,7 +134,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private void validatePostSuccessForaccessingGeneratedDocument(String url) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(idamUtils.getHeadersWithUserId())
+            .headers(utils.getHeadersWithUserId())
             .when().get(url)
             .then().assertThat().statusCode(200);
 
@@ -143,7 +143,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private Response accessGeneratedDocument(String url) {
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .headers(idamUtils.getHeadersWithUserId())
+            .headers(utils.getHeadersWithUserId())
             .when().get(url)
             .andReturn();
         return jsonResponse;
