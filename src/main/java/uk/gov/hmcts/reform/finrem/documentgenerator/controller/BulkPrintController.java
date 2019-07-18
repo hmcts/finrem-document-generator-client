@@ -7,8 +7,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +15,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.BulkPrintDocumentSer
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.BulkPrintService;
 
 import java.util.List;
-
-import static org.springframework.http.ResponseEntity.status;
+import java.util.UUID;
 
 @RestController
 @Api(value = "Bulk print controller", tags = {"Bulk print controller"})
@@ -32,7 +29,7 @@ public class BulkPrintController {
     private BulkPrintDocumentService bulkPrintDocumentService;
 
     @ApiOperation(value = "Bulk Print documents", tags = {"Bulk print documents"})
-    @ApiResponses( {
+    @ApiResponses({
         @ApiResponse(code = 200, message = "Documents sent for bulk printing.", response = String.class),
         @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
             response = String.class),
@@ -42,18 +39,18 @@ public class BulkPrintController {
             response = String.class)
         })
     @PostMapping("/version/1/bulk-print")
-    public ResponseEntity<Object> bulkPrint(@RequestBody
-                                            @ApiParam(value = "BulkPrintRequest", required = true)
-                                                BulkPrintRequest bulkPrintRequest) {
+    public UUID bulkPrint(@RequestBody
+                          @ApiParam(value = "BulkPrintRequest", required = true)
+                              BulkPrintRequest bulkPrintRequest) {
         log.info("Bulk print request is being processed for case {}", bulkPrintRequest.getCaseId());
         try {
             final List<byte[]> documents = bulkPrintDocumentService.downloadDocuments(bulkPrintRequest);
-            bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(), documents);
+            return bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(),
+                documents);
         } catch (final Exception e) {
             log.error(
                 "Bulk print failed for case {}", bulkPrintRequest.getCaseId(), e);
             throw new RuntimeException(e);
         }
-        return status(HttpStatus.ACCEPTED).build();
     }
 }

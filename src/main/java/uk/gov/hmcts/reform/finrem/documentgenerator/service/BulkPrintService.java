@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static java.util.Base64.getEncoder;
 import static java.util.stream.Collectors.toList;
@@ -34,20 +35,21 @@ public class BulkPrintService {
     /**
      * Note: the order of documents you send to this service is the order in which they will print.
      */
-    public void send(final String caseId, final String letterType, final List<byte[]> listOfDocumentsAsByteArray) {
+    public UUID send(final String caseId, final String letterType, final List<byte[]> listOfDocumentsAsByteArray) {
         log.info("Request for bulk print of {} for case {}", letterType, caseId);
         final List<String> stringifiedDocuments = listOfDocumentsAsByteArray.stream()
             .map(getEncoder()::encodeToString)
             .collect(toList());
-        send(authTokenGenerator.generate(), caseId, letterType, stringifiedDocuments);
+        return send(authTokenGenerator.generate(), caseId, letterType, stringifiedDocuments);
     }
 
-    private void send(final String authToken, final String caseId, final String letterType,
+    private UUID send(final String authToken, final String caseId, final String letterType,
                       final List<String> documents) {
         log.info("Sending {} for case {}", letterType, caseId);
         SendLetterResponse sendLetterResponse = sendLetterApi.sendLetter(authToken,
             new LetterWithPdfsRequest(documents, XEROX_TYPE_PARAMETER, getAdditionalData(caseId, letterType)));
         log.info("Letter service produced the following letter Id {} for case {}", sendLetterResponse.letterId, caseId);
+        return sendLetterResponse.letterId;
     }
 
     private Map<String, Object> getAdditionalData(final String caseId, final String letterType) {
