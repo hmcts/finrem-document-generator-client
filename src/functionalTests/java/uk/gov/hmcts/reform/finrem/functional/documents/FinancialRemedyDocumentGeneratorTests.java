@@ -110,7 +110,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .header("Content-Type", ContentType.JSON.toString())
             .body(utils.getJsonFromFile(jsonFileName))
             .and().post( );
-          errMsg= response.prettyPrint();
+        errMsg = response.prettyPrint();
         System.out.println("response is " + response.prettyPrint());
         assertEquals(errMsg,200,response.getStatusCode());
 
