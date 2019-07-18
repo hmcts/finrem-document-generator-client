@@ -6,15 +6,15 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 @Data
 public class PDFAnnexStampingInfo {
-    public static final String COURT_SEAL_IMAGE = "/courtseal.png";
-    public static final String COURT_SEAL_IMAGE_LEFT_90 = "/courtseal_left_90.png";
-    public static final String COURT_SEAL_IMAGE_UPSIDE_DOWN = "/courtseal_upside_down.png";
-    public static final String COURT_SEAL_IMAGE_RIGHT_90 = "/courtseal_right_90.png";
-
     public static final String ANNEX_IMAGE = "/annex.png";
     public static final String ANNEX_IMAGE_LEFT_90 = "/annex_left_90.png";
     public static final String ANNEX_IMAGE_UPSIDE_DOWN = "/annex_upside_down.png";
     public static final String ANNEX_IMAGE_RIGHT_90 = "/annex_right_90.png";
+
+    public static final String COURT_SEAL_IMAGE = "/courtseal.png";
+    public static final String COURT_SEAL_IMAGE_LEFT_90 = "/courtseal_left_90.png";
+    public static final String COURT_SEAL_IMAGE_UPSIDE_DOWN = "/courtseal_upside_down.png";
+    public static final String COURT_SEAL_IMAGE_RIGHT_90 = "/courtseal_right_90.png";
 
     public static final float WIDTH_AND_HEIGHT = 100;
 
