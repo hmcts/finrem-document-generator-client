@@ -37,21 +37,22 @@ public class EvidenceManagementService {
     @Value("${service.evidence-management-client-api.delete-uri}")
     private String evidenceManagementDeleteEndpoint;
 
-    @Value("${service.evidence-management-client-api.read-uri}")
+    @Value("${service.evidence-management-client-api.download-uri}")
     private String evidenceManagementReadEndpoint;
 
     @Autowired
     private RestTemplate restTemplate;
 
-    //Todo coverage :Hasan
-    public byte[] readDocument(String fileUrl, String authorizationToken) {
+    public ResponseEntity<byte[]> downloadDocument(String binaryFileUrl) {
+        log.info("Downloading document from evidence management service for binary url {}",binaryFileUrl);
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementReadEndpoint);
-        builder.queryParam("fileUrl", fileUrl);
+        builder.queryParam("binaryFileUrl", binaryFileUrl);
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
-            new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), byte[].class, String.class);
-
-        return response.getBody();
+        ResponseEntity<byte[]>  result = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
+            new HttpEntity<>(""), byte[].class, String.class);
+        log.info("Documents has been successfully downloaded for binary url {} with status {} " ,binaryFileUrl ,
+            result.getStatusCode());
+        return  result;
     }
 
     public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {

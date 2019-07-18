@@ -29,16 +29,16 @@ public class PDFStampingService {
     @Autowired
     private EvidenceManagementService emService;
 
-    public Document stampDocument(Document document, String authorizationToken, boolean isAnnexNeeded) {
+    public Document stampDocument(Document document, String authToken, boolean isAnnexNeeded) {
         log.info("Stamp document : {}", document);
         try {
-            byte[] docInBytes = emService.readDocument(document.getBinaryUrl(), authorizationToken);
+            byte[] docInBytes = emService.downloadDocument(document.getBinaryUrl()).getBody();
             byte[] stampedDoc = stampDocument(docInBytes, isAnnexNeeded);
-            FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authorizationToken);
+            FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authToken);
             return CONVERTER.apply(fileSaved);
         } catch (Exception ex) {
-            throw new StampDocumentException(format("Failed to stamp PDF for document : %s , exception r : %s",
-                document, ex.getMessage()), ex);
+            throw new StampDocumentException(format("Failed to annex/stamp PDF for document : %s , " +
+                "isAnnexNeeded : %s, exception r : %s", document, isAnnexNeeded, ex.getMessage()), ex);
         }
     }
 
