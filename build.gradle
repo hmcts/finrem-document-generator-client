@@ -206,6 +206,7 @@ dependencies {
     compile group:'info.solidsoft.gradle.pitest', name: 'gradle-pitest-plugin', version: versions.gradlePitest
     compile group:'org.codehaus.sonar-plugins', name:'sonar-pitest-plugin', version: versions.sonarPitest
     compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    compile group: 'org.apache.tika', name: 'tika-core', version: '1.20'
 
     compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version:'0.0.3'
     compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version:'0.0.4'
