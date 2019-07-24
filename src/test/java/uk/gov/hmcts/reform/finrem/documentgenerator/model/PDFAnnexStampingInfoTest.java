@@ -11,7 +11,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.*;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_LEFT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_RIGHT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_UPSIDE_DOWN;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_LEFT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_RIGHT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_UPSIDE_DOWN;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class PDFAnnexStampingInfoTest {

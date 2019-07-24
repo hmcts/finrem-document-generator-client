@@ -24,13 +24,13 @@ public class StampDocumentController {
 
     @ApiOperation(value = "Stamp document with court seal", tags = {"Stamp document"})
     @ApiResponses( {
-    @ApiResponse(code = 200, message = "Documents sent for stamping"
+        @ApiResponse(code = 200, message = "Documents sent for stamping"
             + " Returns the stored document information.", response = Document.class),
-    @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
+        @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
             response = String.class),
-    @ApiResponse(code = 503, message = "Returned when the Stamping Service or Evidence Management Client Api "
+        @ApiResponse(code = 503, message = "Returned when the Stamping Service or Evidence Management Client Api "
             + "cannot be reached", response = String.class),
-    @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
+        @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
             response = String.class)
         })
     @PostMapping("/version/1/stamp-document")
@@ -44,13 +44,13 @@ public class StampDocumentController {
 
     @ApiOperation(value = "Stamp and Annex document with court seal", tags = {"Stamp and Annex document"})
     @ApiResponses( {
-    @ApiResponse(code = 200, message = "Documents sent for stamping and annex"
+        @ApiResponse(code = 200, message = "Documents sent for stamping and annex"
             + " Returns the stored document information.", response = Document.class),
-    @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
+        @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
             response = String.class),
-    @ApiResponse(code = 503, message = "Returned when the Stamping Service or Evidence Management Client Api "
+        @ApiResponse(code = 503, message = "Returned when the Stamping Service or Evidence Management Client Api "
             + "cannot be reached", response = String.class),
-    @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
+        @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
             response = String.class)
         })
     @PostMapping("/version/1/annex-stamp-document")
