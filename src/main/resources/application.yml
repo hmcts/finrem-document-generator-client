@@ -55,6 +55,9 @@ document:
     hmctsImgVal: "[userImage:hmcts.png]"
     displayTemplateKey: "displayTemplateOnly"
     displayTemplateVal: "1"
+  validation:
+      mimeTypes: ${DOCUMENT_MIME_TYPES:application/pdf}
+      fileUploadErrorMessage: "Please upload a PDF version of this document to continue"
 
 # GENERAL SPRING BOOT ACTUATOR CONFIG
 # Context path for Spring Boot Actuator endpoints

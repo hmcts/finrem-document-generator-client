@@ -37,8 +37,8 @@ public class PDFStampingService {
             FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authToken);
             return CONVERTER.apply(fileSaved);
         } catch (Exception ex) {
-            throw new StampDocumentException(format("Failed to annex/stamp PDF for document : %s , " +
-                "isAnnexNeeded : %s, exception r : %s", document, isAnnexNeeded, ex.getMessage()), ex);
+            throw new StampDocumentException(format("Failed to annex/stamp PDF for document : %s, "
+                + "isAnnexNeeded : %s, Exception  : %s", document, isAnnexNeeded, ex.getMessage()), ex);
         }
     }
 
