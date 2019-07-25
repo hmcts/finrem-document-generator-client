@@ -95,6 +95,22 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyFileUploadCheck() {
+        Response response = generateDocument("documentGeneratePayload.json");
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        String documentUrl = jsonPathEvaluator.get("url") + "/binary";
+        SerenityRest.given()
+            .queryParam("binaryFileUrl", documentUrl)
+            .relaxedHTTPSValidation()
+            .headers(utils.getHeaders())
+            .when().post()
+            .then()
+            .assertThat().statusCode(200);
+
+
+    }
+
     private void validatePostSuccess(String jsonFileName) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
