@@ -101,7 +101,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
         SerenityRest.given()
-            .queryParam("binaryFileUrl", documentUrl)
+            .queryParam("fileBinaryUrl", documentUrl)
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders())
             .when().post()
