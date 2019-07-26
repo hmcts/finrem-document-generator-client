@@ -144,7 +144,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         System.out.println("url is " + url);
         Response response = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .header("Content-Type", ContentType.JSON.toString())
+            .headers(utils.getHeaders())
             .body(jsonString)
             .and().post();
         errMsg = response.prettyPrint();
@@ -159,7 +159,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         System.out.println("url is " + url);
         Response response = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .header("Content-Type", ContentType.JSON.toString())
+            .headers(utils.getHeaders())
             .body(jsonString)
             .and().post();
         errMsg = response.prettyPrint();
