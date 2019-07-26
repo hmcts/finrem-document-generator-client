@@ -28,6 +28,12 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String BULKPRINT_URL = "/bulk-print";
     private static String errMsg;
 
+    @Value("${document.stamp.uri}")
+    private String stampingUri;
+
+    @Value("${document.annex-stamp.uri}")
+    private String annexStampingUri;
+
     @Value("${bulk.print.uri}")
     private String bulkprintUrl;
 
@@ -57,6 +63,23 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyStampDocumentPostResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
+        System.out.println("response is : " + response.prettyPrint());
+        stampDocument(response.prettyPrint(),stampingUri);
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
+    }
+
+    @Test
+    public void verifyAnnexStampDocumentPostResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
+        System.out.println("response is : " + response.prettyPrint());
+        annexStampDocument(response.prettyPrint(),annexStampingUri);
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
+    }
 
     @Test
     public void verifyDocumentGenerationPostResponseContent() {
@@ -104,17 +127,47 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .assertThat().statusCode(200);
     }
 
-    private void validateBulkPrintSuccess(String jsonFileName,String url) {
+    private void validateBulkPrintSuccess(String jsonFileName, String url) {
         setBulkPrintingUri(url);
         System.out.println("url is " + url);
         Response response = SerenityRest.given()
             .relaxedHTTPSValidation()
             .header("Content-Type", ContentType.JSON.toString())
             .body(utils.getJsonFromFile(jsonFileName))
-            .and().post( );
+            .and().post();
         errMsg = response.prettyPrint();
         System.out.println("response is " + response.prettyPrint());
-        assertEquals(errMsg,200,response.getStatusCode());
+        assertEquals(errMsg, 200, response.getStatusCode());
+
+
+    }
+
+    private void stampDocument(String jsonString, String url) {
+        setStampingUri(url);
+        System.out.println("url is " + url);
+        Response response = SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .header("Content-Type", ContentType.JSON.toString())
+            .body(jsonString)
+            .and().post();
+        errMsg = response.prettyPrint();
+        System.out.println("response is " + response.prettyPrint());
+        assertEquals(errMsg, 200, response.getStatusCode());
+
+
+    }
+
+    private void annexStampDocument(String jsonString, String url) {
+        setAnnexStampingUri(url);
+        System.out.println("url is " + url);
+        Response response = SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .header("Content-Type", ContentType.JSON.toString())
+            .body(jsonString)
+            .and().post();
+        errMsg = response.prettyPrint();
+        System.out.println("response is " + response.prettyPrint());
+        assertEquals(errMsg, 200, response.getStatusCode());
 
 
     }
