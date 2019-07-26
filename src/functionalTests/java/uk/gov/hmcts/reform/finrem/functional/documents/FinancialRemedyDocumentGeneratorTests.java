@@ -68,8 +68,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         System.out.println("response is : " + response.prettyPrint());
         stampDocument(response.prettyPrint(),stampingUri);
-        JsonPath jsonPathEvaluator = response.jsonPath();
-        assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
     }
 
     @Test
@@ -77,8 +75,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         System.out.println("response is : " + response.prettyPrint());
         annexStampDocument(response.prettyPrint(),annexStampingUri);
-        JsonPath jsonPathEvaluator = response.jsonPath();
-        assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
     }
 
     @Test
