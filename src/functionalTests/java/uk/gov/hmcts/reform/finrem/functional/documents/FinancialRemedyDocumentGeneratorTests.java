@@ -64,7 +64,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         System.out.println("response is : " + response.prettyPrint());
         JsonPath jsonPathEvaluator = response.jsonPath();
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
-        assertTrue(jsonPathEvaluator.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
     }
 
     @Test
