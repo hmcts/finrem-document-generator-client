@@ -37,7 +37,7 @@ public class DocumentController {
             @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
                     response = String.class)
         })
-    @PostMapping("/version/1/generatePDF")
+    @PostMapping("/version/1/generate-pdf")
     public Document generatePDF(@RequestHeader(value = "Authorization", required = false)
                                                      String authorizationToken, @RequestBody @Valid
         @ApiParam(value = "JSON object containing the templateName and the placeholder text map", required = true)

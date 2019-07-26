@@ -51,6 +51,11 @@ public class GlobalExceptionHandler {
         return handleException(exception);
     }
 
+    @ExceptionHandler({StampDocumentException.class})
+    public ResponseEntity<Object> handleStampDocumentException(Exception exception) {
+        return handleException(exception);
+    }
+
     private ResponseEntity<Object> handleException(Exception exception) {
         log.error(exception.getMessage(), exception);
 

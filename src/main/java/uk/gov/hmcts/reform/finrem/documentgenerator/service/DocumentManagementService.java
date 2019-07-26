@@ -21,12 +21,10 @@ public class DocumentManagementService {
     @Autowired
     private EvidenceManagementService evidenceManagementService;
 
-    private static final Function<FileUploadResponse, Document> CONVERTER = (response -> Document.builder()
+    public static final Function<FileUploadResponse, Document> CONVERTER = (response -> Document.builder()
         .fileName(response.getFileName())
         .url(response.getFileUrl())
         .binaryUrl(toBinaryUrl(response))
-        .mimeType(response.getMimeType())
-        .createdOn(response.getCreatedOn())
         .build());
 
     public byte[] generateDocumentFrom(String templateName, Map<String, Object> placeholders) {

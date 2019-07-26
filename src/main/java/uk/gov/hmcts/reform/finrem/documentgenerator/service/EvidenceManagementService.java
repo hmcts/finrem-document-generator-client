@@ -69,15 +69,15 @@ public class EvidenceManagementService {
         requireNonNull(document);
 
         log.info("evidenceManagementEndpoint [{}], fileName [{}], authorizationToken [{}] ",
-            evidenceManagementEndpoint,  fileName, authorizationToken);
+            evidenceManagementEndpoint, fileName, authorizationToken);
 
         ResponseEntity<List<FileUploadResponse>> responseEntity = restTemplate.exchange(evidenceManagementEndpoint,
-                HttpMethod.POST,
-                new HttpEntity<>(
-                    buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
-                    getHttpHeaders(authorizationToken)),
-                new ParameterizedTypeReference<List<FileUploadResponse>>() {
-                });
+            HttpMethod.POST,
+            new HttpEntity<>(
+                buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
+                getHttpHeaders(authorizationToken)),
+            new ParameterizedTypeReference<List<FileUploadResponse>>() {
+            });
         return responseEntity.getBody().get(0);
     }
 
@@ -119,7 +119,6 @@ public class EvidenceManagementService {
     private HttpHeaders getAuthHttpHeaders(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, authToken);
-
         return headers;
     }
 }

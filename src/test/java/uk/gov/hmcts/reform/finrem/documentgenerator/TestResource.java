@@ -32,8 +32,6 @@ public class TestResource {
             .url(FILE_URL)
             .fileName(FILE_NAME)
             .binaryUrl(BINARY_URL)
-            .createdOn(CREATED_ON)
-            .mimeType(MIME_TYPE)
             .build();
     }
 }
