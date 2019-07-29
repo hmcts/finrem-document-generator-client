@@ -28,6 +28,12 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String BULKPRINT_URL = "/bulk-print";
     private static String errMsg;
 
+    @Value("${document.stamp.uri}")
+    private String stampingUri;
+
+    @Value("${document.annex-stamp.uri}")
+    private String annexStampingUri;
+
     @Value("${bulk.print.uri}")
     private String bulkprintUrl;
 
@@ -57,6 +63,19 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyStampDocumentPostResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
+        System.out.println("response is : " + response.prettyPrint());
+        stampDocument(response.prettyPrint(),stampingUri);
+    }
+
+    @Test
+    public void verifyAnnexStampDocumentPostResponseContent() {
+        Response response = generateDocument("documentGeneratePayload.json");
+        System.out.println("response is : " + response.prettyPrint());
+        annexStampDocument(response.prettyPrint(),annexStampingUri);
+    }
 
     @Test
     public void verifyDocumentGenerationPostResponseContent() {
@@ -75,7 +94,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccessForaccessingGeneratedDocument(fileRetrieveUrl(url));
         Response response1 = accessGeneratedDocument(fileRetrieveUrl(url));
         JsonPath jsonPathEvaluator1 = response1.jsonPath();
-        assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
+        assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString()
+            .equalsIgnoreCase("OnlineFormA.pdf"));
         assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
         assertTrue(jsonPathEvaluator1.get("classification").toString().equalsIgnoreCase("RESTRICTED"));
     }
@@ -104,17 +124,47 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .assertThat().statusCode(200);
     }
 
-    private void validateBulkPrintSuccess(String jsonFileName,String url) {
+    private void validateBulkPrintSuccess(String jsonFileName, String url) {
         setBulkPrintingUri(url);
         System.out.println("url is " + url);
         Response response = SerenityRest.given()
             .relaxedHTTPSValidation()
             .header("Content-Type", ContentType.JSON.toString())
             .body(utils.getJsonFromFile(jsonFileName))
-            .and().post( );
+            .and().post();
         errMsg = response.prettyPrint();
         System.out.println("response is " + response.prettyPrint());
-        assertEquals(errMsg,200,response.getStatusCode());
+        assertEquals(errMsg, 200, response.getStatusCode());
+
+
+    }
+
+    private void stampDocument(String jsonString, String url) {
+        setStampingUri(url);
+        System.out.println("url is " + url);
+        Response response = SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getHeaders())
+            .body(jsonString)
+            .and().post();
+        errMsg = response.prettyPrint();
+        System.out.println("response is " + response.prettyPrint());
+        assertEquals(errMsg, 200, response.getStatusCode());
+
+
+    }
+
+    private void annexStampDocument(String jsonString, String url) {
+        setAnnexStampingUri(url);
+        System.out.println("url is " + url);
+        Response response = SerenityRest.given()
+            .relaxedHTTPSValidation()
+            .headers(utils.getHeaders())
+            .body(jsonString)
+            .and().post();
+        errMsg = response.prettyPrint();
+        System.out.println("response is " + response.prettyPrint());
+        assertEquals(errMsg, 200, response.getStatusCode());
 
 
     }
