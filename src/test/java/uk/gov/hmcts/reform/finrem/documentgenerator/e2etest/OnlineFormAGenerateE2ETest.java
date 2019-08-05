@@ -42,7 +42,7 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.v
 @PropertySource(value = "classpath:application.properties")
 @AutoConfigureMockMvc
 public class OnlineFormAGenerateE2ETest {
-    private static final String API_URL = "/version/1/generatePDF";
+    private static final String API_URL = "/version/1/generate-pdf";
 
     @Autowired
     private MockMvc webClient;

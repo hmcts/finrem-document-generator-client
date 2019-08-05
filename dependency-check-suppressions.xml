@@ -12,11 +12,6 @@
         <notes>Does not apply as tomcat is not installed as a service</notes>
         <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
         <cve>CVE-2016-6325</cve>
-        <cve>CVE-2018-8014</cve>
-    </suppress>
-    <suppress>
-        <notes>Does not apply as tomcat is not installed as a service</notes>
-        <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed.*:.*$</gav>
         <cve>CVE-2016-5425</cve>
         <cve>CVE-2018-8014</cve>
     </suppress>
@@ -27,6 +22,8 @@
       ]]></notes>
         <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-websocket:.*$</gav>
         <cve>CVE-2017-6056</cve>
+        <cve>CVE-2019-0221</cve>
+        <cve>CVE-2019-10072</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -35,6 +32,8 @@
       ]]></notes>
         <gav regex="true">^org\.apache\.tomcat\.embed:tomcat-embed-core:.*$</gav>
         <cve>CVE-2017-6056</cve>
+        <cve>CVE-2019-0221</cve>
+        <cve>CVE-2019-10072</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -42,6 +41,7 @@
     ]]></notes>
         <gav regex="true">^com\.fasterxml\.jackson\.(core|datatype|module):jackson-.*:.*$</gav>
         <cve>CVE-2016-7051</cve>
+        <cve>CVE-2019-12814</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
@@ -97,6 +97,11 @@
         <notes>We are not using web sockets</notes>
         <gav regex="true">.*</gav>
         <cve>CVE-2019-0232</cve>
+    </suppress>
+    <suppress>
+        <notes>check style needs upgrade </notes>
+        <cpe>cpe:2.3:a:checkstyle:checkstyle:7.2:*:*:*:*:*:*:*</cpe>
+        <cve>CVE-2019-9658</cve>
     </suppress>
     <suppress>
         <notes>Don't use SSI</notes>

@@ -43,4 +43,18 @@ public abstract class IntegrationTestBase {
         RestAssured.baseURI = serviceAuthUrl;
     }
 
+    @Autowired
+    public static void setBulkPrintingUri(@Value("${bulk.print.uri}") String bulkPrintingUrl) {
+        RestAssured.baseURI = bulkPrintingUrl;
+    }
+
+    @Autowired
+    public static void setStampingUri(@Value("${document.stamp.uri}") String url) {
+        RestAssured.baseURI = url;
+    }
+
+    @Autowired
+    public static void setAnnexStampingUri(@Value("${document.annex-stamp.uri}") String url) {
+        RestAssured.baseURI = url;
+    }
 }
