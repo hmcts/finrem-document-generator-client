@@ -11,7 +11,7 @@ COPY lib/applicationinsights-agent-2.3.1.jar lib/AI-Agent.xml /opt/app/
 
 HEALTHCHECK --interval=100s --timeout=100s --retries=10 CMD http_proxy="" wget -q http://localhost:4009/health || exit 1
 
-EXPOSE 4006
+EXPOSE 4009
 
 CMD ["finrem-document-generator.jar"]
 
