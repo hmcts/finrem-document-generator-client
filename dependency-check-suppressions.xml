@@ -105,4 +105,8 @@
         <cpe>cpe:2.3:a:checkstyle:checkstyle:7.2:*:*:*:*:*:*:*</cpe>
         <cve>CVE-2019-9658</cve>
     </suppress>
+    <suppress>
+        <notes>ignoring json</notes>
+        <cve>CVE-2019-12384</cve>
+    </suppress>
 </suppressions>
