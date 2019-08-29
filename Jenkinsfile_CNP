@@ -21,7 +21,10 @@ def channel = '#finrem-dev'
 
 def secrets = [
     'finrem-${env}': [
-        secret("gov-uk-notification-key", "UK_GOV_NOTIFY_API_KEY")
+        secret("idam-secret" ,"OAUTH2_CLIENT_FINREM"),
+        secret("finrem-doc-s2s-auth-secret", "AUTH_PROVIDER_SERVICE_CLIENT_KEY"),
+        secret("docmosis-api-key", "PDF_SERVICE_ACCESS_KEY"),
+        secret("docmosis-endpoint", "PDF_SERVICE_BASEURL")
     ]
 ]
 
