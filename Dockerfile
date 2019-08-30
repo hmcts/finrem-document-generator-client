@@ -1,15 +1,14 @@
-FROM hmcts/cnp-java-base:openjdk-8u181-jre-alpine3.8-1.0
+ARG APP_INSIGHTS_AGENT_VERSION=2.3.1
+FROM hmctspublic.azurecr.io/base/java:openjdk-8-distroless-1.0
 
+# Mandatory!
 ENV APP finrem-document-generator.jar
-ENV APPLICATION_TOTAL_MEMORY 1024M
-ENV APPLICATION_SIZE_ON_DISK_IN_MB 59
 
 COPY build/libs/$APP /opt/app/
-
-WORKDIR /opt/app
-
-HEALTHCHECK --interval=100s --timeout=100s --retries=10 CMD http_proxy="" wget -q http://localhost:4009/health || exit 1
+COPY lib/applicationinsights-agent-2.3.1.jar lib/AI-Agent.xml /opt/app/
 
 EXPOSE 4009
+
+CMD ["finrem-document-generator.jar"]
 
 
