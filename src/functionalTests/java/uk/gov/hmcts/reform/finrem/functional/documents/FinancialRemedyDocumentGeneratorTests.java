@@ -1,9 +1,11 @@
 package uk.gov.hmcts.reform.finrem.functional.documents;
 
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.After;
@@ -18,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SerenityRunner.class)
+@Slf4j
 public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     private static String SOLICITOR_FIRM = "Michael Jones & Partners";
@@ -42,6 +45,9 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     @Value("${document.management.store.baseUrl}")
     private String dmStoreBaseUrl;
+
+    @Value("${document.validation.fileType}")
+    private String fileTypeCheckUrl;
 
     @Autowired
     private IdamUtils idamUtils;
@@ -114,6 +120,25 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     }
 
+    @Test
+    public void verifyFileUploadCheck() {
+        log.info("fileTypeCheckUrl >>" , fileTypeCheckUrl);
+        Response response = generateDocument("documentGeneratePayload.json");
+        JsonPath jsonPathEvaluator = response.jsonPath();
+        String documentUrl = jsonPathEvaluator.get("url") + "/binary";
+        RestAssured.baseURI = fileTypeCheckUrl;
+        SerenityRest.given()
+            .queryParam("fileBinaryUrl", documentUrl)
+            .relaxedHTTPSValidation()
+            .headers(utils.getHeaders())
+            .when().post()
+            .prettyPeek()
+            .then()
+            .assertThat().statusCode(200);
+
+
+    }
+
     private void validatePostSuccess(String jsonFileName) {
         SerenityRest.given()
             .relaxedHTTPSValidation()
@@ -176,6 +201,8 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .when().post().andReturn();
+
+        jsonResponse.prettyPeek();
 
         return jsonResponse;
     }
