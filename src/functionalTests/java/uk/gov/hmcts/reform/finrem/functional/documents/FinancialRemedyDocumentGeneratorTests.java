@@ -122,7 +122,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
 
     @Test
     public void verifyFileUploadCheck() {
-        log.info("fileTypeCheckUrl >>" , fileTypeCheckUrl);
         Response response = generateDocument("documentGeneratePayload.json");
         JsonPath jsonPathEvaluator = response.jsonPath();
         String documentUrl = jsonPathEvaluator.get("url") + "/binary";
