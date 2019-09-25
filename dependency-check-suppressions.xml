@@ -128,4 +128,22 @@
         <gav regex="true">.*</gav>
         <cve>CVE-2019-15052</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+            This is a false positive on gradle-pi-test
+            which fails because it is prefixed with gradle ]]>
+        </notes>
+        <gav regex="true">.*</gav>
+        <cve>CVE-2019-16370</cve>
+        <cve>CVE-2019-15052</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            This is exploitable in com.zaxxer.hikari.HikariConfig and com.zaxxer.hikari.HikariDataSource
+            which we do not use. Pending the release of a stable jackson databind version (>2.9.9.3) ]]>
+        </notes>
+        <gav regex="true">.*</gav>
+        <cve>CVE-2019-16335</cve>
+        <cve>CVE-2019-14540</cve>
+    </suppress>
 </suppressions>
