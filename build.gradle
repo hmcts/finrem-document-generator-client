@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.11")
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.42")
     }
 }
 
@@ -21,7 +21,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.6.RELEASE'
     id 'jacoco'
     id 'org.owasp.dependencycheck' version '5.1.0'
-    id 'org.sonarqube' version '2.6.2'
+    id 'org.sonarqube' version '2.7.1'
     id 'org.springframework.boot' version '2.1.3.RELEASE'
     id 'pmd'
     id 'info.solidsoft.pitest' version '1.3.0'
@@ -139,9 +139,10 @@ dependencyCheck {
 def versions = [
     commonsLang3: '3.7',
     commonsIo: '2.5',
+    jackson: '2.9.9',
     jsonAssert: '1.2.3',
     junit: '4.12',
-    lombok: '1.16.16',
+    lombok: '1.16.18',
     nimbus: '5.1',
     pdfbox: '2.0.8',
     mockito: '2.8.9',
@@ -155,13 +156,15 @@ def versions = [
     springBoot: '2.0.8.RELEASE',
     springfoxSwagger: '2.9.0',
     springOpenFeign: '2.1.1.RELEASE',
+    springSecurityCrypto: '5.1.5.RELEASE',
     unirest: '1.4.9',
     wiremockVersion: '2.19.0',
     pitest: '1.3.2',
     gradlePitest: '1.3.0',
     sonarPitest: '0.5',
     sendLetterClient: '2.1.1',
-    ccdClient: '4.3.1'
+    ccdClient: '4.3.1',
+    commonsBeanUtils: '1.9.4'
 ]
 
 configurations.all {
@@ -228,6 +231,7 @@ dependencies {
 
     testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testSmokeCompile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
     testSmokeCompile sourceSets.main.runtimeClasspath
     testSmokeCompile sourceSets.test.runtimeClasspath
 
@@ -250,6 +254,10 @@ dependencies {
     functionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     functionalCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
     functionalCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    functionalAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 }
 
     dependencies {
@@ -307,6 +315,12 @@ dependencies {
             property "sonar.java.coveragePlugin", "jacoco"
             property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
             property "sonar.dependencyCheck.reportPath", "${project.buildDir}/reports/dependency-check-report.xml"
+        }
+    }
+
+    dependencyManagement {
+        dependencies {
+            dependency group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
         }
     }
 
