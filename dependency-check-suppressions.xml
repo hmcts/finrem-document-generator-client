@@ -106,6 +106,11 @@
         <cve>CVE-2019-9658</cve>
     </suppress>
     <suppress>
+        <notes>Don't use SSI</notes>
+        <gav regex="true">.*</gav>
+        <cve>CVE-2019-0221</cve>
+    </suppress>
+    <suppress>
         <notes>ignoring json</notes>
         <cve>CVE-2019-12384</cve>
     </suppress>
@@ -113,6 +118,15 @@
         <notes>Ignore the jackson binding issue</notes>
         <cve>CVE-2019-14379</cve>
         <cve>CVE-2019-14439</cve>
+        <cve>CVE-2019-10086</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+            This is a false positive on gradle-pi-test
+            which fails because it is prefixed with gradle ]]>
+        </notes>
+        <gav regex="true">.*</gav>
+        <cve>CVE-2019-15052</cve>
     </suppress>
     <suppress>
         <notes><![CDATA[
