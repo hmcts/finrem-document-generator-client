@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.finrem.functional.documents;
 
-
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -130,7 +129,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .queryParam("fileBinaryUrl", documentUrl)
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders())
-            .when().post()
+            .when().get()
             .prettyPeek()
             .then()
             .assertThat().statusCode(200);
