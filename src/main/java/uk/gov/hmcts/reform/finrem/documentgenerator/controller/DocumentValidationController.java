@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,8 +22,7 @@ public class DocumentValidationController {
     @Autowired
     private DocumentValidationService service;
 
-    @PostMapping(path = "/file-upload-check", consumes = APPLICATION_JSON_VALUE,
-        produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/file-upload-check", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Checks the file type and returns error.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Callback was processed successFully.",
