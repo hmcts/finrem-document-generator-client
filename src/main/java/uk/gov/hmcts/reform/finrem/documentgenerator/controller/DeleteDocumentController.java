@@ -4,8 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,12 +17,12 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementSe
 import static org.springframework.http.ResponseEntity.status;
 
 @RestController
+@RequiredArgsConstructor
 @Api(value = "Document Generation", tags = {"Document Generation"})
 @Slf4j
 public class DeleteDocumentController {
 
-    @Autowired
-    private DocumentManagementService documentManagementService;
+    private final DocumentManagementService documentManagementService;
 
 
     @ApiOperation(value = "Deletes document from the evidence management.", tags = {"Document Generation"})

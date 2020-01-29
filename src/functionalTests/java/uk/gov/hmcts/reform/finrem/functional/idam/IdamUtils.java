@@ -6,9 +6,9 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,14 +17,16 @@ import uk.gov.hmcts.reform.finrem.functional.ResourceLoader;
 import uk.gov.hmcts.reform.finrem.functional.model.CreateUserRequest;
 import uk.gov.hmcts.reform.finrem.functional.model.UserCode;
 
-
 import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
 @Component
+@RequiredArgsConstructor
+@Slf4j
 public class IdamUtils {
+
+    private final ServiceAuthTokenGenerator tokenGenerator;
 
     @Value("${user.id.url}")
     private String userId;
@@ -49,12 +51,7 @@ public class IdamUtils {
 
     public List<Integer> responseCodes = ImmutableList.of(200, 204);
 
-
-    @Autowired
-    private ServiceAuthTokenGenerator tokenGenerator;
-
     public Headers getHeadersWithUserId() {
-
         return Headers.headers(
             new Header("ServiceAuthorization",   tokenGenerator.generate()),
             new Header("user-roles", "caseworker-divorce"),
@@ -127,7 +124,6 @@ public class IdamUtils {
         String userLoginDetails = String.join(":", username, password);
         final String authHeader = "Basic " + new String(Base64.getEncoder().encode((userLoginDetails).getBytes()));
 
-
         Response response = RestAssured.given()
             .header("Authorization", authHeader)
             .relaxedHTTPSValidation()
@@ -144,7 +140,6 @@ public class IdamUtils {
             .post(idamTokenUrl(response.getBody().path("code")));
 
         String token = response.getBody().path("access_token");
-
 
         return token;
     }

@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class BulkPrintDocumentService {
 
-    @Autowired
-    private EvidenceManagementService service;
+    private final EvidenceManagementService service;
 
     public List<byte[]> downloadDocuments(BulkPrintRequest bulkPrintRequest) {
         log.info("Downloading document for bulk print for case id {}", bulkPrintRequest.getCaseId());
@@ -32,6 +32,4 @@ public class BulkPrintDocumentService {
             bulkPrintRequest.getCaseId());
         return documents;
     }
-
-
 }

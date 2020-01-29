@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestIdSettingInterceptor;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestLoggingInterceptor;
 
+import static java.util.Arrays.asList;
+
 @Configuration
 public class HttpConnectionConfiguration {
 
@@ -26,27 +28,41 @@ public class HttpConnectionConfiguration {
     @Value("${http.connect.request.timeout}")
     private int httpConnectRequestTimeout;
 
-    @Value("${http.connect.read.timeout}")
-    private int httpConnectReadTimeout;
+    @Value("${health-check.http.connect.timeout}")
+    private int healthCheckHttpConnectTimeout;
+
+    @Value("${health-check.http.connect.request.timeout}")
+    private int healthCheckHttpConnectRequestTimeout;
 
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new ByteArrayHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new FormHttpMessageConverter());
-        restTemplate.getMessageConverters().add(new ResourceHttpMessageConverter());
-
-        restTemplate.setRequestFactory(getClientHttpRequestFactory());
+        RestTemplate restTemplate = new RestTemplate(asList(
+            new ByteArrayHttpMessageConverter(),
+            new FormHttpMessageConverter(),
+            new ResourceHttpMessageConverter()
+        ));
+        restTemplate.setRequestFactory(getClientHttpRequestFactory(httpConnectTimeout, httpConnectRequestTimeout));
 
         return restTemplate;
     }
 
-    private ClientHttpRequestFactory getClientHttpRequestFactory() {
+    @Bean
+    public RestTemplate healthCheckRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate(asList(
+            new ByteArrayHttpMessageConverter(),
+            new FormHttpMessageConverter(),
+            new ResourceHttpMessageConverter()
+        ));
+        restTemplate.setRequestFactory(getClientHttpRequestFactory(healthCheckHttpConnectTimeout, healthCheckHttpConnectRequestTimeout));
+
+        return restTemplate;
+    }
+
+    private ClientHttpRequestFactory getClientHttpRequestFactory(int httpConnectTimeout, int httpConnectRequestTimeout) {
         RequestConfig config = RequestConfig.custom()
                 .setConnectTimeout(httpConnectTimeout)
                 .setConnectionRequestTimeout(httpConnectRequestTimeout)
-                .setSocketTimeout(httpConnectReadTimeout) // read time out
                 .build();
 
         CloseableHttpClient client = HttpClientBuilder

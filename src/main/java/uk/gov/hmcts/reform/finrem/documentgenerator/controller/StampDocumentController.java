@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,12 +15,12 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.PDFStampingService;
 
 @RestController
+@RequiredArgsConstructor
 @Api(value = "Document Generation", tags = {"Document Generation"})
 @Slf4j
 public class StampDocumentController {
 
-    @Autowired
-    private PDFStampingService pdfStampingService;
+    private final PDFStampingService pdfStampingService;
 
     @ApiOperation(value = "Stamp document with court seal", tags = {"Stamp document"})
     @ApiResponses( {

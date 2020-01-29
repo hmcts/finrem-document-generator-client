@@ -1,9 +1,9 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ import java.util.Objects;
 import static java.util.Collections.singletonList;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class DocumentValidationService {
 
-    @Autowired
-    private EvidenceManagementService service;
+    private final EvidenceManagementService service;
 
     @Value("#{'${document.validation.mimeTypes}'.split(',')}")
     private List<String> mimeTypes;
