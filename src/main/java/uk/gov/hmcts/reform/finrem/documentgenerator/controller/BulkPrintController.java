@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +19,13 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequiredArgsConstructor
 @Api(value = "Bulk print controller", tags = {"Bulk print controller"})
 @Slf4j
 public class BulkPrintController {
 
-    @Autowired
-    private BulkPrintService bulkPrintService;
-
-    @Autowired
-    private BulkPrintDocumentService bulkPrintDocumentService;
+    private final BulkPrintService bulkPrintService;
+    private final BulkPrintDocumentService bulkPrintDocumentService;
 
     @ApiOperation(value = "Bulk Print documents", tags = {"Bulk print documents"})
     @ApiResponses({

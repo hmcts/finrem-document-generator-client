@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -15,15 +15,15 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.PDFStampingService;
 
 @RestController
+@RequiredArgsConstructor
 @Api(value = "Document Generation", tags = {"Document Generation"})
 @Slf4j
 public class StampDocumentController {
 
-    @Autowired
-    private PDFStampingService pdfStampingService;
+    private final PDFStampingService pdfStampingService;
 
     @ApiOperation(value = "Stamp document with court seal", tags = {"Stamp document"})
-    @ApiResponses( {
+    @ApiResponses({
         @ApiResponse(code = 200, message = "Documents sent for stamping"
             + " Returns the stored document information.", response = Document.class),
         @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
@@ -43,7 +43,7 @@ public class StampDocumentController {
     }
 
     @ApiOperation(value = "Stamp and Annex document with court seal", tags = {"Stamp and Annex document"})
-    @ApiResponses( {
+    @ApiResponses({
         @ApiResponse(code = 200, message = "Documents sent for stamping and annex"
             + " Returns the stored document information.", response = Document.class),
         @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",

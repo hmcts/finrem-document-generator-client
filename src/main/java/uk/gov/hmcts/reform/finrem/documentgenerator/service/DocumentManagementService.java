@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,14 +13,12 @@ import java.util.function.Function;
 import static java.lang.String.format;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class DocumentManagementService {
 
-    @Autowired
-    private PDFGenerationService pdfGenerationService;
-
-    @Autowired
-    private EvidenceManagementService evidenceManagementService;
+    private final PDFGenerationService pdfGenerationService;
+    private final EvidenceManagementService evidenceManagementService;
 
     public static final Function<FileUploadResponse, Document> CONVERTER = (response -> Document.builder()
         .fileName(response.getFileName())

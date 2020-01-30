@@ -112,7 +112,7 @@ public class EvidenceManagementServiceTest {
             .andExpect(method(HttpMethod.GET))
             .andRespond(MockRestResponseCreators.withSuccess());
 
-        ResponseEntity<byte[]> result = service.downloadDocument( FILE_URL);
+        ResponseEntity<byte[]> result = service.downloadDocument(FILE_URL);
         assertThat(result.getStatusCode(), is(HttpStatus.OK));
 
         mockServer.verify();

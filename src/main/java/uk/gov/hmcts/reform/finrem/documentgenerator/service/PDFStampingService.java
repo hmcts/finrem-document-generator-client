@@ -1,12 +1,12 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.StampDocumentException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
@@ -23,11 +23,11 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampin
 import static uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService.CONVERTER;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class PDFStampingService {
 
-    @Autowired
-    private EvidenceManagementService emService;
+    private final EvidenceManagementService emService;
 
     public Document stampDocument(Document document, String authToken, boolean isAnnexNeeded) {
         log.info("Stamp document : {}", document);
@@ -62,7 +62,6 @@ public class PDFStampingService {
         doc.save(outputBytes);
         doc.close();
 
-        //return document that has been stamped as byte[]
         return outputBytes.toByteArray();
     }
 
@@ -71,5 +70,4 @@ public class PDFStampingService {
             return IOUtils.toByteArray(inputStream);
         }
     }
-
 }

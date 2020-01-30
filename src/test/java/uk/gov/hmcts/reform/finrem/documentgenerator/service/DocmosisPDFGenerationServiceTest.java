@@ -68,7 +68,7 @@ public class DocmosisPDFGenerationServiceTest {
     public void generatePdfDocument() {
         mockServer.expect(requestTo(PDF_SERVICE_URI))
             .andExpect(method(HttpMethod.POST))
-            .andRespond(withSuccess(FILE_CONTENT, MediaType.APPLICATION_JSON));
+            .andRespond(withSuccess(FILE_CONTENT, MediaType.APPLICATION_OCTET_STREAM));
 
         byte[] result = pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS);
         assertThat(result, is(notNullValue()));

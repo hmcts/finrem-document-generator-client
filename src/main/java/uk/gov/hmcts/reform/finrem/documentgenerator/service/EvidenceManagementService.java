@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.io.ByteArrayResource;
@@ -25,11 +25,15 @@ import java.util.Optional;
 import static java.util.Objects.requireNonNull;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class EvidenceManagementService {
+
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String FILE_PARAMETER = "file";
     private static final String DEFAULT_NAME_FOR_PDF_FILE = "generated-file.pdf";
+
+    private final RestTemplate restTemplate;
 
     @Value("${service.evidence-management-client-api.uri}")
     private String evidenceManagementEndpoint;
@@ -40,19 +44,16 @@ public class EvidenceManagementService {
     @Value("${service.evidence-management-client-api.download-uri}")
     private String evidenceManagementReadEndpoint;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     public ResponseEntity<byte[]> downloadDocument(String binaryFileUrl) {
-        log.info("Downloading document from evidence management service for binary url {}",binaryFileUrl);
+        log.info("Downloading document from evidence management service for binary url {}", binaryFileUrl);
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementReadEndpoint);
         builder.queryParam("binaryFileUrl", binaryFileUrl);
 
-        ResponseEntity<byte[]>  result = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
+        ResponseEntity<byte[]> result = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
             new HttpEntity<>(""), byte[].class, String.class);
-        log.info("Documents has been successfully downloaded for binary url {} with status {} " ,binaryFileUrl ,
-            result.getStatusCode());
-        return  result;
+        log.info("Documents has been successfully downloaded for binary url {} with status {} ", binaryFileUrl, result.getStatusCode());
+        return result;
     }
 
     public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
@@ -76,8 +77,7 @@ public class EvidenceManagementService {
             new HttpEntity<>(
                 buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
                 getHttpHeaders(authorizationToken)),
-            new ParameterizedTypeReference<List<FileUploadResponse>>() {
-            });
+            new ParameterizedTypeReference<List<FileUploadResponse>>() {});
         return responseEntity.getBody().get(0);
     }
 

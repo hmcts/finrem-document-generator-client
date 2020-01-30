@@ -1,15 +1,19 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
-import java.util.Map;
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 @Value
 @Builder
 public class PdfDocumentRequest {
+
     @JsonProperty(value = "accessKey", required = true)
     @NotBlank
     private final String accessKey;

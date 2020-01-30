@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,12 +18,12 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementSe
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @Api(value = "Document Generation", tags = {"Document Generation"})
 @Slf4j
 public class DocumentController {
 
-    @Autowired
-    private DocumentManagementService documentManagementService;
+    private final DocumentManagementService documentManagementService;
 
     @ApiOperation(value = "Generate PDF document based on the supplied template name and placeholder texts and saves "
             + "it in the evidence management.", tags = {"Document Generation"})

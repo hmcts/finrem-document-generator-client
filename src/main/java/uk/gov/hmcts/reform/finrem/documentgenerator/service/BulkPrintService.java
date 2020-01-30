@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.sendletter.api.LetterWithPdfsRequest;
@@ -17,6 +17,7 @@ import static java.util.Base64.getEncoder;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class BulkPrintService {
 
@@ -25,12 +26,8 @@ public class BulkPrintService {
     private static final String CASE_REFERENCE_NUMBER_KEY = "caseReferenceNumber";
     private static final String CASE_IDENTIFIER_KEY = "caseIdentifier";
 
-
-    @Autowired
-    private AuthTokenGenerator authTokenGenerator;
-
-    @Autowired
-    private SendLetterApi sendLetterApi;
+    private final AuthTokenGenerator authTokenGenerator;
+    private final SendLetterApi sendLetterApi;
 
     /**
      * Note: the order of documents you send to this service is the order in which they will print.
