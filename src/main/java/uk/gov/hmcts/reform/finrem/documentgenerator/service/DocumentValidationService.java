@@ -24,14 +24,13 @@ import static java.util.Collections.singletonList;
 public class DocumentValidationService {
 
     private final EvidenceManagementService service;
+    private final Tika tika;
 
     @Value("#{'${document.validation.mimeTypes}'.split(',')}")
     private List<String> mimeTypes;
 
     @Value("${document.validation.fileUploadErrorMessage}")
     private String fileUploadErrorMessage;
-
-    private Tika tika = new Tika();
 
     public DocumentValidationResponse validateFileType(String fileBinaryUrl) {
         ResponseEntity<byte[]> responseEntity = service.downloadDocument(fileBinaryUrl);
@@ -45,8 +44,7 @@ public class DocumentValidationService {
                 if (mimeTypes.contains(detect)) {
                     builder.mimeType(detect);
                 } else {
-                    builder.errors(singletonList(fileUploadErrorMessage))
-                        .mimeType(detect);
+                    builder.errors(singletonList(fileUploadErrorMessage)).mimeType(detect);
                 }
             } catch (IOException ex) {
                 log.error("Unable to detect the MimeType due to IOException", ex.getMessage());

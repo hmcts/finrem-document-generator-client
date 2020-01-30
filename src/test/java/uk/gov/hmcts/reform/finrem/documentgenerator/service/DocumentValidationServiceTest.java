@@ -27,11 +27,9 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 public class DocumentValidationServiceTest {
 
     private static final String FILE_BINARY_URL = "http://dm-store:8080/eeww123456/binary";
-    @Mock
-    private EvidenceManagementService evidenceManagementService;
 
-    @Mock
-    private Tika tika;
+    @Mock private EvidenceManagementService evidenceManagementService;
+    @Mock private Tika tika;
 
     @InjectMocks
     private DocumentValidationService underTest;
@@ -44,7 +42,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldReturnSuccessValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = getResponseEntity();
+        ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/pdf");
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -54,7 +52,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldReturnErrorsForInValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = getResponseEntity();
+        ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/json");
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -63,7 +61,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldThrowErrorForValidateFileType() throws IOException {
-        ResponseEntity<byte[]> responseEntity = getResponseEntity();
+        ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
         when(tika.detect(any(), any(Metadata.class))).thenThrow(new IOException());
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
         DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
@@ -80,7 +78,7 @@ public class DocumentValidationServiceTest {
         assertThat(documentValidationResponse.getErrors(), hasItem("Downloaded document is empty"));
     }
 
-    private ResponseEntity<byte[]> getResponseEntity() {
+    private ResponseEntity<byte[]> jsonResponseEntityWithStubBody() {
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_JSON)
             .body(new byte[1025]);
