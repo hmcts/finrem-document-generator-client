@@ -5,10 +5,11 @@ import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
-import org.pdfbox.cos.COSDocument;
-import org.pdfbox.pdfparser.PDFParser;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.cos.COSDocument;
+import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -80,15 +81,15 @@ public class FunctionalTestUtils {
     }
 
     public String parsePDFToString(InputStream inputStream) {
-
         PDFParser parser;
         PDDocument pdDoc = null;
         COSDocument cosDoc = null;
         PDFTextStripper pdfStripper;
         String parsedText = "";
 
-        try {
-            parser = new PDFParser(inputStream);
+        try (RandomAccessBufferedFileInputStream randomAccessInputStream =
+                 new RandomAccessBufferedFileInputStream(inputStream)) {
+            parser = new PDFParser(randomAccessInputStream);
             parser.parse();
             cosDoc = parser.getDocument();
             pdfStripper = new PDFTextStripper();
@@ -96,20 +97,15 @@ public class FunctionalTestUtils {
             parsedText = pdfStripper.getText(pdDoc);
         } catch (Throwable t) {
             t.printStackTrace();
-
-
             try {
                 if (cosDoc != null) {
                     cosDoc.close();
                 }
-
                 if (pdDoc != null) {
                     pdDoc.close();
                 }
             } catch (Exception e1) {
                 e1.printStackTrace();
-
-
             }
             throw new Error(t);
         }

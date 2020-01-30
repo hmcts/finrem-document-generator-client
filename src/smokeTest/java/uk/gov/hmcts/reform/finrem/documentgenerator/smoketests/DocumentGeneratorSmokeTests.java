@@ -38,20 +38,20 @@ public class DocumentGeneratorSmokeTests {
     public void setUp() {
         RestAssured.useRelaxedHTTPSValidation();
         config = RestAssured.config()
-                .httpClient(HttpClientConfig.httpClientConfig()
-                    .setParam("http.connection.timeout", connectionTimeOut)
-                    .setParam("http.socket.timeout", socketTimeOut)
-                    .setParam("http.connection-manager.timeout", connectionManagerTimeOut)
-                    .setParam("http.connect.request.timeout", requestTimeOut));
+            .httpClient(HttpClientConfig.httpClientConfig()
+                .setParam("http.connection.timeout", connectionTimeOut)
+                .setParam("http.socket.timeout", socketTimeOut)
+                .setParam("http.connection-manager.timeout", connectionManagerTimeOut)
+                .setParam("http.connect.request.timeout", requestTimeOut));
     }
 
     @Test
     public void shouldGetOkStatusFromHealthEndpoint() {
         given().config(config)
-                .when()
-                .get(url + "/health")
-                .prettyPeek()
-                .then()
-                .statusCode(HttpStatus.OK.value());
+            .when()
+            .get(url + "/health")
+            .prettyPeek()
+            .then()
+            .statusCode(HttpStatus.OK.value());
     }
 }

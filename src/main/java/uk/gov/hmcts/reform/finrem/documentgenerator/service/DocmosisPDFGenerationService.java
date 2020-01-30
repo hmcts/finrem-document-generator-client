@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,17 +17,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class DocmosisPDFGenerationService implements PDFGenerationService {
 
     private static final String CASE_DETAILS = "caseDetails";
     private static final String CASE_DATA = "case_data";
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
-    private PdfDocumentConfig pdfDocumentConfig;
+    private final RestTemplate restTemplate;
+    private final PdfDocumentConfig pdfDocumentConfig;
 
     @Value("${service.pdf-service.uri}/rs/render")
     private String pdfServiceEndpoint;

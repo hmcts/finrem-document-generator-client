@@ -27,7 +27,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     private static String APPLICANT_NAME = "Williams";
     private static String DIVORCE_CASENO = "DD12D12345";
     private static String SOLICITOR_REF = "JAW052018";
-    private static String BULKPRINT_URL = "/bulk-print";
     private static String errMsg;
 
     @Value("${document.stamp.uri}")
@@ -62,30 +61,28 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
     @Test
-    public void verifyBulkPrintingisSuccessful() {
-
+    public void verifyBulkPrintingIsSuccessful() {
         validateBulkPrintSuccess("bulkprinting.json", bulkprintUrl);
-
     }
 
     @Test
     public void verifyStampDocumentPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
-        System.out.println("response is : " + response.prettyPrint());
+        response.prettyPrint();
         stampDocument(response.prettyPrint(),stampingUri);
     }
 
     @Test
     public void verifyAnnexStampDocumentPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
-        System.out.println("response is : " + response.prettyPrint());
+        response.prettyPrint();
         annexStampDocument(response.prettyPrint(),annexStampingUri);
     }
 
     @Test
     public void verifyDocumentGenerationPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
-        System.out.println("response is : " + response.prettyPrint());
+        response.prettyPrint();
         JsonPath jsonPathEvaluator = response.jsonPath();
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
     }
@@ -116,7 +113,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         assertTrue(documentContent.contains(APPLICANT_NAME));
         assertTrue(documentContent.contains(DIVORCE_CASENO));
         assertTrue(documentContent.contains(SOLICITOR_REF));
-
     }
 
     @Test
@@ -133,8 +129,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .prettyPeek()
             .then()
             .assertThat().statusCode(200);
-
-
     }
 
     private void validatePostSuccess(String jsonFileName) {
@@ -156,10 +150,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .body(utils.getJsonFromFile(jsonFileName))
             .and().post();
         errMsg = response.prettyPrint();
-        System.out.println("response is " + response.prettyPrint());
         assertEquals(errMsg, 200, response.getStatusCode());
-
-
     }
 
     private void stampDocument(String jsonString, String url) {
@@ -171,10 +162,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .body(jsonString)
             .and().post();
         errMsg = response.prettyPrint();
-        System.out.println("response is " + response.prettyPrint());
         assertEquals(errMsg, 200, response.getStatusCode());
-
-
     }
 
     private void annexStampDocument(String jsonString, String url) {
@@ -186,10 +174,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .body(jsonString)
             .and().post();
         errMsg = response.prettyPrint();
-        System.out.println("response is " + response.prettyPrint());
         assertEquals(errMsg, 200, response.getStatusCode());
-
-
     }
 
     private Response generateDocument(String jsonFileName) {
@@ -211,7 +196,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
             .headers(utils.getHeadersWithUserId())
             .when().get(url)
             .then().assertThat().statusCode(200);
-
     }
 
     private Response accessGeneratedDocument(String url) {
@@ -231,7 +215,3 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         return url;
     }
 }
-
-
-
-

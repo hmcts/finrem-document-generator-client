@@ -3,8 +3,8 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.controller;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,11 +16,11 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentValidationSe
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@RequiredArgsConstructor
 @Slf4j
 public class DocumentValidationController {
 
-    @Autowired
-    private DocumentValidationService service;
+    private final DocumentValidationService service;
 
     @GetMapping(path = "/file-upload-check", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Checks the file type and returns error.")

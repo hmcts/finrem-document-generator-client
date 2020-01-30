@@ -51,7 +51,7 @@ public class OnlineFormAGenerateE2ETest {
     private String pdfServiceUri;
 
     @Value("${service.evidence-management-client-api.uri}")
-    private String emClientAPIUri;
+    private String emClientApiUri;
 
     @Value("${service.evidence-management-client-api.delete-uri}")
     private String evidenceManagementDeleteUri;
@@ -139,7 +139,7 @@ public class OnlineFormAGenerateE2ETest {
                 .body(pdfServiceResponse())
                 .contentType(MediaType.APPLICATION_JSON));
 
-        mockRestServiceServer.expect(once(), requestTo(emClientAPIUri)).andExpect(method(HttpMethod.POST))
+        mockRestServiceServer.expect(once(), requestTo(emClientApiUri)).andExpect(method(HttpMethod.POST))
             .andRespond(withStatus(HttpStatus.OK)
                 .body(documentStoreServiceResponse())
                 .contentType(MediaType.APPLICATION_JSON));
