@@ -10,6 +10,7 @@ import java.util.Map;
 @Value
 @Builder
 public class PdfDocumentRequest {
+
     @JsonProperty(value = "accessKey", required = true)
     @NotBlank
     private final String accessKey;

@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class DocumentValidationResponse {
+
     private String mimeType;
     private List<String> errors;
 }

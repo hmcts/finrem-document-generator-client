@@ -11,5 +11,6 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode
 public class BulkPrintDocument {
+
     private String binaryFileUrl;
 }

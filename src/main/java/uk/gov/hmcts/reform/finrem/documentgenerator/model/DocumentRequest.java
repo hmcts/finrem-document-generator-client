@@ -11,6 +11,7 @@ import java.util.Map;
 @Value
 @ApiModel(description = "Request body model for Document Generation Request")
 public class DocumentRequest {
+
     @ApiModelProperty(value = "Name of the template", required = true)
     @JsonProperty(value = "template", required = true)
     @NotBlank
