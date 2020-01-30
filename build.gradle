@@ -154,8 +154,6 @@ dependencies {
     functionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     functionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     functionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    functionalCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: versions.pdfbox
-    functionalCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
