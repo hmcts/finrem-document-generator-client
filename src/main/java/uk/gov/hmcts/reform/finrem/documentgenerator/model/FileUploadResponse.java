@@ -1,14 +1,14 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FileUploadResponse {
 
     private String fileUrl;
