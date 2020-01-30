@@ -87,7 +87,8 @@ public class FunctionalTestUtils {
         PDFTextStripper pdfStripper;
         String parsedText = "";
 
-        try (RandomAccessBufferedFileInputStream randomAccessInputStream = new RandomAccessBufferedFileInputStream(inputStream)) {
+        try (RandomAccessBufferedFileInputStream randomAccessInputStream =
+                 new RandomAccessBufferedFileInputStream(inputStream)) {
             parser = new PDFParser(randomAccessInputStream);
             parser.parse();
             cosDoc = parser.getDocument();
