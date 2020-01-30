@@ -52,9 +52,8 @@ public class EvidenceManagementService {
 
         ResponseEntity<byte[]> result = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
             new HttpEntity<>(""), byte[].class, String.class);
-        log.info("Documents has been successfully downloaded for binary url {} with status {} " ,binaryFileUrl ,
-            result.getStatusCode());
-        return  result;
+        log.info("Documents has been successfully downloaded for binary url {} with status {} ", binaryFileUrl, result.getStatusCode());
+        return result;
     }
 
     public FileUploadResponse storeDocument(byte[] document, String fileName, String authorizationToken) {
@@ -78,8 +77,7 @@ public class EvidenceManagementService {
             new HttpEntity<>(
                 buildStoreDocumentRequest(document, fileToBeNamed(fileName)),
                 getHttpHeaders(authorizationToken)),
-            new ParameterizedTypeReference<List<FileUploadResponse>>() {
-            });
+            new ParameterizedTypeReference<List<FileUploadResponse>>() {});
         return responseEntity.getBody().get(0);
     }
 

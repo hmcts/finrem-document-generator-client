@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.Map;
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 @Value
 @Builder

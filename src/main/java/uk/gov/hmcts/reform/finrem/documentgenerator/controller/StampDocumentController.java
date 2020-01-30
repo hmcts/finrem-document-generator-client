@@ -23,7 +23,7 @@ public class StampDocumentController {
     private final PDFStampingService pdfStampingService;
 
     @ApiOperation(value = "Stamp document with court seal", tags = {"Stamp document"})
-    @ApiResponses( {
+    @ApiResponses({
         @ApiResponse(code = 200, message = "Documents sent for stamping"
             + " Returns the stored document information.", response = Document.class),
         @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
@@ -43,7 +43,7 @@ public class StampDocumentController {
     }
 
     @ApiOperation(value = "Stamp and Annex document with court seal", tags = {"Stamp and Annex document"})
-    @ApiResponses( {
+    @ApiResponses({
         @ApiResponse(code = 200, message = "Documents sent for stamping and annex"
             + " Returns the stored document information.", response = Document.class),
         @ApiResponse(code = 400, message = "Returned when input parameters are invalid ",
