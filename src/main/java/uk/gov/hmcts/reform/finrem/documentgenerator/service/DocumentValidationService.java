@@ -38,8 +38,7 @@ public class DocumentValidationService {
         if (Objects.isNull(responseEntity.getBody())) {
             builder.errors(singletonList("Downloaded document is empty"));
         } else {
-            InputStream targetStream = new ByteArrayInputStream(responseEntity.getBody());
-            try {
+            try (InputStream targetStream = new ByteArrayInputStream(responseEntity.getBody())) {
                 String detect = tika.detect(targetStream, new Metadata());
                 if (mimeTypes.contains(detect)) {
                     builder.mimeType(detect);
