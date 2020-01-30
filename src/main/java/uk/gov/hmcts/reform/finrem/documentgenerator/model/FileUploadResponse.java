@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class FileUploadResponse {
 
     private String fileUrl;
