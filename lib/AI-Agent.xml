@@ -12,9 +12,8 @@
         <Class name="uk.gov.hmcts.reform.finrem.documentgenerator.service.EvidenceManagementService">
             <Method name="storeDocument" reportCaughtExceptions="true" reportExecutionTime="true"/>
         </Class>
-        <Class name="uk.gov.hmcts.reform.finrem.documentgenerator.service.DocmosisPDFGenerationService">
+        <Class name="uk.gov.hmcts.reform.finrem.documentgenerator.service.DocmosisPdfGenerationService">
             <Method name="generateDocFrom" reportCaughtExceptions="true" reportExecutionTime="true"/>
         </Class>
     </Instrumentation>
 </ApplicationInsightsAgent>
-

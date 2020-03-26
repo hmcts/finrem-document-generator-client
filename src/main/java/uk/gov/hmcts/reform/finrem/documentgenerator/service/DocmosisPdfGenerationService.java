@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.finrem.documentgenerator.config.PdfDocumentConfig;
-import uk.gov.hmcts.reform.finrem.documentgenerator.error.PDFGenerationException;
+import uk.gov.hmcts.reform.finrem.documentgenerator.error.PdfGenerationException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfDocumentRequest;
 
 import java.util.Map;
@@ -19,7 +19,7 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class DocmosisPDFGenerationService implements PDFGenerationService {
+public class DocmosisPdfGenerationService implements PdfGenerationService {
 
     private static final String CASE_DETAILS = "caseDetails";
     private static final String CASE_DATA = "case_data";
@@ -47,7 +47,7 @@ public class DocmosisPDFGenerationService implements PDFGenerationService {
                 restTemplate.postForEntity(pdfServiceEndpoint, request(templateName, placeholders), byte[].class);
             return response.getBody();
         } catch (Exception e) {
-            throw new PDFGenerationException("Failed to request PDF from REST endpoint " + e.getMessage(), e);
+            throw new PdfGenerationException("Failed to request PDF from REST endpoint " + e.getMessage(), e);
         }
     }
 

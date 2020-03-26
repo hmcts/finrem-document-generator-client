@@ -35,7 +35,7 @@ public class DocumentManagementServiceTest {
     private DocumentManagementService service;
 
     @MockBean
-    private PDFGenerationService pdfGenerationService;
+    private PdfGenerationService pdfGenerationService;
 
     @MockBean
     private EvidenceManagementService evidenceManagementService;

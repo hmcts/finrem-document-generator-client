@@ -5,7 +5,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 @Data
-public class PDFAnnexStampingInfo {
+public class PdfAnnexStampingInfo {
 
     public static final String ANNEX_IMAGE = "/annex.png";
     public static final String ANNEX_IMAGE_LEFT_90 = "/annex_left_90.png";
@@ -28,15 +28,15 @@ public class PDFAnnexStampingInfo {
     private String courtSealFile;
     private PDPage page;
 
-    private PDFAnnexStampingInfo(PDPage page) {
+    private PdfAnnexStampingInfo(PDPage page) {
         this.page = page;
     }
 
-    public static PDFAnnexStampingInfo builder(PDPage page) {
-        return new PDFAnnexStampingInfo(page);
+    public static PdfAnnexStampingInfo builder(PDPage page) {
+        return new PdfAnnexStampingInfo(page);
     }
 
-    public PDFAnnexStampingInfo build() {
+    public PdfAnnexStampingInfo build() {
         rotation = page.getRotation();
         PDRectangle box = page.getCropBox();
         float topX = box.getUpperRightX();
