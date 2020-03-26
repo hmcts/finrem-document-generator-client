@@ -81,8 +81,8 @@ public class GlobalExceptionHandlerTest {
         assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
-    private PDFGenerationException pdfGenerationException(HttpStatus httpStatus) {
-        return new PDFGenerationException(SOME_MESSAGE, new HttpClientErrorException(httpStatus));
+    private PdfGenerationException pdfGenerationException(HttpStatus httpStatus) {
+        return new PdfGenerationException(SOME_MESSAGE, new HttpClientErrorException(httpStatus));
     }
 
 }

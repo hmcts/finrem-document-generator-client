@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.StampDocumentException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.FileUploadResponse;
-import uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -19,13 +19,13 @@ import java.io.InputStream;
 import static java.lang.String.format;
 import static org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode.APPEND;
 import static org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject.createFromByteArray;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.WIDTH_AND_HEIGHT;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.WIDTH_AND_HEIGHT;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementService.CONVERTER;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PDFStampingService {
+public class PdfStampingService {
 
     private final EvidenceManagementService emService;
 
@@ -45,8 +45,8 @@ public class PDFStampingService {
     public byte[] stampDocument(byte[] inputDocInBytes, boolean isAnnexNeeded) throws Exception {
         PDDocument doc = PDDocument.load(inputDocInBytes);
         PDPage page = doc.getPage(0);
-        PDFAnnexStampingInfo info = PDFAnnexStampingInfo.builder(page).build();
-        log.info("PDFAnnexStampingInfo data  = {}", info);
+        PdfAnnexStampingInfo info = PdfAnnexStampingInfo.builder(page).build();
+        log.info("PdfAnnexStampingInfo data  = {}", info);
 
         PDImageXObject annexImage = createFromByteArray(doc, imageAsBytes(info.getAnnexFile()), null);
         PDImageXObject courtSealImage = createFromByteArray(doc, imageAsBytes(info.getCourtSealFile()), null);

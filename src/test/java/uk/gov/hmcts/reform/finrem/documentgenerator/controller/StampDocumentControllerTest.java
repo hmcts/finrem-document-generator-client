@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
-import uk.gov.hmcts.reform.finrem.documentgenerator.service.PDFStampingService;
+import uk.gov.hmcts.reform.finrem.documentgenerator.service.PdfStampingService;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -24,7 +24,7 @@ public class StampDocumentControllerTest {
     private StampDocumentController controller;
 
     @Mock
-    private PDFStampingService pdfStampingService;
+    private PdfStampingService pdfStampingService;
 
 
     @Test

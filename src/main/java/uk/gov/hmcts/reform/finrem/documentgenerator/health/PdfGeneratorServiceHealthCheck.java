@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class PDFGeneratorServiceHealthCheck extends AbstractServiceHealthCheck {
+public class PdfGeneratorServiceHealthCheck extends AbstractServiceHealthCheck {
 
     @Autowired
-    public PDFGeneratorServiceHealthCheck(
+    public PdfGeneratorServiceHealthCheck(
         @Value("${service.pdf-service.health.uri}/rs/status") String uri,
         @Qualifier("healthCheckRestTemplate") RestTemplate restTemplate) {
         super(uri, restTemplate);

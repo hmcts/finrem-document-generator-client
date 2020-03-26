@@ -11,26 +11,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_LEFT_90;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_RIGHT_90;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.ANNEX_IMAGE_UPSIDE_DOWN;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_LEFT_90;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_RIGHT_90;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE_UPSIDE_DOWN;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.ANNEX_IMAGE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.ANNEX_IMAGE_LEFT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.ANNEX_IMAGE_RIGHT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.ANNEX_IMAGE_UPSIDE_DOWN;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE_LEFT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE_RIGHT_90;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE_UPSIDE_DOWN;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class PDFAnnexStampingInfoTest {
+public class PdfAnnexStampingInfoTest {
 
-    private PDFAnnexStampingInfo stampingInfo;
+    private PdfAnnexStampingInfo stampingInfo;
     private PDPage page = mock(PDPage.class);
     private PDRectangle box = mock(PDRectangle.class);
 
     @Before
     public void setUp() {
-        stampingInfo = PDFAnnexStampingInfo.builder(page);
+        stampingInfo = PdfAnnexStampingInfo.builder(page);
 
         when(page.getCropBox()).thenReturn(box);
         when(box.getUpperRightX()).thenReturn(1000f);
@@ -41,7 +41,7 @@ public class PDFAnnexStampingInfoTest {
     public void shouldBuildWithCorrectPositionsWhenRotationIsZero() {
         when(page.getRotation()).thenReturn(0);
 
-        PDFAnnexStampingInfo info = stampingInfo.build();
+        PdfAnnexStampingInfo info = stampingInfo.build();
 
         assertThat(info.getAnnexFile(), is(ANNEX_IMAGE));
         assertThat(info.getCourtSealFile(), is(COURT_SEAL_IMAGE));
@@ -56,7 +56,7 @@ public class PDFAnnexStampingInfoTest {
     public void shouldBuildWithCorrectPositionsWhenRotationIs90() {
         when(page.getRotation()).thenReturn(90);
 
-        PDFAnnexStampingInfo info = stampingInfo.build();
+        PdfAnnexStampingInfo info = stampingInfo.build();
 
         assertThat(info.getAnnexFile(), is(ANNEX_IMAGE_LEFT_90));
         assertThat(info.getCourtSealFile(), is(COURT_SEAL_IMAGE_LEFT_90));
@@ -70,7 +70,7 @@ public class PDFAnnexStampingInfoTest {
     public void shouldBuildWithCorrectPositionsWhenRotationIs180() {
         when(page.getRotation()).thenReturn(180);
 
-        PDFAnnexStampingInfo info = stampingInfo.build();
+        PdfAnnexStampingInfo info = stampingInfo.build();
 
         assertThat(info.getAnnexFile(), is(ANNEX_IMAGE_UPSIDE_DOWN));
         assertThat(info.getCourtSealFile(), is(COURT_SEAL_IMAGE_UPSIDE_DOWN));
@@ -84,7 +84,7 @@ public class PDFAnnexStampingInfoTest {
     public void shouldBuildWithCorrectPositionsWhenRotationIs270() {
         when(page.getRotation()).thenReturn(270);
 
-        PDFAnnexStampingInfo info = stampingInfo.build();
+        PdfAnnexStampingInfo info = stampingInfo.build();
 
         assertThat(info.getAnnexFile(), is(ANNEX_IMAGE_RIGHT_90));
         assertThat(info.getCourtSealFile(), is(COURT_SEAL_IMAGE_RIGHT_90));
