@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
-import uk.gov.hmcts.reform.finrem.documentgenerator.service.PDFStampingService;
+import uk.gov.hmcts.reform.finrem.documentgenerator.service.PdfStampingService;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.PDFStampingService;
 @Slf4j
 public class StampDocumentController {
 
-    private final PDFStampingService pdfStampingService;
+    private final PdfStampingService pdfStampingService;
 
     @ApiOperation(value = "Stamp document with court seal", tags = {"Stamp document"})
     @ApiResponses({

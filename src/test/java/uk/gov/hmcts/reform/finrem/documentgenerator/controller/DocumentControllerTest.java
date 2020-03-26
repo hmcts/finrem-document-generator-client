@@ -38,7 +38,7 @@ public class DocumentControllerTest {
         when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN))
             .thenReturn(expected);
 
-        Document actual = controller.generatePDF(AUTH_TOKEN, new DocumentRequest(templateName, FILE_NAME, placeholder));
+        Document actual = controller.generatePdf(AUTH_TOKEN, new DocumentRequest(templateName, FILE_NAME, placeholder));
 
         assertThat(actual, is(expected));
         verify(documentManagementService, times(1))

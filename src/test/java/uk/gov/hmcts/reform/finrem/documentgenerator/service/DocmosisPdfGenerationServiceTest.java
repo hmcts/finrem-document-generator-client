@@ -15,7 +15,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
-import uk.gov.hmcts.reform.finrem.documentgenerator.error.PDFGenerationException;
+import uk.gov.hmcts.reform.finrem.documentgenerator.error.PdfGenerationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DocumentGeneratorApplication.class)
 @TestPropertySource(locations = "/application.properties")
-public class DocmosisPDFGenerationServiceTest {
+public class DocmosisPdfGenerationServiceTest {
 
     public static final String FILE_CONTENT = "Welcome to PDF document service";
     public static final ImmutableMap<String, Object> PLACEHOLDERS =
@@ -42,7 +42,7 @@ public class DocmosisPDFGenerationServiceTest {
     public static final String TEMPLATE_NAME = "template name";
     public static final String PDF_SERVICE_URI = "https://doc-gen/rs/render";
     @Autowired
-    private DocmosisPDFGenerationService pdfGenerationService;
+    private DocmosisPdfGenerationService pdfGenerationService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -84,7 +84,7 @@ public class DocmosisPDFGenerationServiceTest {
         try {
             pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS);
             fail("should have thrown bad-request exception");
-        } catch (PDFGenerationException e) {
+        } catch (PdfGenerationException e) {
             HttpStatus httpStatus = ((HttpClientErrorException) e.getCause()).getStatusCode();
             assertThat(httpStatus, is(HttpStatus.BAD_REQUEST));
         }
