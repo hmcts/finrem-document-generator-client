@@ -74,7 +74,7 @@ def versions = [
     springfoxSwagger        : '2.9.2',
     springOpenFeign         : '2.1.1.RELEASE',
     springSecurityCrypto    : '5.1.5.RELEASE',
-    tomcat                  : '9.0.30',
+    tomcat                  : '9.0.31',
     unirest                 : '1.4.9',
     wiremockVersion         : '2.25.1'
 ]
@@ -116,7 +116,7 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version : versions.commonsLang3
     compile group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
     compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    compile group: 'org.apache.tika', name: 'tika-core', version: '1.22'
+    compile group: 'org.apache.tika', name: 'tika-core', version: '1.24'
 
     testCompile group: 'com.github.tomakehurst', name:'wiremock', version: versions.wiremockVersion
     testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: versions.powerMock
@@ -190,7 +190,7 @@ tasks.withType(JavaCompile) {
 }
 
 checkstyle {
-    toolVersion = '8.26'
+    toolVersion = '8.29'
     configFile = new File(rootDir, "checkstyle.xml")
 }
 
