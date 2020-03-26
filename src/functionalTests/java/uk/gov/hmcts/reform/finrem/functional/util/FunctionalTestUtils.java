@@ -4,13 +4,13 @@ import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
+import lombok.RequiredArgsConstructor;
 import net.serenitybdd.rest.SerenityRest;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessBufferedFileInputStream;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,23 +24,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 
-
 @ContextConfiguration(classes = TestContextConfiguration.class)
 @Component
+@RequiredArgsConstructor
 public class FunctionalTestUtils {
+
+    private final ServiceAuthTokenGenerator tokenGenerator;
+    private final IdamUtils idamUtils;
 
     @Value("${idam.api.url}")
     public String baseServiceOauth2Url = "";
-    @Autowired
-    private ServiceAuthTokenGenerator tokenGenerator;
 
     @Value("${user.id.url}")
     private String userId;
 
     @Value("${idam.s2s-auth.microservice}")
     private String microservice;
-    @Autowired
-    private IdamUtils idamUtils;
 
     public void deleteIdamUser() {
         idamUtils.deleteIdamTestUser();
@@ -57,7 +56,6 @@ public class FunctionalTestUtils {
     }
 
     public Headers getHeadersWithUserId() {
-
         return Headers.headers(
             new Header("ServiceAuthorization", tokenGenerator.generate()),
             new Header("user-roles", "caseworker-divorce"),
@@ -77,10 +75,10 @@ public class FunctionalTestUtils {
             .headers(getHeadersWithUserId())
             .when().get(documentUrl).andReturn();
 
-        return parsePDFToString(document.getBody().asInputStream());
+        return parsePdfToString(document.getBody().asInputStream());
     }
 
-    public String parsePDFToString(InputStream inputStream) {
+    private String parsePdfToString(InputStream inputStream) {
         PDFParser parser;
         PDDocument pdDoc = null;
         COSDocument cosDoc = null;

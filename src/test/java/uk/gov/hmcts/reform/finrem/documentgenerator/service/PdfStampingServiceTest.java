@@ -24,23 +24,23 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
-import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PDFAnnexStampingInfo.COURT_SEAL_IMAGE;
+import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DocumentGeneratorApplication.class)
 @TestPropertySource(locations = "/application.properties")
-public class PDFStampingServiceTest {
+public class PdfStampingServiceTest {
+
     public static final String COURT_SEAL_PDF = "/courtseal.pdf";
 
     @Autowired
-    private PDFStampingService service;
+    private PdfStampingService service;
 
     @MockBean
     private EvidenceManagementService evidenceManagementService;
 
-
     @Test(expected = StampDocumentException.class)
-    public void shouldThrowExceptionWhenDocumentIsNotPDF() throws Exception {
+    public void shouldThrowExceptionWhenDocumentIsNotPdf() throws Exception {
         Document document = document();
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_IMAGE);
         when(evidenceManagementService.downloadDocument(document.getBinaryUrl()))
@@ -68,7 +68,6 @@ public class PDFStampingServiceTest {
         assertThat(stampDocument.getUrl(), is(document.getUrl()));
     }
 
-
     @Test
     public void shouldAddStampToDocument() throws Exception {
         Document document = document();
@@ -89,14 +88,14 @@ public class PDFStampingServiceTest {
     }
 
     @Test(expected = IOException.class)
-    public void shouldThrowExceptionWhenInputIsNotPDF() throws Exception {
+    public void shouldThrowExceptionWhenInputIsNotPdf() throws Exception {
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_IMAGE);
 
         service.stampDocument(imageAsBytes, false);
     }
 
     @Test
-    public void shouldAnnexAndStampPDFWithCourSeal() throws Exception {
+    public void shouldAnnexAndStampPdfWithCourSeal() throws Exception {
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_PDF);
 
         byte[] stampDocument = service.stampDocument(imageAsBytes, true);
@@ -106,15 +105,13 @@ public class PDFStampingServiceTest {
     }
 
     @Test
-    public void shouldStampPDFWithCourSeal() throws Exception {
+    public void shouldStampPdfWithCourtSeal() throws Exception {
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_PDF);
-
         byte[] stampDocument = service.stampDocument(imageAsBytes, false);
 
         assertThat(stampDocument, notNullValue());
         assertThat(stampDocument, not(equalTo(imageAsBytes)));
     }
-
 
     @Test
     public void shouldGetImageAsBytes() throws Exception {
@@ -122,5 +119,4 @@ public class PDFStampingServiceTest {
 
         assertThat(imageAsBytes, notNullValue());
     }
-
 }
