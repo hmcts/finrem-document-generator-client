@@ -1,7 +1,5 @@
-# Temporary fix for template API version error on deployment
-# comment to force and build the terraform infrastrucure state on pipeline
 provider "azurerm" {
-    version = "1.19.0"
+    version = "1.44.0"
 }
 
 locals {
@@ -20,7 +18,6 @@ locals {
   asp_name = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
   asp_rg = "${var.env == "prod" ? "finrem-dgcs-prod" : "${var.raw_product}-${var.env}"}"
   send_letter_service_baseurl       = "http://rpe-send-letter-service-${local.local_env}.service.core-compute-${local.local_env}.internal"
-
 }
 
 module "finrem-dgcs" {
@@ -36,7 +33,6 @@ module "finrem-dgcs" {
   common_tags                     = "${var.common_tags}"
   asp_name                        = "${local.asp_name}"
   asp_rg                          = "${local.asp_rg}"
-
 
   app_settings = {
     REFORM_SERVICE_NAME                                   = "${var.reform_service_name}"
@@ -64,21 +60,21 @@ data "azurerm_key_vault" "finrem_key_vault" {
 }
 
 data "azurerm_key_vault_secret" "pdf-service-access-key" {
-    name      = "docmosis-api-key"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+    name         = "docmosis-api-key"
+    key_vault_id = "${data.azurerm_key_vault.finrem_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "docmosis_endpoint" {
-    name      = "docmosis-endpoint"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+    name         = "docmosis-endpoint"
+    key_vault_id = "${data.azurerm_key_vault.finrem_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "finrem-doc-s2s-auth-secret" {
-    name      = "finrem-doc-s2s-auth-secret"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+    name         = "finrem-doc-s2s-auth-secret"
+    key_vault_id = "${data.azurerm_key_vault.finrem_key_vault.id}"
 }
 
 data "azurerm_key_vault_secret" "idam-secret" {
-    name      = "idam-secret"
-    vault_uri = "${data.azurerm_key_vault.finrem_key_vault.vault_uri}"
+    name         = "idam-secret"
+    key_vault_id = "${data.azurerm_key_vault.finrem_key_vault.id}"
 }
