@@ -2,10 +2,11 @@ spring:
   cloud:
     propertiesvolume:
       enabled: true
-      prefixed: true
+      prefixed: false
       paths: /mnt/secrets/finrem
       aliases:
-        finrem.idam-secret: OAUTH2_CLIENT_FINREM
-        finrem.finrem-doc-s2s-auth-secret: AUTH_PROVIDER_SERVICE_CLIENT_KEY
-        finrem.docmosis-api-key: PDF_SERVICE_ACCESS_KEY
-        finrem.docmosis-endpoint: PDF_SERVICE_BASEURL
+        idam-secret: OAUTH2_CLIENT_FINREM
+        finrem-doc-s2s-auth-secret: AUTH_PROVIDER_SERVICE_CLIENT_KEY
+        docmosis-api-key: PDF_SERVICE_ACCESS_KEY
+        docmosis-endpoint: PDF_SERVICE_BASEURL
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key

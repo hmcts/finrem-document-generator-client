@@ -2,7 +2,11 @@ java:
   aadIdentityName: finrem
   ingressHost: "finrem-dgcs-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
   applicationPort: '4009'
-  image: 'https://hmcts.azurecr.io/hmcts/finrem-document-generator-client:latest'
+  image: 'hmctspublic.azurecr.io/finrem/dgcs:latest'
+  environment:
+      EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL: http://finrem-emca-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+      SEND_LETTER_SERIVCE_BASEURL : http://rpe-send-letter-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+      AUTH_PROVIDER_SERVICE_CLIENT_BASEURL : http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   keyVaults:
       finrem:
           secrets:
@@ -10,3 +14,4 @@ java:
               - idam-secret
               - docmosis-api-key
               - docmosis-endpoint
+              - AppInsightsInstrumentationKey
