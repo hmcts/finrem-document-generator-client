@@ -22,6 +22,8 @@ import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestIdSettingInterceptor;
 import uk.gov.hmcts.reform.logging.httpcomponents.OutboundRequestLoggingInterceptor;
 
+import java.nio.charset.StandardCharsets;
+
 import static java.util.Arrays.asList;
 
 @Configuration
@@ -39,13 +41,15 @@ public class HttpConnectionConfiguration {
     @Value("${health-check.http.connect.request.timeout}")
     private int healthCheckHttpConnectRequestTimeout;
 
+    private static final MediaType MEDIA_TYPE_DOCUMENT_COLLECTION_HAL_JSON = new MediaType("application",
+        "vnd.uk.gov.hmcts.dm.document-collection.v1+hal+json", StandardCharsets.UTF_8);
 
     @Bean
     @Primary
     public MappingJackson2HttpMessageConverter jackson2HttpCoverter(ObjectMapper objectMapper) {
         MappingJackson2HttpMessageConverter jackson2HttpConverter
             = new MappingJackson2HttpMessageConverter(objectMapper);
-        jackson2HttpConverter.setSupportedMediaTypes(ImmutableList.of(MediaType.APPLICATION_JSON));
+        jackson2HttpConverter.setSupportedMediaTypes(ImmutableList.of(MediaType.APPLICATION_JSON, MEDIA_TYPE_DOCUMENT_COLLECTION_HAL_JSON));
         return jackson2HttpConverter;
     }
 
