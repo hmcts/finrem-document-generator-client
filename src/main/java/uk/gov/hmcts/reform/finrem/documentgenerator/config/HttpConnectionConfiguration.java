@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -47,8 +48,8 @@ public class HttpConnectionConfiguration {
     @Bean
     @Primary
     public MappingJackson2HttpMessageConverter jackson2HttpCoverter(ObjectMapper objectMapper) {
-        MappingJackson2HttpMessageConverter jackson2HttpConverter
-            = new MappingJackson2HttpMessageConverter(objectMapper);
+        objectMapper.registerModule(new Jackson2HalModule());
+        MappingJackson2HttpMessageConverter jackson2HttpConverter = new MappingJackson2HttpMessageConverter(objectMapper);
         jackson2HttpConverter.setSupportedMediaTypes(ImmutableList.of(MediaType.APPLICATION_JSON, MEDIA_TYPE_DOCUMENT_COLLECTION_HAL_JSON));
         return jackson2HttpConverter;
     }

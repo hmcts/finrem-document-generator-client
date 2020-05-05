@@ -72,6 +72,7 @@ def versions = [
     serenityCucumber        : '1.9.50',
     serviceTokenGenerator   : '3.0.0',
     springfoxSwagger        : '2.9.2',
+    springHateoas           : '1.0.2.RELEASE',
     springOpenFeign         : '2.1.1.RELEASE',
     springSecurityCrypto    : '5.1.5.RELEASE',
     tomcat                  : '9.0.31',
@@ -103,6 +104,7 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
     compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springOpenFeign
+    compile group: 'org.springframework.hateoas', name: 'spring-hateoas', version: versions.springHateoas
 
     compile group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: versions.ccdClient
     compile group: 'uk.gov.hmcts.reform', name: 'send-letter-client', version: versions.sendLetterClient
