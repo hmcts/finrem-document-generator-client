@@ -48,7 +48,7 @@ sourceSets {
 }
 
 configurations {
-    functionalCompile.extendsFrom testCompile
+    functionalImplementation.extendsFrom testCompile
     functionalRuntime.extendsFrom testRuntime
 }
 
@@ -97,62 +97,62 @@ dependencyManagement {
 }
 
 dependencies {
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    compile group: 'commons-io', name: 'commons-io', version: versions.commonsIo
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springOpenFeign
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'commons-io', name: 'commons-io', version: versions.commonsIo
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springOpenFeign
 
-    compile group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: versions.ccdClient
-    compile group: 'uk.gov.hmcts.reform', name: 'send-letter-client', version: versions.sendLetterClient
-    compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
-    compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: versions.reformHealth
-    compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
-    compile group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.reformLogging
-    compile group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.reformLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: versions.ccdClient
+    implementation group: 'uk.gov.hmcts.reform', name: 'send-letter-client', version: versions.sendLetterClient
+    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
+    implementation group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: versions.reformHealth
+    implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.reformLogging
+    implementation group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.reformLogging
 
-    compile group: 'org.apache.commons', name: 'commons-lang3', version : versions.commonsLang3
-    compile group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
-    compile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    compile group: 'org.apache.tika', name: 'tika-core', version: '1.24'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version : versions.commonsLang3
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
+    implementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '1.24'
 
-    testCompile group: 'com.github.tomakehurst', name:'wiremock', version: versions.wiremockVersion
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito2', version: versions.powerMock
-    testCompile group: 'org.powermock', name: 'powermock-api-mockito-common', version: versions.powerMock
-    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: versions.powerMock
-    testCompile group: 'org.mockito', name: 'mockito-core', version: versions.mockito
-    testCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testImplementation group: 'com.github.tomakehurst', name:'wiremock', version: versions.wiremockVersion
+    testImplementation group: 'org.powermock', name: 'powermock-api-mockito2', version: versions.powerMock
+    testImplementation group: 'org.powermock', name: 'powermock-api-mockito-common', version: versions.powerMock
+    testImplementation group: 'org.powermock', name: 'powermock-module-junit4', version: versions.powerMock
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: versions.mockito
+    testImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 
-    testCompile('org.springframework.security:spring-security-test')
+    testImplementation('org.springframework.security:spring-security-test')
 
-    testSmokeCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-    testSmokeCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    testSmokeCompile sourceSets.main.runtimeClasspath
-    testSmokeCompile sourceSets.test.runtimeClasspath
+    testSmokeImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    testSmokeImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    testSmokeImplementation sourceSets.main.runtimeClasspath
+    testSmokeImplementation sourceSets.test.runtimeClasspath
 
-    runtime('org.springframework.boot:spring-boot-devtools')
-    runtime("org.springframework.boot:spring-boot-properties-migrator")
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+    runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
 
-    functionalCompile group: 'junit', name: 'junit', version: versions.junit
-    functionalCompile group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
-    functionalCompile group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
-    functionalCompile group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
-    functionalCompile group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
-    functionalCompile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
-    functionalCompile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
-    functionalCompile group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
-    functionalCompile group: 'junit', name: 'junit', version: versions.junit
-    functionalCompile group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
-    functionalCompile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3
-    functionalCompile group: 'org.projectlombok', name: 'lombok', version: versions.lombok
-    functionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    functionalCompile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    functionalCompile group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
+    functionalImplementation group: 'junit', name: 'junit', version: versions.junit
+    functionalImplementation group: 'net.serenity-bdd', name: 'serenity-core', version: versions.serenity
+    functionalImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
+    functionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
+    functionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+    functionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+    functionalImplementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
+    functionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
+    functionalImplementation group: 'junit', name: 'junit', version: versions.junit
+    functionalImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
+    functionalImplementation group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3
+    functionalImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
+    functionalImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    functionalImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    functionalImplementation group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
 
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: versions.lombok
@@ -164,7 +164,7 @@ bootJar {
         attributes 'Implementation-Title': project.name,
             'Implementation-Version': project.version
     }
-    archiveName 'finrem-document-generator.jar'
+    archiveFileName = 'finrem-document-generator.jar'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication'
@@ -257,7 +257,7 @@ dependencyCheck {
 }
 
 dependencies {
-    functionalCompile(sourceSets.test.output)
+    functionalImplementation(sourceSets.test.output)
 }
 
 task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
