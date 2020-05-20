@@ -1,10 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;

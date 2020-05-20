@@ -2,9 +2,9 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.model;
 
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.BINARY_URL;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_NAME;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_URL;
