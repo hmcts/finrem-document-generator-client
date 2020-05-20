@@ -68,7 +68,7 @@ def versions = [
     reformHealth            : '0.0.5',
     reformLogging           : '5.1.5',
     reformPropertiesVolume  : '0.0.4',
-    restAssured             : '4.3.0',
+    restAssured             : '3.0.3',
     sendLetterClient        : '2.6.0',
     serenity                : '2.2.8',
     serenityCucumber        : '1.9.51',
