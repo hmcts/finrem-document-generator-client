@@ -4,9 +4,9 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import uk.gov.hmcts.reform.finrem.documentgenerator.TestResource;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.CREATED_BY;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_NAME;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.FILE_URL;
