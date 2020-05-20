@@ -10,8 +10,8 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.model.DocumentValidationResp
 import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentValidationService;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
 
