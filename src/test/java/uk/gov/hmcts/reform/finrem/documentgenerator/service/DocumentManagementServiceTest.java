@@ -12,9 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document;

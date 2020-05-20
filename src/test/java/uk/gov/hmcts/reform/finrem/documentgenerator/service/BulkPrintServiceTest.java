@@ -18,13 +18,13 @@ import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
 import java.util.Arrays;
 import java.util.UUID;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,7 +62,7 @@ public class BulkPrintServiceTest {
         when(authTokenGenerator.generate()).thenThrow(new RuntimeException());
         thrown.expect(RuntimeException.class);
         service.send("1000", "aa", Arrays.asList("abc".getBytes()));
-        verifyZeroInteractions(sendLetterApi);
+        verifyNoInteractions(sendLetterApi);
     }
 
     @Test

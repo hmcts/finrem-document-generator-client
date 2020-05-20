@@ -12,8 +12,8 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementSe
 import java.util.Collections;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
