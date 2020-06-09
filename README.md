@@ -38,6 +38,7 @@ First you need to create runnable jar by executing following command:
     ./gradlew clean build
 ```
 
+
 When the lib has been created in `build/lib` directory,
 you can run the application by executing following command:
 
@@ -81,6 +82,14 @@ To run all checks (including unit tests) please execute following command:
     ./gradlew check
 ```
 
+### Mutation tests
+
+To run all mutation tests execute the following command:
+
+```
+./gradlew pitest
+
+```
 ## Standard API
 
 We follow [RESTful API standards](https://hmcts.github.io/restful-api-standards/).
