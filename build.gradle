@@ -281,7 +281,8 @@ task printVersion {
 
 pitest {
     targetClasses = ['**uk.gov.hmcts.reform.finrem.documentgenerator.*']
-    excludedClasses = ['uk.gov.hmcts.reform.finrem.documentgenerator.config.*']
+    excludedClasses = ['uk.gov.hmcts.reform.finrem.documentgenerator.config.*',
+                       'uk.gov.hmcts.reform.finrem.documentgenerator.model.*']
     threads = 10
     outputFormats = ['XML', 'HTML']
     timestampedReports = true
