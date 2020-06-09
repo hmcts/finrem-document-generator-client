@@ -1,3 +1,22 @@
 {
-
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore",
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/bulk-print_POST": "ignore",
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/annex-stamp-document_POST": "ignore",
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/file-upload-check?fileBinaryUrl=fileBinaryUrl_GET": "ignore",
+    "10021_X-Content-Type-Options Header Missing_http://finrem-dgcs-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
+    "100000_A Server Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/annex-stamp-document_POST": "ignore",
+    "100000_A Server Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore",
+    "100000_A Server Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/file-upload-check?fileBinaryUrl=fileBinaryUrl_GET": "ignore",
+    "100000_A Server Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/bulk-print_POST": "ignore",
+    "100000_A Server Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
+    "100000_A Client Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/delete-pdf-document?fileUrl=fileUrl_DELETE": "ignore",
+    "90022_Application Error Disclosure_http://finrem-dgcs-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
+    "100001_Unexpected Content-Type was returned_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore",
+    "100001_Unexpected Content-Type was returned_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
+    "100001_Unexpected Content-Type was returned_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/annex-stamp-document_POST":"ignore",
+    "100001_Unexpected Content-Type was returned_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/bulk-print_POST": "ignore",
+    "100001_Unexpected Content-Type was returned_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/delete-pdf-document?fileUrl=fileUrl_DELETE": "ignore",
+    "10023_Information Disclosure - Debug Error Messages_http://finrem-dgcs-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore"
 }
+
