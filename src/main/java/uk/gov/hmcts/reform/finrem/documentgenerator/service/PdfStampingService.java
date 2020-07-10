@@ -44,6 +44,7 @@ public class PdfStampingService {
 
     public byte[] stampDocument(byte[] inputDocInBytes, boolean isAnnexNeeded) throws Exception {
         PDDocument doc = PDDocument.load(inputDocInBytes);
+        doc.setAllSecurityToBeRemoved(true);
         PDPage page = doc.getPage(0);
         PdfAnnexStampingInfo info = PdfAnnexStampingInfo.builder(page).build();
         log.info("PdfAnnexStampingInfo data  = {}", info);
