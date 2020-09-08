@@ -55,7 +55,7 @@ configurations {
 }
 
 def versions = [
-    ccdClient               : '4.7.2',
+    ccdClient               : '4.7.3',
     commonsBeanUtils        : '1.9.4',
     commonsLang3            : '3.11',
     commonsIo               : '2.7',
