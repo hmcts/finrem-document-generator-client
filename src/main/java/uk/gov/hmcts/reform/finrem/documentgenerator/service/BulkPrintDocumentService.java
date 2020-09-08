@@ -19,6 +19,7 @@ public class BulkPrintDocumentService {
 
     public List<byte[]> downloadDocuments(BulkPrintRequest bulkPrintRequest) {
         log.info("Downloading document for bulk print for case id {}", bulkPrintRequest.getCaseId());
+        log.info("test commit: ignore");
 
         List<byte[]> documents = bulkPrintRequest.getBulkPrintDocuments().stream().map(bulkPrintDocument -> {
             ResponseEntity<byte[]> response = service.downloadDocument(bulkPrintDocument.getBinaryFileUrl());
