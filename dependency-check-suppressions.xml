@@ -7,11 +7,6 @@
         <cve>CVE-2018-1258</cve>
     </suppress>
     <suppress>
-        <notes><![CDATA[file name: spring-security-crypto-5.2.2.RELEASE.jar]]></notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-crypto@.*$</packageUrl>
-        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
-    </suppress>
-    <suppress>
         <notes>only affects log appender over SMTP, seriously who does this...</notes>
         <cve>CVE-2020-9488</cve>
     </suppress>
@@ -19,6 +14,11 @@
         <notes>Snakeyaml</notes>
         <packageUrl regex="true">^pkg:maven/org.yaml/snakeyaml@.*$</packageUrl>
         <cve>CVE-2017-18640</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[file name: spring-security-crypto-5.2.2.RELEASE.jar]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.security/spring\-security\-crypto@.*$</packageUrl>
+        <cpe>cpe:/a:pivotal_software:spring_security</cpe>
     </suppress>
     <suppress>
         <notes>
