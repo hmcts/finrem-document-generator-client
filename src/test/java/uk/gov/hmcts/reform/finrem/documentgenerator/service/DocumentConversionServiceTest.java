@@ -35,6 +35,7 @@ public class DocumentConversionServiceTest {
     public static final String PDF_SERVICE_URI = "https://doc-gen/rs/convert";
     public static final byte[] CONVERTED_BINARY = "converted".getBytes();
 
+    @Autowired
     private DocumentConversionService documentConversionService;
 
     @Autowired
@@ -44,6 +45,7 @@ public class DocumentConversionServiceTest {
     EvidenceManagementService evidenceManagementService;
 
     private MockRestServiceServer mockServer;
+
     private Document documentToConvert = new Document();
 
     @Before
@@ -52,7 +54,6 @@ public class DocumentConversionServiceTest {
         documentToConvert.setFileName("file.docx");
         documentToConvert.setUrl("docurl.com");
         documentToConvert.setBinaryUrl("binaryurl.com");
-        documentConversionService = new DocumentConversionService(restTemplate, evidenceManagementService);
     }
 
     @Test
