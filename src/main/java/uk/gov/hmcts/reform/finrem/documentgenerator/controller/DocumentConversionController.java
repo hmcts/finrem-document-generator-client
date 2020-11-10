@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementSe
 
 @RestController
 @RequiredArgsConstructor
-@Api(value = "Document Generation", tags = {"Document Generation"})
+@Api(value = "Document conversion", tags = {"Document conversion"})
 @Slf4j
 public class DocumentConversionController {
 
@@ -32,6 +33,7 @@ public class DocumentConversionController {
         @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
             response = String.class)
     })
+    @PostMapping("/version/1/convert-to-pdf")
     public Document convertDocumentToPdf(
         @RequestHeader(value = "Authorization") String authorisationToken,
         @RequestBody Document document
