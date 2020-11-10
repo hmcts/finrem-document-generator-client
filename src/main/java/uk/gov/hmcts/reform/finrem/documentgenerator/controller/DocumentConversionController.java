@@ -38,8 +38,10 @@ public class DocumentConversionController {
         @RequestHeader(value = "Authorization") String authorisationToken,
         @RequestBody Document document
     ) {
-        return storeDocument(documentConversionService.convertDocumentToPdf(document),
-            documentConversionService.getConvertedFilename(document.getFileName()), authorisationToken);
+        log.info("document conversion service is null: ", documentConversionService == null);
+        byte[] convertedDocContent = documentConversionService.convertDocumentToPdf(document);
+        String filename = documentConversionService.getConvertedFilename(document.getFileName());
+        return storeDocument(convertedDocContent, filename, authorisationToken);
     }
 
     private Document storeDocument(byte[] source, String filename, String authorisationToken) {
