@@ -20,8 +20,8 @@ import uk.gov.hmcts.reform.finrem.documentgenerator.service.DocumentManagementSe
 @Slf4j
 public class DocumentConversionController {
 
-    private DocumentConversionService documentConversionService;
-    private DocumentManagementService documentManagementService;
+    private final DocumentConversionService documentConversionService;
+    private final DocumentManagementService documentManagementService;
 
     @ApiOperation(value = "Deletes document from the evidence management.", tags = {"Document Generation"})
     @ApiResponses({
