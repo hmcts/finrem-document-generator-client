@@ -4,6 +4,7 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
 
 import com.google.common.io.Files;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -22,26 +23,22 @@ import java.io.File;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class DocumentConversionService {
 
-    private final String docmosisAccessKey;
-    private final RestTemplate restTemplate;
-    private final String documentConversionUrl;
     private static final String PDF = "pdf";
+
+    @Value("${service.pdf-service.uri}/rs/convert")
+    private String documentConversionUrl;
+
+    @Value("${service.pdf-service.accessKey}")
+    private String docmosisAccessKey;
+
+    private final RestTemplate restTemplate;
+
     private final EvidenceManagementService evidenceManagementService;
 
-    public DocumentConversionService(
-        @Value("${service.pdf-service.accessKey}") String docmosisAccessKey,
-        @Value("${service.pdf-service.uri}/rs/convert") String documentConversionUrl,
-        RestTemplate restTemplate,
-        EvidenceManagementService evidenceManagementService
-    ) {
-        this.docmosisAccessKey = docmosisAccessKey;
-        this.restTemplate = restTemplate;
-        this.documentConversionUrl = documentConversionUrl;
-        this.evidenceManagementService = evidenceManagementService;
-    }
 
     public byte[] convertDocumentToPdf(Document sourceDocument) {
         if (sourceDocument.getFileName().toLowerCase().endsWith(PDF)) {

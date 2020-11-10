@@ -52,7 +52,7 @@ public class DocumentConversionServiceTest {
         documentToConvert.setFileName("file.docx");
         documentToConvert.setUrl("docurl.com");
         documentToConvert.setBinaryUrl("binaryurl.com");
-        documentConversionService = new DocumentConversionService("accesskey", PDF_SERVICE_URI, restTemplate, evidenceManagementService);
+        documentConversionService = new DocumentConversionService(restTemplate, evidenceManagementService);
     }
 
     @Test
