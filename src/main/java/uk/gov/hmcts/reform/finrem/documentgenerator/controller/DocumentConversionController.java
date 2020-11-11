@@ -23,7 +23,7 @@ public class DocumentConversionController {
     private final DocumentConversionService documentConversionService;
     private final DocumentManagementService documentManagementService;
 
-    @ApiOperation(value = "Deletes document from the evidence management.", tags = {"Document Generation"})
+    @ApiOperation(value = "Converts document if non PDF format and stores the documents.", tags = {"Document conversion"})
     @ApiResponses({
         @ApiResponse(code = 204, message = "Document was deleted successfully and stored in the"
             + " evidence management. Returns the url to the stored document.", response = String.class),
@@ -38,7 +38,6 @@ public class DocumentConversionController {
         @RequestHeader(value = "Authorization") String authorisationToken,
         @RequestBody Document document
     ) {
-        log.info("document conversion service is null: {}", documentConversionService == null);
         byte[] convertedDocContent = documentConversionService.convertDocumentToPdf(document);
         String filename = documentConversionService.getConvertedFilename(document.getFileName());
         return storeDocument(convertedDocContent, filename, authorisationToken);
