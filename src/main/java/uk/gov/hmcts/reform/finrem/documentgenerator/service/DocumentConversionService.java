@@ -1,11 +1,10 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
-
-
-
 import com.google.common.io.Files;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -27,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 public class DocumentConversionService {
 
-    private static final String PDF = "pdf";
+    private static final String PDF_MIME_TYPE = "application/pdf";
 
     @Value("${service.pdf-service.uri}/rs/convert")
     private String documentConversionUrl;
@@ -35,27 +34,29 @@ public class DocumentConversionService {
     @Value("${service.pdf-service.accessKey}")
     private String docmosisAccessKey;
 
+    private final Tika tika;
+
     private final RestTemplate restTemplate;
 
     private final EvidenceManagementService evidenceManagementService;
 
 
     public byte[] convertDocumentToPdf(Document sourceDocument) {
-        if (sourceDocument.getFileName().toLowerCase().endsWith(PDF)) {
+        if (PDF_MIME_TYPE.equalsIgnoreCase(tika.detect(sourceDocument.getFileName()))) {
             throw new DocumentConversionException(
                 "Document already is a pdf",
                 null
             );
         }
 
-        return convert(sourceDocument, PDF);
+        return convert(sourceDocument);
     }
 
     public String getConvertedFilename(String filename) {
-        return filename.split("\\.")[0] + ".pdf";
+        return FilenameUtils.getBaseName(filename) + ".pdf";
     }
 
-    private byte[] convert(Document sourceDocument, String targetFileType) {
+    private byte[] convert(Document sourceDocument) {
         try {
             String filename = getConvertedFilename(sourceDocument.getFileName());
             byte[] docInBytes = evidenceManagementService.downloadDocument(sourceDocument.getBinaryUrl()).getBody();
