@@ -46,7 +46,7 @@ public class DocumentManagementService {
             authorizationToken);
     }
 
-    private Document storeDocument(byte[] document, String fileName, String authorizationToken) {
+    public Document storeDocument(byte[] document, String fileName, String authorizationToken) {
         log.debug("Store document requested with document of size [{}]", document.length);
         FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken);
 
