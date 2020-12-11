@@ -27,7 +27,13 @@
         <cve>CVE-2020-5421</cve>
     </suppress>
     <suppress>
-        <notes>highest available Tomcat version does not fix this issue, suppressing for the moment</notes>
-        <cve>CVE-2020-13943</cve>
+        <notes>Suppress Jackson Data Bind as we don't use this library directly</notes>
+        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-databind@.*$</packageUrl>
+        <cve>CVE-2020-25649</cve>
+    </suppress>
+    <suppress>
+        <notes>Suppress HTTP Client as we don't use this library directly</notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpclient@.*$</packageUrl>
+        <cve>CVE-2020-13956</cve>
     </suppress>
 </suppressions>
