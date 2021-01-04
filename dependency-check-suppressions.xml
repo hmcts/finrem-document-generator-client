@@ -36,4 +36,9 @@
         <packageUrl regex="true">^pkg:maven/org\.apache\.httpcomponents/httpclient@.*$</packageUrl>
         <cve>CVE-2020-13956</cve>
     </suppress>
+    <suppress>
+        <notes>Suppress Bouncy Castle</notes>
+        <packageUrl regex="true">^pkg:maven/org\.bouncycastle/bcprov\-jdk15on@.*$</packageUrl>
+        <cve>CVE-2020-26939</cve>
+    </suppress>
 </suppressions>
