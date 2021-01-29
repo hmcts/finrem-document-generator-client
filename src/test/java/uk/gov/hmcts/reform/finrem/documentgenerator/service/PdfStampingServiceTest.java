@@ -2,13 +2,10 @@ package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
 import uk.gov.hmcts.reform.finrem.documentgenerator.error.StampDocumentException;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 
@@ -26,18 +23,14 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampingInfo.COURT_SEAL_IMAGE;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DocumentGeneratorApplication.class)
-@TestPropertySource(locations = "/application.properties")
+@RunWith(MockitoJUnitRunner.class)
 public class PdfStampingServiceTest {
 
     public static final String COURT_SEAL_PDF = "/courtseal.pdf";
 
-    @Autowired
-    private PdfStampingService service;
+    @InjectMocks private PdfStampingService service;
 
-    @MockBean
-    private EvidenceManagementService evidenceManagementService;
+    @Mock private EvidenceManagementService evidenceManagementService;
 
     @Test(expected = StampDocumentException.class)
     public void shouldThrowExceptionWhenDocumentIsNotPdf() throws Exception {
