@@ -138,7 +138,7 @@ dependencies {
     testImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
 
     testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-    testImplementation('org.springframework.security:spring-security-rsa')
+    testImplementation('org.springframework.security:spring-security-test')
 
     testSmokeImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     testSmokeImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
