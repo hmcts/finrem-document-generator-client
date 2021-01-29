@@ -36,11 +36,10 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 public class DocmosisPdfGenerationServiceTest {
 
     public static final String FILE_CONTENT = "Welcome to PDF document service";
-    public static final ImmutableMap<String, Object> PLACEHOLDERS =
-        ImmutableMap.of("caseDetails",caseDataMap());
-
+    public static final ImmutableMap<String, Object> PLACEHOLDERS = ImmutableMap.of("caseDetails",caseDataMap());
     public static final String TEMPLATE_NAME = "template name";
     public static final String PDF_SERVICE_URI = "https://doc-gen/rs/render";
+
     @Autowired
     private DocmosisPdfGenerationService pdfGenerationService;
 

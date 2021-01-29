@@ -4,12 +4,9 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.finrem.documentgenerator.model.Document;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,9 +17,7 @@ import static org.mockito.Mockito.when;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document;
 import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUploadResponse;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DocumentGeneratorApplication.class)
-@TestPropertySource(locations = "/application.properties")
+@RunWith(MockitoJUnitRunner.class)
 public class DocumentManagementServiceTest {
 
     public static final String TEMPLATE_NAME = "templateName";
@@ -31,14 +26,10 @@ public class DocumentManagementServiceTest {
     private static final String FILE_NAME = "kbjh87y8y9JHVKKKJVJ";
     private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
 
-    @Autowired
-    private DocumentManagementService service;
+    @InjectMocks private DocumentManagementService service;
 
-    @MockBean
-    private PdfGenerationService pdfGenerationService;
-
-    @MockBean
-    private EvidenceManagementService evidenceManagementService;
+    @Mock private PdfGenerationService pdfGenerationService;
+    @Mock private EvidenceManagementService evidenceManagementService;
 
     @Before
     public void setUp() {

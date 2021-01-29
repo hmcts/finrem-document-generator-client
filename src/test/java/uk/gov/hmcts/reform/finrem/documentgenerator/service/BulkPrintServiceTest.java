@@ -4,20 +4,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.finrem.documentgenerator.DocumentGeneratorApplication;
 import uk.gov.hmcts.reform.sendletter.api.LetterWithPdfsRequest;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterApi;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
 
-import java.util.Arrays;
 import java.util.UUID;
 
+import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -27,23 +24,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DocumentGeneratorApplication.class)
-@TestPropertySource(locations = "/application.properties")
+@RunWith(MockitoJUnitRunner.class)
 public class BulkPrintServiceTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Autowired
-    private BulkPrintService service;
+    @InjectMocks private BulkPrintService service;
 
-    @MockBean
-    private AuthTokenGenerator authTokenGenerator;
-
-    @MockBean
-    private SendLetterApi sendLetterApi;
-
+    @Mock private AuthTokenGenerator authTokenGenerator;
+    @Mock private SendLetterApi sendLetterApi;
 
     @Test
     public void downloadDocuments() {
@@ -53,7 +43,7 @@ public class BulkPrintServiceTest {
         when(sendLetterApi.sendLetter(anyString(), any(LetterWithPdfsRequest.class)))
             .thenReturn(new SendLetterResponse(randomId));
 
-        UUID letterId = service.send("1000", "aa", Arrays.asList("abc".getBytes()));
+        UUID letterId = service.send("1000", "aa", singletonList("abc".getBytes()));
         assertThat(letterId, is(equalTo(randomId)));
     }
 
@@ -61,7 +51,7 @@ public class BulkPrintServiceTest {
     public void throwsException() {
         when(authTokenGenerator.generate()).thenThrow(new RuntimeException());
         thrown.expect(RuntimeException.class);
-        service.send("1000", "aa", Arrays.asList("abc".getBytes()));
+        service.send("1000", "aa", singletonList("abc".getBytes()));
         verifyNoInteractions(sendLetterApi);
     }
 
@@ -74,9 +64,7 @@ public class BulkPrintServiceTest {
             .thenThrow(new RuntimeException());
 
         thrown.expect(RuntimeException.class);
-        service.send("1000", "aa", Arrays.asList("abc".getBytes()));
+        service.send("1000", "aa", singletonList("abc".getBytes()));
         verify(authTokenGenerator.generate());
     }
-
-
 }
