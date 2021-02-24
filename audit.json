@@ -36,6 +36,7 @@
     "10096_Timestamp Disclosure - Unix_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/delete-pdf-document?fileUrl=fileUrl_DELETE": "ignore",
     "10096_Timestamp Disclosure - Unix_http://finrem-dgcs-aat.service.core-compute-aat.internal/file-upload-check?fileBinaryUrl=fileBinaryUrl_GET": "ignore",
     "10096_Timestamp Disclosure - Unix_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore",
+    "10096_Timestamp Disclosure - Unix_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
     "10010_Cookie No HttpOnly Flag_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
     "10010_Cookie No HttpOnly Flag_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/delete-pdf-document?fileUrl=fileUrl_DELETE": "ignore",
     "10010_Cookie No HttpOnly Flag_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/bulk-print_POST": "ignore",
