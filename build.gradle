@@ -105,6 +105,7 @@ dependencyManagement {
 }
 
 dependencies {
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '2.3.3'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
