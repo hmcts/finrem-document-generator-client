@@ -18,7 +18,6 @@ Store and return the link to the stored data.
 - [JDK 11](https://www.oracle.com/java)
 - [Docker](https://www.docker.com)
 
-
 ### Building
 
 The project uses [Gradle](https://gradle.org) as a build tool but you don't have to install it locally since there is a
@@ -27,7 +26,7 @@ The project uses [Gradle](https://gradle.org) as a build tool but you don't have
 To build project please execute the following command:
 
 ```bash
-    ./gradlew build
+./gradlew build
 ```
 
 ### Running
@@ -35,25 +34,24 @@ To build project please execute the following command:
 First you need to create runnable jar by executing following command:
 
 ```bash
-    ./gradlew clean build
+./gradlew clean build
 ```
-
 
 When the lib has been created in `build/lib` directory,
 you can run the application by executing following command:
 
 1) Run
-```
+```bash
 docker build . -t hmcts/finrem-document-generator-client:latest
 ```
 
 2) Export docmosis-api-access-key (ask finrem dev members to provide one)
-```
+```bash
 export PDF_SERVICE_ACCESS_KEY=<ACTUAL_KEY>
 ```
 3) Run
 ```bash
-    docker-compose up
+docker-compose up
 ```
 
 As a result the following container(s) will get created and started:
@@ -71,7 +69,7 @@ API documentation is provided with Swagger:
 To run all unit tests please execute following command:
 
 ```bash
-    ./gradlew test
+./gradlew test
 ```
 
 ### Coding style tests
@@ -79,17 +77,17 @@ To run all unit tests please execute following command:
 To run all checks (including unit tests) please execute following command:
 
 ```bash
-    ./gradlew check
+./gradlew check
 ```
 
 ### Mutation tests
 
 To run all mutation tests execute the following command:
 
-```
+```bash
 ./gradlew pitest
-
 ```
+
 ## Standard API
 
 We follow [RESTful API standards](https://hmcts.github.io/restful-api-standards/).
