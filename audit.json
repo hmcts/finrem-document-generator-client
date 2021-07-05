@@ -59,6 +59,10 @@
     "90033_Loosely Scoped Cookie_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore",
     "90033_Loosely Scoped Cookie_http://finrem-dgcs-aat.service.core-compute-aat.internal/v2/api-docs_GET": "ignore",
     "90033_Loosely Scoped Cookie_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/annex-stamp-document_POST": "ignore",
-    "90033_Loosely Scoped Cookie_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore"
+    "90033_Loosely Scoped Cookie_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/generate-pdf_POST": "ignore",
+    "100000_A Client Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/file-upload-check?fileBinaryUrl=fileBinaryUrl_GET": "ignore",
+    "100000_A Client Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/bulk-print_POST": "ignore",
+    "100000_A Client Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/convert-to-pdf_POST": "ignore",
+    "100000_A Client Error response code was returned by the server_http://finrem-dgcs-aat.service.core-compute-aat.internal/version/1/stamp-document_POST": "ignore"
 }
 
