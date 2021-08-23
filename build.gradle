@@ -143,6 +143,8 @@ dependencies {
     testSmokeImplementation sourceSets.main.runtimeClasspath
     testSmokeImplementation sourceSets.test.runtimeClasspath
 
+    testCompile('com.github.hmcts:fortify-client:1.2.0:all')
+
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
 
@@ -187,7 +189,7 @@ compileTestJava {
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
+    maven { url "https://jitpack.io" }
     maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
