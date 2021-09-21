@@ -101,6 +101,7 @@ dependencyManagement {
             entry 'httpclient'
             entry 'fluent-hc'
         }
+        dependency group: 'org.glassfish', name: 'jakarta.el', version: '3.0.4'
     }
 }
 
