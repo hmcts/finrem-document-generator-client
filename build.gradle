@@ -75,7 +75,7 @@ def versions = [
     serviceTokenGenerator   : '3.1.1',
     springfoxSwagger        : '2.9.2',
     springOpenFeign         : '2.1.1.RELEASE',
-    tomcat                  : '9.0.43',
+    tomcat                  : '9.0.50',
     unirest                 : '1.4.9',
     wiremock                : '2.27.2'
 ]
@@ -101,6 +101,7 @@ dependencyManagement {
             entry 'httpclient'
             entry 'fluent-hc'
         }
+        dependency group: 'org.glassfish', name: 'jakarta.el', version: '3.0.4'
     }
 }
 
@@ -142,6 +143,8 @@ dependencies {
     testSmokeImplementation group: 'org.projectlombok', name: 'lombok', version: versions.lombok
     testSmokeImplementation sourceSets.main.runtimeClasspath
     testSmokeImplementation sourceSets.test.runtimeClasspath
+
+    testCompile('com.github.hmcts:fortify-client:1.2.0:all')
 
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
@@ -187,7 +190,7 @@ compileTestJava {
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/hmcts/hmcts-maven" }
+    maven { url "https://jitpack.io" }
     maven { url 'https://repo.spring.io/libs-milestone' }
 }
 
@@ -305,4 +308,10 @@ run {
     if (debug == 'true') {
         jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5010']
     }
+}
+
+task fortifyScan(type: JavaExec)  {
+    main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+    classpath += sourceSets.test.runtimeClasspath
+    jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
