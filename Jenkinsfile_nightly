@@ -21,7 +21,7 @@ def component = "dgcs"
 withNightlyPipeline(type, product, component) {
     env.TEST_URL = params.URL_TO_TEST
     env.Rules = params.SecurityRules
-    enableSecurityScan()
+
     enableMutationTest()
     enableFortifyScan()
 
