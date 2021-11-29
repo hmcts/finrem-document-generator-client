@@ -59,14 +59,15 @@ public class FunctionalTestUtils {
         return Headers.headers(
             new Header("ServiceAuthorization", tokenGenerator.generate()),
             new Header("user-roles", "caseworker-divorce"),
-            new Header("user-id", userId));
+            new Header("user-id", userId)
+        );
     }
 
     public Headers getHeaders() {
         return Headers.headers(
-            new Header("Authorization", "Bearer "
-                + idamUtils.getIdamTestUserToken()),
-            new Header("Content-Type", ContentType.JSON.toString()));
+            new Header("Authorization", "Bearer " + idamUtils.getIdamTestUserToken()),
+            new Header("Content-Type", ContentType.JSON.toString())
+        );
     }
 
     public String downloadPdfAndParseToString(String documentUrl) {

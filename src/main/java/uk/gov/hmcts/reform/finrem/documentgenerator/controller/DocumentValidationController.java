@@ -35,10 +35,10 @@ public class DocumentValidationController {
 
         log.info("Received request for checkUploadedFileType. Auth token: {}, binaryFileUrl: {}",
             authorisationToken, fileBinaryUrl);
-        return response(fileBinaryUrl);
+        return response(fileBinaryUrl, authorisationToken);
     }
 
-    private DocumentValidationResponse response(String fileBinaryUrl) {
-        return service.validateFileType(fileBinaryUrl);
+    private DocumentValidationResponse response(String fileBinaryUrl, String authorisationToken) {
+        return service.validateFileType(fileBinaryUrl, authorisationToken);
     }
 }

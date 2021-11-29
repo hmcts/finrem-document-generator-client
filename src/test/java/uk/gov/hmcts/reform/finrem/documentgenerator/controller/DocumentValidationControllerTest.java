@@ -17,17 +17,19 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentValidationControllerTest {
+
     private static final String AUTH_TOKEN = "AUTH_TOKEN";
     private static final String FILE_BINARY_URL = "http://dm-store:8080/eeww123456/binary";
 
     @Mock
     private DocumentValidationService service;
+
     @InjectMocks
     private DocumentValidationController underTest;
 
     @Test
     public void shouldReturnSuccessfulFileTypeCheckWithOutErrors() {
-        when(service.validateFileType(FILE_BINARY_URL))
+        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN))
             .thenReturn(DocumentValidationResponse.builder().build());
         DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(
             AUTH_TOKEN, FILE_BINARY_URL);
@@ -36,7 +38,7 @@ public class DocumentValidationControllerTest {
 
     @Test
     public void shouldReturnInvalidFileTypeCheckWithErrors() {
-        when(service.validateFileType(FILE_BINARY_URL))
+        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN))
             .thenReturn(DocumentValidationResponse.builder()
                 .errors(singletonList("Invalid Mime Type")).build());
         DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(

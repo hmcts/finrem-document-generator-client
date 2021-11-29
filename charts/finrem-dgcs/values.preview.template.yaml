@@ -1,3 +1,5 @@
 java:
     image: ${IMAGE_NAME}
     ingressHost: ${SERVICE_FQDN}
+    environment:
+        EVIDENCE_MANAGEMENT_CLIENT_API_BASEURL: http://finrem-emca-pr-84.service.core-compute-preview.internal

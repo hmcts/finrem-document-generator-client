@@ -27,9 +27,13 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 public class DocumentValidationServiceTest {
 
     private static final String FILE_BINARY_URL = "http://dm-store:8080/eeww123456/binary";
+    private static final String AUTH_TOKEN = "auth";
 
-    @Mock private EvidenceManagementService evidenceManagementService;
-    @Mock private Tika tika;
+    @Mock
+    private EvidenceManagementService evidenceManagementService;
+
+    @Mock
+    private Tika tika;
 
     @InjectMocks
     private DocumentValidationService underTest;
@@ -43,9 +47,11 @@ public class DocumentValidationServiceTest {
     @Test
     public void shouldReturnSuccessValidateFileType() throws IOException {
         ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
+
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/pdf");
-        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
-        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
+        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(responseEntity);
+
+        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL, AUTH_TOKEN);
         assertThat(documentValidationResponse.getMimeType(), is("application/pdf"));
         assertNull(documentValidationResponse.getErrors());
     }
@@ -53,18 +59,22 @@ public class DocumentValidationServiceTest {
     @Test
     public void shouldReturnErrorsForInValidateFileType() throws IOException {
         ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
+
         when(tika.detect(any(), any(Metadata.class))).thenReturn("application/json");
-        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
-        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
+        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(responseEntity);
+
+        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL, AUTH_TOKEN);
         assertThat(documentValidationResponse.getErrors(), hasItem("Invalid fileType"));
     }
 
     @Test
     public void shouldThrowErrorForValidateFileType() throws IOException {
         ResponseEntity<byte[]> responseEntity = jsonResponseEntityWithStubBody();
+
         when(tika.detect(any(), any(Metadata.class))).thenThrow(new IOException());
-        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
-        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
+        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(responseEntity);
+
+        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL, AUTH_TOKEN);
         assertThat(documentValidationResponse.getErrors(), hasItem("Unable to detect the MimeType due to IOException"));
     }
 
@@ -73,8 +83,10 @@ public class DocumentValidationServiceTest {
         ResponseEntity<byte[]> responseEntity = ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_JSON)
             .body(null);
-        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL)).thenReturn(responseEntity);
-        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL);
+
+        when(evidenceManagementService.downloadDocument(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(responseEntity);
+
+        DocumentValidationResponse documentValidationResponse = underTest.validateFileType(FILE_BINARY_URL, AUTH_TOKEN);
         assertThat(documentValidationResponse.getErrors(), hasItem("Downloaded document is empty"));
     }
 

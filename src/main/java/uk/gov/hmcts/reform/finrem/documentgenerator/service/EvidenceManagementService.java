@@ -44,14 +44,14 @@ public class EvidenceManagementService {
     @Value("${service.evidence-management-client-api.download-uri}")
     private String evidenceManagementReadEndpoint;
 
-    public ResponseEntity<byte[]> downloadDocument(String binaryFileUrl) {
+    public ResponseEntity<byte[]> downloadDocument(String binaryFileUrl, String authorizationToken) {
         log.info("Downloading document from evidence management service for binary url {}", binaryFileUrl);
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(evidenceManagementReadEndpoint);
         builder.queryParam("binaryFileUrl", binaryFileUrl);
 
         ResponseEntity<byte[]> result = restTemplate.exchange(builder.build().encode().toUriString(), HttpMethod.GET,
-            new HttpEntity<>(""), byte[].class, String.class);
+            new HttpEntity<>(getAuthHttpHeaders(authorizationToken)), byte[].class, String.class);
         log.info("Documents has been successfully downloaded for binary url {} with status {} ", binaryFileUrl, result.getStatusCode());
         return result;
     }

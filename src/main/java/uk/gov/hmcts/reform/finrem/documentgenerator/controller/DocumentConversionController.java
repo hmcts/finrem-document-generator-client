@@ -38,7 +38,7 @@ public class DocumentConversionController {
         @RequestHeader(value = "Authorization") String authorisationToken,
         @RequestBody Document document
     ) {
-        byte[] convertedDocContent = documentConversionService.convertDocumentToPdf(document);
+        byte[] convertedDocContent = documentConversionService.convertDocumentToPdf(document, authorisationToken);
         String filename = documentConversionService.getConvertedFilename(document.getFileName());
         return storeDocument(convertedDocContent, filename, authorisationToken);
     }

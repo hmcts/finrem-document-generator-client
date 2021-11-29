@@ -32,8 +32,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @TestPropertySource(locations = "/application.properties")
 public class DocumentConversionServiceTest {
 
-    public static final String PDF_SERVICE_URI = "https://doc-gen/rs/convert";
-    public static final byte[] CONVERTED_BINARY = "converted".getBytes();
+    private static final String PDF_SERVICE_URI = "https://doc-gen/rs/convert";
+    private static final String AUTH_TOKEN = "auth";
+    private static final byte[] CONVERTED_BINARY = "converted".getBytes();
 
     @Autowired
     private DocumentConversionService documentConversionService;
@@ -62,27 +63,25 @@ public class DocumentConversionServiceTest {
             .andExpect(method(HttpMethod.POST))
             .andRespond(withSuccess(CONVERTED_BINARY, MediaType.APPLICATION_OCTET_STREAM));
 
-        when(
-            evidenceManagementService.downloadDocument(eq(documentToConvert.getBinaryUrl())))
+        when(evidenceManagementService.downloadDocument(eq(documentToConvert.getBinaryUrl()), eq(AUTH_TOKEN)))
             .thenReturn(ResponseEntity.ok("bytes".getBytes()));
 
-        byte[] result = documentConversionService.convertDocumentToPdf(documentToConvert);
+        byte[] result = documentConversionService.convertDocumentToPdf(documentToConvert, AUTH_TOKEN);
         assertThat(result, is(notNullValue()));
         assertThat(result, is(CONVERTED_BINARY));
     }
 
     @Test(expected = DocumentConversionException.class)
-    public void convertWordToPdfFailsWhenAlreadyPdf() throws Exception {
+    public void convertWordToPdfFailsWhenAlreadyPdf() {
         mockServer.expect(requestTo(PDF_SERVICE_URI))
             .andExpect(method(HttpMethod.POST))
             .andRespond(withSuccess(CONVERTED_BINARY, MediaType.APPLICATION_OCTET_STREAM));
 
-        when(
-            evidenceManagementService.downloadDocument(eq(documentToConvert.getBinaryUrl())))
+        when(evidenceManagementService.downloadDocument(eq(documentToConvert.getBinaryUrl()), eq(AUTH_TOKEN)))
             .thenReturn(ResponseEntity.ok("bytes".getBytes()));
 
         documentToConvert.setFileName("file.pdf");
-        byte[] result = documentConversionService.convertDocumentToPdf(documentToConvert);
+        byte[] result = documentConversionService.convertDocumentToPdf(documentToConvert, AUTH_TOKEN);
     }
 
     @Test

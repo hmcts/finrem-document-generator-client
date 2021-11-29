@@ -17,8 +17,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteDocumentControllerTest {
 
-    public static final String FILE_URL = "file_url";
-    public static final String AUTH_TOKEN = "AUTH_TOKEN";
+    private static final String FILE_URL = "file_url";
+    private static final String AUTH_TOKEN = "AUTH_TOKEN";
+
     @Mock
     private DocumentManagementService documentManagementService;
 

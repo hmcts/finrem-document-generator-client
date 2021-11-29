@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.finrem.functional.documents;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -146,7 +145,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         System.out.println("url is " + url);
         Response response = SerenityRest.given()
             .relaxedHTTPSValidation()
-            .header("Content-Type", ContentType.JSON.toString())
+            .headers(utils.getHeaders())
             .body(utils.getJsonFromFile(jsonFileName))
             .and().post();
         errMsg = response.prettyPrint();
@@ -178,7 +177,6 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
     private Response generateDocument(String jsonFileName) {
-
         Response jsonResponse = SerenityRest.given()
             .relaxedHTTPSValidation()
             .headers(utils.getHeaders())

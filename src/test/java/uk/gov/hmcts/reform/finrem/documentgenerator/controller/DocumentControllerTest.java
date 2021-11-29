@@ -23,6 +23,7 @@ public class DocumentControllerTest {
 
     private static final String FILE_NAME = "file_name";
     private static final String AUTH_TOKEN = "AUTH_TOKEN";
+
     @Mock
     private DocumentManagementService documentManagementService;
 

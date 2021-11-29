@@ -24,48 +24,52 @@ import static org.mockito.Mockito.when;
 public class BulkPrintDocumentServiceTest {
 
     private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
+    private static final String AUTH_TOKEN = "auth";
     private final byte[] someBytes = "ainhsdcnoih".getBytes();
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @InjectMocks private BulkPrintDocumentService service;
+    @InjectMocks
+    private BulkPrintDocumentService service;
 
-    @Mock private EvidenceManagementService evidenceManagementService;
+    @Mock
+    private EvidenceManagementService evidenceManagementService;
 
     @Test
     public void downloadDocuments() {
-        when(evidenceManagementService.downloadDocument(FILE_URL)).thenReturn(ResponseEntity.ok(someBytes));
+        when(evidenceManagementService.downloadDocument(FILE_URL, AUTH_TOKEN)).thenReturn(ResponseEntity.ok(someBytes));
 
         BulkPrintRequest bulkPrintRequest = BulkPrintRequest.builder()
             .bulkPrintDocuments(singletonList(BulkPrintDocument.builder().binaryFileUrl(FILE_URL).build()))
             .build();
 
-        List<byte[]> result = service.downloadDocuments(bulkPrintRequest);
+        List<byte[]> result = service.downloadDocuments(bulkPrintRequest, AUTH_TOKEN);
         assertThat(result.get(0), is(equalTo(someBytes)));
     }
 
     @Test
     public void throwsExceptionOnBadRequest() {
-        when(evidenceManagementService.downloadDocument(FILE_URL)).thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(someBytes));
+        when(evidenceManagementService.downloadDocument(FILE_URL, AUTH_TOKEN))
+            .thenReturn(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(someBytes));
 
         BulkPrintRequest bulkPrintRequest = BulkPrintRequest.builder()
             .bulkPrintDocuments(singletonList(BulkPrintDocument.builder().binaryFileUrl(FILE_URL).build()))
             .build();
 
         thrown.expect(RuntimeException.class);
-        service.downloadDocuments(bulkPrintRequest);
+        service.downloadDocuments(bulkPrintRequest, AUTH_TOKEN);
     }
 
     @Test
     public void throwsExceptionOnAnyException() {
-        when(evidenceManagementService.downloadDocument(FILE_URL)).thenThrow(new RuntimeException());
+        when(evidenceManagementService.downloadDocument(FILE_URL, AUTH_TOKEN)).thenThrow(new RuntimeException());
 
         BulkPrintRequest bulkPrintRequest = BulkPrintRequest.builder()
             .bulkPrintDocuments(singletonList(BulkPrintDocument.builder().binaryFileUrl(FILE_URL).build()))
             .build();
 
         thrown.expect(RuntimeException.class);
-        service.downloadDocuments(bulkPrintRequest);
+        service.downloadDocuments(bulkPrintRequest, AUTH_TOKEN);
     }
 }

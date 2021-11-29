@@ -17,15 +17,14 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.document
 
 @RunWith(MockitoJUnitRunner.class)
 public class StampDocumentControllerTest {
-    private static String AUTH_TOKEN = "auth";
 
+    private static final String AUTH_TOKEN = "auth";
 
     @InjectMocks
     private StampDocumentController controller;
 
     @Mock
     private PdfStampingService pdfStampingService;
-
 
     @Test
     public void shouldStampDocument() {

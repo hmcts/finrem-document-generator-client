@@ -26,16 +26,19 @@ public class DocumentManagementServiceTest {
     private static final String FILE_NAME = "kbjh87y8y9JHVKKKJVJ";
     private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
 
-    @InjectMocks private DocumentManagementService service;
+    @InjectMocks
+    private DocumentManagementService service;
 
-    @Mock private PdfGenerationService pdfGenerationService;
-    @Mock private EvidenceManagementService evidenceManagementService;
+    @Mock
+    private PdfGenerationService pdfGenerationService;
+
+    @Mock
+    private EvidenceManagementService evidenceManagementService;
 
     @Before
     public void setUp() {
         when(pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS)).thenReturn("welcome doc".getBytes());
-        when(
-            evidenceManagementService.storeDocument("welcome doc".getBytes(), FILE_NAME, AUTH_TOKEN))
+        when(evidenceManagementService.storeDocument("welcome doc".getBytes(), FILE_NAME, AUTH_TOKEN))
             .thenReturn(fileUploadResponse());
     }
 

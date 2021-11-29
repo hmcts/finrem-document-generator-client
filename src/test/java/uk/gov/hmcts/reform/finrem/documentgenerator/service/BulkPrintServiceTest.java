@@ -30,10 +30,14 @@ public class BulkPrintServiceTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @InjectMocks private BulkPrintService service;
+    @InjectMocks
+    private BulkPrintService service;
 
-    @Mock private AuthTokenGenerator authTokenGenerator;
-    @Mock private SendLetterApi sendLetterApi;
+    @Mock
+    private AuthTokenGenerator authTokenGenerator;
+
+    @Mock
+    private SendLetterApi sendLetterApi;
 
     @Test
     public void downloadDocuments() {

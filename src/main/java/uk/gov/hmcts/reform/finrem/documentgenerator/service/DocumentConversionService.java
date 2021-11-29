@@ -40,54 +40,36 @@ public class DocumentConversionService {
 
     private final EvidenceManagementService evidenceManagementService;
 
-
-    public byte[] convertDocumentToPdf(Document sourceDocument) {
+    public byte[] convertDocumentToPdf(Document sourceDocument, String authorisationToken) {
         if (PDF_MIME_TYPE.equalsIgnoreCase(tika.detect(sourceDocument.getFileName()))) {
-            throw new DocumentConversionException(
-                "Document already is a pdf",
-                null
-            );
+            throw new DocumentConversionException("Document already is a pdf", null);
         }
 
-        return convert(sourceDocument);
+        return convert(sourceDocument, authorisationToken);
     }
 
     public String getConvertedFilename(String filename) {
         return FilenameUtils.getBaseName(filename) + ".pdf";
     }
 
-    private byte[] convert(Document sourceDocument) {
+    private byte[] convert(Document sourceDocument, String authorisationToken) {
         try {
             String filename = getConvertedFilename(sourceDocument.getFileName());
-            byte[] docInBytes = evidenceManagementService.downloadDocument(sourceDocument.getBinaryUrl()).getBody();
+            byte[] docInBytes = evidenceManagementService
+                .downloadDocument(sourceDocument.getBinaryUrl(), authorisationToken)
+                .getBody();
             File file = new File(filename);
             Files.write(docInBytes, file);
 
-            return restTemplate
-                .postForObject(
-                    documentConversionUrl,
-                    createRequest(file, filename),
-                    byte[].class
-                );
-
+            return restTemplate.postForObject(documentConversionUrl, createRequest(file, filename), byte[].class);
         } catch (HttpClientErrorException clientEx) {
-
-            throw new DocumentConversionException(
-                "Error converting document to pdf",
-                clientEx
-            );
+            throw new DocumentConversionException("Error converting document to pdf", clientEx);
         } catch (IOException ex) {
-            throw new DocumentConversionException(
-                "Error creating temp file",
-                ex
-            );
+            throw new DocumentConversionException("Error creating temp file", ex);
         }
     }
 
-    private HttpEntity<MultiValueMap<String, Object>> createRequest(
-        File file,
-        String outputFilename
-    ) {
+    private HttpEntity<MultiValueMap<String, Object>> createRequest(File file, String outputFilename) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 

@@ -32,8 +32,8 @@ public class DocumentValidationService {
     @Value("${document.validation.fileUploadErrorMessage}")
     private String fileUploadErrorMessage;
 
-    public DocumentValidationResponse validateFileType(String fileBinaryUrl) {
-        ResponseEntity<byte[]> responseEntity = service.downloadDocument(fileBinaryUrl);
+    public DocumentValidationResponse validateFileType(String fileBinaryUrl, String authorisationToken) {
+        ResponseEntity<byte[]> responseEntity = service.downloadDocument(fileBinaryUrl, authorisationToken);
         DocumentValidationResponseBuilder builder = DocumentValidationResponse.builder();
         if (Objects.isNull(responseEntity.getBody())) {
             builder.errors(singletonList("Downloaded document is empty"));

@@ -32,7 +32,7 @@ public class PdfStampingService {
     public Document stampDocument(Document document, String authToken, boolean isAnnexNeeded) {
         log.info("Stamp document : {}", document);
         try {
-            byte[] docInBytes = emService.downloadDocument(document.getBinaryUrl()).getBody();
+            byte[] docInBytes = emService.downloadDocument(document.getBinaryUrl(), authToken).getBody();
             byte[] stampedDoc = stampDocument(docInBytes, isAnnexNeeded);
             FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authToken);
             return CONVERTER.apply(fileSaved);

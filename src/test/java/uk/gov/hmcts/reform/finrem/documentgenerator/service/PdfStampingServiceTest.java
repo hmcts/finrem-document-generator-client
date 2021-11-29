@@ -26,17 +26,21 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampin
 @RunWith(MockitoJUnitRunner.class)
 public class PdfStampingServiceTest {
 
-    public static final String COURT_SEAL_PDF = "/courtseal.pdf";
+    private static final String COURT_SEAL_PDF = "/courtseal.pdf";
+    private static final String AUTH_TOKEN = "auth";
 
-    @InjectMocks private PdfStampingService service;
+    @InjectMocks
+    private PdfStampingService service;
 
-    @Mock private EvidenceManagementService evidenceManagementService;
+    @Mock
+    private EvidenceManagementService evidenceManagementService;
 
     @Test(expected = StampDocumentException.class)
     public void shouldThrowExceptionWhenDocumentIsNotPdf() throws Exception {
         Document document = document();
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_IMAGE);
-        when(evidenceManagementService.downloadDocument(document.getBinaryUrl()))
+
+        when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
         service.stampDocument(document, "auth", false);
@@ -47,7 +51,7 @@ public class PdfStampingServiceTest {
         Document document = document();
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_PDF);
 
-        when(evidenceManagementService.downloadDocument(document.getBinaryUrl()))
+        when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
         when(evidenceManagementService.storeDocument(any(), anyString(), anyString()))
@@ -66,7 +70,7 @@ public class PdfStampingServiceTest {
         Document document = document();
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_PDF);
 
-        when(evidenceManagementService.downloadDocument(document.getBinaryUrl()))
+        when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
         when(evidenceManagementService.storeDocument(any(), anyString(), anyString()))
@@ -90,7 +94,6 @@ public class PdfStampingServiceTest {
     @Test
     public void shouldAnnexAndStampPdfWithCourSeal() throws Exception {
         byte[] imageAsBytes = service.imageAsBytes(COURT_SEAL_PDF);
-
         byte[] stampDocument = service.stampDocument(imageAsBytes, true);
 
         assertThat(stampDocument, notNullValue());

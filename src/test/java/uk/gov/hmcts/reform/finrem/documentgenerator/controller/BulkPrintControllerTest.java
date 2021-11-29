@@ -27,6 +27,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BulkPrintControllerTest {
+
+    private static final String AUTH_TOKEN = "AUTH_TOKEN";
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
@@ -50,13 +53,13 @@ public class BulkPrintControllerTest {
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
         final List<byte[]> documents = Arrays.asList("some random string".getBytes());
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
             .thenReturn(documents);
 
         when(bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(), documents))
             .thenReturn(randomuuid);
 
-        UUID response = controller.bulkPrint(bulkPrintRequest);
+        UUID response = controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest);
         assertThat(response, is(randomuuid));
 
         verify(bulkPrintService, times(1)).send(bulkPrintRequest.getCaseId(),
@@ -72,12 +75,12 @@ public class BulkPrintControllerTest {
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
 
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
             .thenThrow(new RuntimeException());
 
 
         thrown.expect(RuntimeException.class);
-        controller.bulkPrint(bulkPrintRequest);
+        controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest);
         verifyNoInteractions(bulkPrintService);
     }
 
@@ -89,7 +92,7 @@ public class BulkPrintControllerTest {
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
         final List<byte[]> documents = Arrays.asList("some random string".getBytes());
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
             .thenReturn(documents);
 
         doThrow(new RuntimeException()).when(bulkPrintService).send(bulkPrintRequest.getCaseId(),
@@ -97,7 +100,7 @@ public class BulkPrintControllerTest {
 
         thrown.expect(RuntimeException.class);
 
-        controller.bulkPrint(bulkPrintRequest);
+        controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest);
 
         verifyNoMoreInteractions(bulkPrintService);
     }

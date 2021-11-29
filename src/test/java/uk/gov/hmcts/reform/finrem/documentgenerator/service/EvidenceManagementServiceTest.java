@@ -110,9 +110,10 @@ public class EvidenceManagementServiceTest {
     public void downloadDocument()  {
         mockServer.expect(requestTo(DOWNLOAD_DOC_URL.concat("?binaryFileUrl=").concat(FILE_URL)))
             .andExpect(method(HttpMethod.GET))
+            .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
             .andRespond(MockRestResponseCreators.withSuccess());
 
-        ResponseEntity<byte[]> result = service.downloadDocument(FILE_URL);
+        ResponseEntity<byte[]> result = service.downloadDocument(FILE_URL, AUTH_TOKEN);
         assertThat(result.getStatusCode(), is(HttpStatus.OK));
 
         mockServer.verify();

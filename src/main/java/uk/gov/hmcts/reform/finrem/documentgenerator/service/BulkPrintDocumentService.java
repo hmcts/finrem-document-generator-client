@@ -17,11 +17,11 @@ public class BulkPrintDocumentService {
 
     private final EvidenceManagementService service;
 
-    public List<byte[]> downloadDocuments(BulkPrintRequest bulkPrintRequest) {
+    public List<byte[]> downloadDocuments(BulkPrintRequest bulkPrintRequest, String authorizationToken) {
         log.info("Downloading document for bulk print for case id {}", bulkPrintRequest.getCaseId());
 
         List<byte[]> documents = bulkPrintRequest.getBulkPrintDocuments().stream().map(bulkPrintDocument -> {
-            ResponseEntity<byte[]> response = service.downloadDocument(bulkPrintDocument.getBinaryFileUrl());
+            ResponseEntity<byte[]> response = service.downloadDocument(bulkPrintDocument.getBinaryFileUrl(), authorizationToken);
             if (response.getStatusCode() != HttpStatus.OK) {
                 log.error("Download failed for url {} ", bulkPrintDocument.getBinaryFileUrl());
                 throw new RuntimeException(String.format("Unexpected error DM store: %s ", response.getStatusCode()));
