@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.controller;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -79,8 +80,7 @@ public class BulkPrintControllerTest {
             .thenThrow(new RuntimeException());
 
 
-        thrown.expect(RuntimeException.class);
-        controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest);
+        Assert.assertThrows(RuntimeException.class, () -> controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest));
         verifyNoInteractions(bulkPrintService);
     }
 

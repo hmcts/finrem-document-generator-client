@@ -43,6 +43,8 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.e2etest.TestSupport.v
 @AutoConfigureMockMvc
 public class OnlineFormAGenerateE2ETest {
     private static final String API_URL = "/version/1/generate-pdf";
+    private static final String CASE_TYPE_ID = "caseTypeId";
+    private static final String CASE_TYPE = "FinancialRemedyContested";
 
     @Autowired
     private MockMvc webClient;
@@ -69,6 +71,7 @@ public class OnlineFormAGenerateE2ETest {
     @Test
     public void templateNameNotSupplied() throws Exception {
         webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(templateNotSuppliedRequest())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -78,6 +81,7 @@ public class OnlineFormAGenerateE2ETest {
     @Test
     public void templateValuesNotSupplied() throws Exception {
         webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(templateValuesNotSuppliedRequest())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -87,6 +91,7 @@ public class OnlineFormAGenerateE2ETest {
     @Test
     public void invalidJson() throws Exception {
         webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(invalidRequest().toString())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -99,6 +104,7 @@ public class OnlineFormAGenerateE2ETest {
             .andRespond(withStatus(HttpStatus.BAD_REQUEST));
 
         webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(validRequest().toString())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -111,6 +117,7 @@ public class OnlineFormAGenerateE2ETest {
             .andRespond(withStatus(HttpStatus.UNAUTHORIZED));
 
         webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(validRequest().toString())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))
@@ -122,6 +129,7 @@ public class OnlineFormAGenerateE2ETest {
         externalServicesSetUp();
 
         MvcResult result = webClient.perform(post(API_URL)
+            .header(CASE_TYPE_ID, CASE_TYPE)
             .content(validRequest().toString())
             .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON))

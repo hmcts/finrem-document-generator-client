@@ -66,6 +66,7 @@ public class FunctionalTestUtils {
     public Headers getHeaders() {
         return Headers.headers(
             new Header("Authorization", "Bearer " + idamUtils.getIdamTestUserToken()),
+            new Header("caseTypeId", "FinancialRemedyMVP2"),
             new Header("Content-Type", ContentType.JSON.toString())
         );
     }

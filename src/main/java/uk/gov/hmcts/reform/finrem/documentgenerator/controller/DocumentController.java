@@ -38,14 +38,14 @@ public class DocumentController {
                     response = String.class)
         })
     @PostMapping("/version/1/generate-pdf")
-    public Document generatePdf(@RequestHeader(value = "Authorization", required = false)
-                                                     String authorizationToken, @RequestBody @Valid
-        @ApiParam(value = "JSON object containing the templateName and the placeholder text map", required = true)
-                                    DocumentRequest templateData) {
+    public Document generatePdf(
+        @RequestHeader(value = "Authorization", required = false) String authorizationToken,
+        @RequestHeader(value = "caseTypeId") String caseTypeId,
+        @RequestBody @Valid @ApiParam(value = "JSON object containing the templateName and the placeholder text map",
+            required = true) DocumentRequest templateData) {
         log.info("Document generation requested with templateName [{}]", templateData.getTemplate());
 
         return documentManagementService.storeDocument(templateData.getTemplate(), templateData.getFileName(),
-            templateData.getValues(),
-            authorizationToken);
+            templateData.getValues(), authorizationToken, caseTypeId);
     }
 }

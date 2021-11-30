@@ -25,6 +25,7 @@ public class DocumentManagementServiceTest {
     private static final String AUTH_TOKEN = "Bearer BBJHJbbIIBHBLB";
     private static final String FILE_NAME = "kbjh87y8y9JHVKKKJVJ";
     private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
+    private static final String CASE_TYPE = "FinancialRemedyContested";
 
     @InjectMocks
     private DocumentManagementService service;
@@ -38,13 +39,13 @@ public class DocumentManagementServiceTest {
     @Before
     public void setUp() {
         when(pdfGenerationService.generateDocFrom(TEMPLATE_NAME, PLACEHOLDERS)).thenReturn("welcome doc".getBytes());
-        when(evidenceManagementService.storeDocument("welcome doc".getBytes(), FILE_NAME, AUTH_TOKEN))
+        when(evidenceManagementService.storeDocument("welcome doc".getBytes(), FILE_NAME, AUTH_TOKEN, CASE_TYPE))
             .thenReturn(fileUploadResponse());
     }
 
     @Test
     public void storeDocument() {
-        Document document = service.storeDocument(TEMPLATE_NAME, FILE_NAME, PLACEHOLDERS, AUTH_TOKEN);
+        Document document = service.storeDocument(TEMPLATE_NAME, FILE_NAME, PLACEHOLDERS, AUTH_TOKEN, CASE_TYPE);
         assertThat(document, is(equalTo(document())));
     }
 

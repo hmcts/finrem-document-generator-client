@@ -36,14 +36,14 @@ public class DocumentConversionController {
     @PostMapping("/version/1/convert-to-pdf")
     public Document convertDocumentToPdf(
         @RequestHeader(value = "Authorization") String authorisationToken,
+        @RequestHeader(value = "caseTypeId") String caseTypeId,
         @RequestBody Document document
     ) {
-        byte[] convertedDocContent = documentConversionService.convertDocumentToPdf(document, authorisationToken);
-        String filename = documentConversionService.getConvertedFilename(document.getFileName());
-        return storeDocument(convertedDocContent, filename, authorisationToken);
-    }
-
-    private Document storeDocument(byte[] source, String filename, String authorisationToken) {
-        return documentManagementService.storeDocument(source, filename, authorisationToken);
+        return documentManagementService.storeDocument(
+            documentConversionService.convertDocumentToPdf(document, authorisationToken),
+            documentConversionService.getConvertedFilename(document.getFileName()),
+            authorisationToken,
+            caseTypeId
+        );
     }
 }

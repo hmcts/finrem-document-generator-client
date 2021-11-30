@@ -32,14 +32,15 @@ public class StampDocumentController {
             + "cannot be reached", response = String.class),
         @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
             response = String.class)
-        })
+    })
     @PostMapping("/version/1/stamp-document")
-    public Document stampDocument(@RequestHeader(value = "Authorization", required = false)
-                                                String authorizationToken, @RequestBody
-                                            @ApiParam(value = "Document to be stamped", required = true)
-                                                    Document document) {
+    public Document stampDocument(
+        @RequestHeader(value = "Authorization") String authorizationToken,
+        @RequestHeader(value = "caseTypeId") String caseTypeId,
+        @RequestBody @ApiParam(value = "Document to be stamped", required = true) Document document
+    ) {
         log.info("Stamping requested for document : {}, auth token : {}", document, authorizationToken);
-        return pdfStampingService.stampDocument(document, authorizationToken, false);
+        return pdfStampingService.stampDocument(document, authorizationToken, false, caseTypeId);
     }
 
     @ApiOperation(value = "Stamp and Annex document with court seal", tags = {"Stamp and Annex document"})
@@ -52,13 +53,14 @@ public class StampDocumentController {
             + "cannot be reached", response = String.class),
         @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
             response = String.class)
-        })
+    })
     @PostMapping("/version/1/annex-stamp-document")
-    public Document annexStampDocument(@RequestHeader(value = "Authorization", required = false)
-                                                String authorizationToken, @RequestBody
-                                            @ApiParam(value = "Document to be stamped", required = true)
-                                                    Document document) {
+    public Document annexStampDocument(
+        @RequestHeader(value = "Authorization") String authorizationToken,
+        @RequestHeader(value = "caseTypeId") String caseTypeId,
+        @RequestBody @ApiParam(value = "Document to be stamped", required = true) Document document
+    ) {
         log.info("Stamping requested for document : {}, auth token : {}", document, authorizationToken);
-        return pdfStampingService.stampDocument(document, authorizationToken, true);
+        return pdfStampingService.stampDocument(document, authorizationToken, true, caseTypeId);
     }
 }

@@ -36,19 +36,17 @@ public class DocumentManagementService {
     public Document storeDocument(String templateName,
                                   String fileName,
                                   Map<String, Object> placeholders,
-                                  String authorizationToken) {
+                                  String authorizationToken,
+                                  String caseTypeId) {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
             templateName, placeholders.size());
 
-        return storeDocument(
-            generateDocumentFrom(templateName, placeholders),
-            fileName,
-            authorizationToken);
+        return storeDocument(generateDocumentFrom(templateName, placeholders), fileName, authorizationToken, caseTypeId);
     }
 
-    public Document storeDocument(byte[] document, String fileName, String authorizationToken) {
+    public Document storeDocument(byte[] document, String fileName, String authorizationToken, String caseTypeId) {
         log.debug("Store document requested with document of size [{}]", document.length);
-        FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken);
+        FileUploadResponse response = evidenceManagementService.storeDocument(document, fileName, authorizationToken, caseTypeId);
 
         return CONVERTER.apply(response);
     }

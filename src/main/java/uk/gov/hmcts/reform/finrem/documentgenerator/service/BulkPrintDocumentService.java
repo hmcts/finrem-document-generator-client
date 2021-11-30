@@ -28,8 +28,9 @@ public class BulkPrintDocumentService {
             }
             return response.getBody();
         }).collect(Collectors.toList());
-        log.info("Download document count for bulk print {} for case id {} ", documents.size(),
-            bulkPrintRequest.getCaseId());
+
+        log.info("Download document count for bulk print {} for case id {} ", documents.size(), bulkPrintRequest.getCaseId());
+
         return documents;
     }
 }

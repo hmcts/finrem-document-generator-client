@@ -47,6 +47,7 @@ public class EvidenceManagementServiceTest {
     private static final String FILE_NAME = "JKlkm";
     private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
     private static final String FILE_URL = "http://dm-store/JKlkm";
+    private static final String CASE_TYPE = "FinancialRemedyContested";
 
     @Autowired
     private EvidenceManagementService service;
@@ -69,7 +70,7 @@ public class EvidenceManagementServiceTest {
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
             .andRespond(withSuccess(jsonResponse(fileUploadResponse()), MediaType.APPLICATION_JSON));
 
-        FileUploadResponse result = service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN);
+        FileUploadResponse result = service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN, CASE_TYPE);
         assertThat(result, is(equalTo(fileUploadResponse())));
 
         mockServer.verify();
@@ -85,7 +86,7 @@ public class EvidenceManagementServiceTest {
                 withSuccess(jsonResponse(new FileUploadResponse(HttpStatus.BAD_REQUEST)), MediaType.APPLICATION_JSON));
 
         try {
-            service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN);
+            service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN, CASE_TYPE);
             fail("should have thrown DocumentStorageException");
         } catch (DocumentStorageException e) {
             assertThat(e, is(notNullValue()));

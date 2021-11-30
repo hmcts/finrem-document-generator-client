@@ -28,6 +28,7 @@ public class PdfStampingServiceTest {
 
     private static final String COURT_SEAL_PDF = "/courtseal.pdf";
     private static final String AUTH_TOKEN = "auth";
+    private static final String CASE_TYPE = "FinancialRemedyContested";
 
     @InjectMocks
     private PdfStampingService service;
@@ -43,7 +44,7 @@ public class PdfStampingServiceTest {
         when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
-        service.stampDocument(document, "auth", false);
+        service.stampDocument(document, "auth", false, CASE_TYPE);
     }
 
     @Test
@@ -54,10 +55,10 @@ public class PdfStampingServiceTest {
         when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
-        when(evidenceManagementService.storeDocument(any(), anyString(), anyString()))
+        when(evidenceManagementService.storeDocument(any(), anyString(), anyString(), anyString()))
             .thenReturn(fileUploadResponse());
 
-        Document stampDocument = service.stampDocument(document, "auth", true);
+        Document stampDocument = service.stampDocument(document, "auth", true, CASE_TYPE);
 
         assertThat(stampDocument, not(equalTo(imageAsBytes)));
         assertThat(stampDocument.getFileName(), is(document.getFileName()));
@@ -73,10 +74,10 @@ public class PdfStampingServiceTest {
         when(evidenceManagementService.downloadDocument(document.getBinaryUrl(), AUTH_TOKEN))
             .thenReturn(ResponseEntity.ok(imageAsBytes));
 
-        when(evidenceManagementService.storeDocument(any(), anyString(), anyString()))
+        when(evidenceManagementService.storeDocument(any(), anyString(), anyString(), anyString()))
             .thenReturn(fileUploadResponse());
 
-        Document stampDocument = service.stampDocument(document, "auth", false);
+        Document stampDocument = service.stampDocument(document, "auth", false, CASE_TYPE);
 
         assertThat(stampDocument, not(equalTo(imageAsBytes)));
         assertThat(stampDocument.getFileName(), is(document.getFileName()));

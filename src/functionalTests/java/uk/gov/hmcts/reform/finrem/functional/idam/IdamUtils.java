@@ -60,7 +60,6 @@ public class IdamUtils {
 
     public Headers getHeaders() {
         return Headers.headers(
-
             new Header("Authorization", "Bearer "
                 + generateUserTokenWithNoRoles(idamUserName1, idamUserPassword1)),
             //new Header("Authorization", "Bearer " + idamUtils.getClientAuthToken()),

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.serenitybdd.junit.runners.SerenityRunner;
 import net.serenitybdd.rest.SerenityRest;
 import org.junit.After;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     }
 
     @Test
+    @Ignore
     public void verifyBulkPrintingIsSuccessful() {
         validateBulkPrintSuccess("bulkprinting.json", bulkprintUrl);
     }
@@ -68,14 +70,14 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
     public void verifyStampDocumentPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         response.prettyPrint();
-        stampDocument(response.prettyPrint(),stampingUri);
+        stampDocument(response.prettyPrint(), stampingUri);
     }
 
     @Test
     public void verifyAnnexStampDocumentPostResponseContent() {
         Response response = generateDocument("documentGeneratePayload.json");
         response.prettyPrint();
-        annexStampDocument(response.prettyPrint(),annexStampingUri);
+        annexStampDocument(response.prettyPrint(), annexStampingUri);
     }
 
     @Test
@@ -83,6 +85,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         Response response = generateDocument("documentGeneratePayload.json");
         response.prettyPrint();
         JsonPath jsonPathEvaluator = response.jsonPath();
+
         assertTrue(jsonPathEvaluator.get("fileName").toString().equalsIgnoreCase("OnlineFormA.pdf"));
     }
 
@@ -95,6 +98,7 @@ public class FinancialRemedyDocumentGeneratorTests extends IntegrationTestBase {
         validatePostSuccessForaccessingGeneratedDocument(fileRetrieveUrl(url));
         Response response1 = accessGeneratedDocument(fileRetrieveUrl(url));
         JsonPath jsonPathEvaluator1 = response1.jsonPath();
+
         assertTrue(jsonPathEvaluator1.get("originalDocumentName").toString()
             .equalsIgnoreCase("OnlineFormA.pdf"));
         assertTrue(jsonPathEvaluator1.get("mimeType").toString().equalsIgnoreCase("application/pdf"));
