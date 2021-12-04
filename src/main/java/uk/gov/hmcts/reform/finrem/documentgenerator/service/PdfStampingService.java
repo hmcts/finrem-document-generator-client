@@ -30,15 +30,15 @@ public class PdfStampingService {
     private final EvidenceManagementService emService;
 
     public Document stampDocument(Document document, String authToken, boolean isAnnexNeeded, String caseTypeId) {
-        log.info("Stamp document : {}", document);
+        log.info("Stamp document: {}", document);
         try {
             byte[] docInBytes = emService.downloadDocument(document.getBinaryUrl(), authToken).getBody();
             byte[] stampedDoc = stampDocument(docInBytes, isAnnexNeeded);
             FileUploadResponse fileSaved = emService.storeDocument(stampedDoc, document.getFileName(), authToken, caseTypeId);
             return CONVERTER.apply(fileSaved);
         } catch (Exception ex) {
-            throw new StampDocumentException(format("Failed to annex/stamp PDF for document : %s, "
-                + "isAnnexNeeded : %s, Exception  : %s", document, isAnnexNeeded, ex.getMessage()), ex);
+            throw new StampDocumentException(format("Failed to annex/stamp PDF for document: %s, "
+                + "isAnnexNeeded: %s, Exception: %s", document, isAnnexNeeded, ex.getMessage()), ex);
         }
     }
 
@@ -47,7 +47,7 @@ public class PdfStampingService {
         doc.setAllSecurityToBeRemoved(true);
         PDPage page = doc.getPage(0);
         PdfAnnexStampingInfo info = PdfAnnexStampingInfo.builder(page).build();
-        log.info("PdfAnnexStampingInfo data  = {}", info);
+        log.info("PdfAnnexStampingInfo data: {}", info);
 
         PDImageXObject annexImage = createFromByteArray(doc, imageAsBytes(info.getAnnexFile()), null);
         PDImageXObject courtSealImage = createFromByteArray(doc, imageAsBytes(info.getCourtSealFile()), null);

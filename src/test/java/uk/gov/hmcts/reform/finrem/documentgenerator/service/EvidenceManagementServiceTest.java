@@ -40,14 +40,14 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.TestResource.fileUplo
 @TestPropertySource(locations = "/application.properties")
 public class EvidenceManagementServiceTest {
 
-    private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
-    private static final String DOWNLOAD_DOC_URL = "http://localhost:4006/emclientapi/version/1/download";
     private static final String AUTH_TOKEN = "Bearer KJBUYVBJLIJBIBJHBbhjbiyYVIUJHV";
-    private static final String DOC_CONTENT = "welcome doc";
-    private static final String FILE_NAME = "JKlkm";
-    private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
-    private static final String FILE_URL = "http://dm-store/JKlkm";
     private static final String CASE_TYPE = "FinancialRemedyContested";
+    private static final String DELETE_DOC_URL = "http://localhost:4006/emclientapi/version/1/deleteFile";
+    private static final String DOC_CONTENT = "welcome doc";
+    private static final String DOWNLOAD_DOC_URL = "http://localhost:4006/emclientapi/version/1/download";
+    private static final String FILE_NAME = "JKlkm";
+    private static final String FILE_URL = "http://dm-store/JKlkm";
+    private static final String SAVE_DOC_URL = "http://localhost:4006/emclientapi/version/1/upload";
 
     @Autowired
     private EvidenceManagementService service;
@@ -82,8 +82,7 @@ public class EvidenceManagementServiceTest {
             .andExpect(method(HttpMethod.POST))
             .andExpect(header("Content-Type", containsString(MediaType.MULTIPART_FORM_DATA_VALUE)))
             .andExpect(header("Authorization", equalTo(AUTH_TOKEN)))
-            .andRespond(
-                withSuccess(jsonResponse(new FileUploadResponse(HttpStatus.BAD_REQUEST)), MediaType.APPLICATION_JSON));
+            .andRespond(withSuccess(jsonResponse(new FileUploadResponse(HttpStatus.BAD_REQUEST)), MediaType.APPLICATION_JSON));
 
         try {
             service.storeDocument(DOC_CONTENT.getBytes(), FILE_NAME, AUTH_TOKEN, CASE_TYPE);

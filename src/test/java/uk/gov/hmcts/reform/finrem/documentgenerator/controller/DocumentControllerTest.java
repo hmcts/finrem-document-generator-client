@@ -21,9 +21,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentControllerTest {
 
-    private static final String FILE_NAME = "file_name";
     private static final String AUTH_TOKEN = "AUTH_TOKEN";
     private static final String CASE_TYPE = "FinancialRemedyContested";
+    private static final String FILE_NAME = "file_name";
 
     @Mock
     private DocumentManagementService documentManagementService;
@@ -35,8 +35,8 @@ public class DocumentControllerTest {
     public void generatePdfDocument() {
         final String templateName = "templateName";
         final Map<String, Object> placeholder = Collections.emptyMap();
-
         final Document expected = Document.builder().build();
+
         when(documentManagementService.storeDocument(templateName, FILE_NAME, placeholder, AUTH_TOKEN, CASE_TYPE))
             .thenReturn(expected);
 

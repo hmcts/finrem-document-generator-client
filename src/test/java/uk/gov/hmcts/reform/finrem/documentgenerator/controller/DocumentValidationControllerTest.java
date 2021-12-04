@@ -14,7 +14,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentValidationControllerTest {
 
@@ -29,20 +28,20 @@ public class DocumentValidationControllerTest {
 
     @Test
     public void shouldReturnSuccessfulFileTypeCheckWithOutErrors() {
-        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN))
-            .thenReturn(DocumentValidationResponse.builder().build());
-        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(
-            AUTH_TOKEN, FILE_BINARY_URL);
+        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(DocumentValidationResponse.builder().build());
+
+        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(AUTH_TOKEN, FILE_BINARY_URL);
+
         assertThat(documentValidationResponse.getErrors(), CoreMatchers.nullValue());
     }
 
     @Test
     public void shouldReturnInvalidFileTypeCheckWithErrors() {
-        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN))
-            .thenReturn(DocumentValidationResponse.builder()
+        when(service.validateFileType(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(DocumentValidationResponse.builder()
                 .errors(singletonList("Invalid Mime Type")).build());
-        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(
-            AUTH_TOKEN, FILE_BINARY_URL);
+
+        DocumentValidationResponse documentValidationResponse = underTest.checkUploadedFileType(AUTH_TOKEN, FILE_BINARY_URL);
+
         assertThat(documentValidationResponse.getErrors(), is(singletonList("Invalid Mime Type")));
     }
 }

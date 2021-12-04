@@ -31,16 +31,14 @@ public class StampDocumentControllerTest {
     public void shouldStampDocument() {
         Document document = document();
 
-        when(pdfStampingService.stampDocument(document, AUTH_TOKEN, false, CASE_TYPE))
-            .thenReturn(document);
+        when(pdfStampingService.stampDocument(document, AUTH_TOKEN, false, CASE_TYPE)).thenReturn(document);
 
         Document stampDocument = controller.stampDocument(AUTH_TOKEN, CASE_TYPE, document);
 
         assertThat(stampDocument.getFileName(), is(document.getFileName()));
         assertThat(stampDocument.getBinaryUrl(), is(document.getBinaryUrl()));
         assertThat(stampDocument.getUrl(), is(document.getUrl()));
-        verify(pdfStampingService, times(1))
-            .stampDocument(document, AUTH_TOKEN, false, CASE_TYPE);
+        verify(pdfStampingService, times(1)).stampDocument(document, AUTH_TOKEN, false, CASE_TYPE);
     }
 
 
@@ -48,15 +46,13 @@ public class StampDocumentControllerTest {
     public void shouldAnnexAndStampDocument() {
         Document document = document();
 
-        when(pdfStampingService.stampDocument(document, AUTH_TOKEN, true, CASE_TYPE))
-            .thenReturn(document);
+        when(pdfStampingService.stampDocument(document, AUTH_TOKEN, true, CASE_TYPE)).thenReturn(document);
 
         Document stampDocument = controller.annexStampDocument(AUTH_TOKEN, CASE_TYPE, document);
 
         assertThat(stampDocument.getFileName(), is(document.getFileName()));
         assertThat(stampDocument.getBinaryUrl(), is(document.getBinaryUrl()));
         assertThat(stampDocument.getUrl(), is(document.getUrl()));
-        verify(pdfStampingService, times(1))
-            .stampDocument(document, AUTH_TOKEN, true, CASE_TYPE);
+        verify(pdfStampingService, times(1)).stampDocument(document, AUTH_TOKEN, true, CASE_TYPE);
     }
 }

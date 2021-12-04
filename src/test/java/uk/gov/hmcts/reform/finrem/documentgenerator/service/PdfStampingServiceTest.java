@@ -26,9 +26,9 @@ import static uk.gov.hmcts.reform.finrem.documentgenerator.model.PdfAnnexStampin
 @RunWith(MockitoJUnitRunner.class)
 public class PdfStampingServiceTest {
 
-    private static final String COURT_SEAL_PDF = "/courtseal.pdf";
     private static final String AUTH_TOKEN = "auth";
     private static final String CASE_TYPE = "FinancialRemedyContested";
+    private static final String COURT_SEAL_PDF = "/courtseal.pdf";
 
     @InjectMocks
     private PdfStampingService service;

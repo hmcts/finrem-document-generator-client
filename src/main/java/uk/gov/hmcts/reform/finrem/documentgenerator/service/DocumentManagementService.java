@@ -33,11 +33,8 @@ public class DocumentManagementService {
         evidenceManagementService.deleteDocument(fileUrl, authToken);
     }
 
-    public Document storeDocument(String templateName,
-                                  String fileName,
-                                  Map<String, Object> placeholders,
-                                  String authorizationToken,
-                                  String caseTypeId) {
+    public Document storeDocument(String templateName, String fileName, Map<String, Object> placeholders,
+                                  String authorizationToken, String caseTypeId) {
         log.debug("Generate and Store Document requested with templateName [{}], placeholders of size [{}]",
             templateName, placeholders.size());
 

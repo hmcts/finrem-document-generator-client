@@ -26,8 +26,8 @@ import static org.springframework.test.util.ReflectionTestUtils.setField;
 @RunWith(MockitoJUnitRunner.class)
 public class DocumentValidationServiceTest {
 
-    private static final String FILE_BINARY_URL = "http://dm-store:8080/eeww123456/binary";
     private static final String AUTH_TOKEN = "auth";
+    private static final String FILE_BINARY_URL = "http://dm-store:8080/eeww123456/binary";
 
     @Mock
     private EvidenceManagementService evidenceManagementService;
@@ -80,9 +80,7 @@ public class DocumentValidationServiceTest {
 
     @Test
     public void shouldThrowErrorForEmptyFile() {
-        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(null);
+        ResponseEntity<byte[]> responseEntity = ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(null);
 
         when(evidenceManagementService.downloadDocument(FILE_BINARY_URL, AUTH_TOKEN)).thenReturn(responseEntity);
 
@@ -91,8 +89,6 @@ public class DocumentValidationServiceTest {
     }
 
     private ResponseEntity<byte[]> jsonResponseEntityWithStubBody() {
-        return ResponseEntity.ok()
-            .contentType(MediaType.APPLICATION_JSON)
-            .body(new byte[1025]);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(new byte[1025]);
     }
 }

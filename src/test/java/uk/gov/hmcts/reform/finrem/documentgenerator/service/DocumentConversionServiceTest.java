@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +31,9 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @TestPropertySource(locations = "/application.properties")
 public class DocumentConversionServiceTest {
 
-    private static final String PDF_SERVICE_URI = "https://doc-gen/rs/convert";
     private static final String AUTH_TOKEN = "auth";
     private static final byte[] CONVERTED_BINARY = "converted".getBytes();
+    private static final String PDF_SERVICE_URI = "https://doc-gen/rs/convert";
 
     @Autowired
     private DocumentConversionService documentConversionService;

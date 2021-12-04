@@ -18,9 +18,9 @@ import static org.mockito.Mockito.when;
 public class DocumentConversionControllerTest {
 
     private static final String AUTH_TOKEN = "abc";
-    private static final byte[] CONVERTED_BYTES = "abc".getBytes();
-    private static final String CONVERTED_FILENAME = "filename.pdf";
     private static final String CASE_TYPE = "FinancialRemedyContested";
+    private static final String CONVERTED_FILENAME = "filename.pdf";
+    private static final byte[] CONVERTED_BYTES = "abc".getBytes();
 
     @Mock
     private DocumentConversionService documentConversionService;
@@ -39,7 +39,9 @@ public class DocumentConversionControllerTest {
         when(documentConversionService.getConvertedFilename(eq(documentToConvert.getFileName()))).thenReturn(CONVERTED_FILENAME);
         when(documentManagementService.storeDocument(CONVERTED_BYTES, CONVERTED_FILENAME, AUTH_TOKEN, CASE_TYPE))
             .thenReturn(new Document("newURL", CONVERTED_FILENAME, "newBinaryURL"));
+
         Document convertedDocument = documentConversionController.convertDocumentToPdf(AUTH_TOKEN, CASE_TYPE, documentToConvert);
+
         assertThat(convertedDocument.getFileName(), is(CONVERTED_FILENAME));
     }
 }

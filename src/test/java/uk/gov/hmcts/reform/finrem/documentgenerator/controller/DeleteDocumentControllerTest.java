@@ -17,8 +17,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteDocumentControllerTest {
 
-    private static final String FILE_URL = "file_url";
     private static final String AUTH_TOKEN = "AUTH_TOKEN";
+    private static final String FILE_URL = "file_url";
 
     @Mock
     private DocumentManagementService documentManagementService;
@@ -29,8 +29,8 @@ public class DeleteDocumentControllerTest {
     @Test
     public void deletePdfDocument() {
         ResponseEntity<Object> response = controller.deleteDocument(AUTH_TOKEN, FILE_URL);
-        assertThat(response.getStatusCode(), is(HttpStatus.NO_CONTENT));
 
+        assertThat(response.getStatusCode(), is(HttpStatus.NO_CONTENT));
         verify(documentManagementService, times(1)).deleteDocument(FILE_URL, AUTH_TOKEN);
     }
 }

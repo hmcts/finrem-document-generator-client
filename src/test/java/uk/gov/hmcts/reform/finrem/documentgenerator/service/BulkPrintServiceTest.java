@@ -44,8 +44,7 @@ public class BulkPrintServiceTest {
         UUID randomId = UUID.randomUUID();
 
         when(authTokenGenerator.generate()).thenReturn("random-string");
-        when(sendLetterApi.sendLetter(anyString(), any(LetterWithPdfsRequest.class)))
-            .thenReturn(new SendLetterResponse(randomId));
+        when(sendLetterApi.sendLetter(anyString(), any(LetterWithPdfsRequest.class))).thenReturn(new SendLetterResponse(randomId));
 
         UUID letterId = service.send("1000", "aa", singletonList("abc".getBytes()));
         assertThat(letterId, is(equalTo(randomId)));

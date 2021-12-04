@@ -54,9 +54,8 @@ public class BulkPrintControllerTest {
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
         final List<byte[]> documents = Arrays.asList("some random string".getBytes());
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
-            .thenReturn(documents);
 
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN)).thenReturn(documents);
         when(bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(), documents))
             .thenReturn(randomuuid);
 
@@ -69,16 +68,13 @@ public class BulkPrintControllerTest {
 
     @Test
     public void shouldThrowExceptionOnNoDocumentsDocument() {
-
         bulkPrintRequest = BulkPrintRequest.builder()
             .caseId("1000")
             .letterType("others")
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
 
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
-            .thenThrow(new RuntimeException());
-
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN)).thenThrow(new RuntimeException());
 
         Assert.assertThrows(RuntimeException.class, () -> controller.bulkPrint(AUTH_TOKEN, bulkPrintRequest));
         verifyNoInteractions(bulkPrintService);
@@ -92,8 +88,8 @@ public class BulkPrintControllerTest {
             .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
             .build();
         final List<byte[]> documents = Arrays.asList("some random string".getBytes());
-        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN))
-            .thenReturn(documents);
+
+        when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest, AUTH_TOKEN)).thenReturn(documents);
 
         doThrow(new RuntimeException()).when(bulkPrintService).send(bulkPrintRequest.getCaseId(),
             bulkPrintRequest.getLetterType(), documents);

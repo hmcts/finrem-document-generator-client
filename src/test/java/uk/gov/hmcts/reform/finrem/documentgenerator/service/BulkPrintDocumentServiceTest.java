@@ -23,8 +23,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class BulkPrintDocumentServiceTest {
 
-    private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
     private static final String AUTH_TOKEN = "auth";
+    private static final String FILE_URL = "http://dm:80/documents/kbjh87y8y9JHVKKKJVJ";
     private final byte[] someBytes = "ainhsdcnoih".getBytes();
 
     @Rule

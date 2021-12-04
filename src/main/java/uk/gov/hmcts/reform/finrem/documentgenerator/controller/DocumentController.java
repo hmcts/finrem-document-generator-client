@@ -28,15 +28,14 @@ public class DocumentController {
     @ApiOperation(value = "Generate PDF document based on the supplied template name and placeholder texts and saves "
             + "it in the evidence management.", tags = {"Document Generation"})
     @ApiResponses({
-            @ApiResponse(code = 200, message = "PDF was generated successfully and stored in the evidence management."
-                    + " Returns the stored document information.", response = String.class),
-            @ApiResponse(code = 400, message = "Returned when input parameters are invalid or template not found",
-                    response = String.class),
-            @ApiResponse(code = 503, message = "Returned when the PDF Service or Evidence Management Client Api "
-                    + "cannot be reached", response = String.class),
-            @ApiResponse(code = 500, message = "Returned when there is an unknown server error",
-                    response = String.class)
-        })
+        @ApiResponse(code = 200, message = "PDF was generated successfully and stored in the evidence management."
+            + " Returns the stored document information.", response = String.class),
+        @ApiResponse(code = 400, message = "Returned when input parameters are invalid or template not found",
+            response = String.class),
+        @ApiResponse(code = 503, message = "Returned when the PDF Service or Evidence Management Client Api "
+            + "cannot be reached", response = String.class),
+        @ApiResponse(code = 500, message = "Returned when there is an unknown server error", response = String.class)
+    })
     @PostMapping("/version/1/generate-pdf")
     public Document generatePdf(
         @RequestHeader(value = "Authorization", required = false) String authorizationToken,

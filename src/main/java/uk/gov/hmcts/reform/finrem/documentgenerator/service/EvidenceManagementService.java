@@ -107,16 +107,16 @@ public class EvidenceManagementService {
         return parameters;
     }
 
+    private HttpHeaders getDownloadHeaders(String authToken) {
+        HttpHeaders headers = getAuthHttpHeaders(authToken);
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return headers;
+    }
+
     private HttpHeaders getUploadHeaders(String authToken, String caseTypeId) {
         HttpHeaders headers = getAuthHttpHeaders(authToken);
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         headers.set("caseTypeId", caseTypeId);
-        return headers;
-    }
-
-    private HttpHeaders getDownloadHeaders(String authToken) {
-        HttpHeaders headers = getAuthHttpHeaders(authToken);
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         return headers;
     }
 

@@ -28,10 +28,12 @@ public class DocumentValidationController {
         @ApiResponse(code = 200, message = "Callback was processed successFully.",
             response = AboutToStartOrSubmitCallbackResponse.class),
         @ApiResponse(code = 400, message = "Bad Request"),
-        @ApiResponse(code = 500, message = "Internal Server Error")})
+        @ApiResponse(code = 500, message = "Internal Server Error")
+    })
     public DocumentValidationResponse checkUploadedFileType(
         @RequestHeader(value = "Authorization") String authorisationToken,
-        @RequestParam(value = "fileBinaryUrl") String fileBinaryUrl) {
+        @RequestParam(value = "fileBinaryUrl") String fileBinaryUrl
+    ) {
 
         log.info("Received request for checkUploadedFileType. Auth token: {}, binaryFileUrl: {}",
             authorisationToken, fileBinaryUrl);
