@@ -92,6 +92,10 @@ To run all mutation tests execute the following command:
 
 We follow [RESTful API standards](https://hmcts.github.io/restful-api-standards/).
 
+## Jenkin Agent
+Centos
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
