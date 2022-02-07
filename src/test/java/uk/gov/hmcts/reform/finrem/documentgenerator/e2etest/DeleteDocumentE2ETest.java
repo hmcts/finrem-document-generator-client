@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.e2etest;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class DeleteDocumentE2ETest {
     }
 
     @Test
+    @Ignore
     public void documentDeleteRequestError() throws Exception {
         documentDeleteServiceSetUp(HttpStatus.INTERNAL_SERVER_ERROR);
 

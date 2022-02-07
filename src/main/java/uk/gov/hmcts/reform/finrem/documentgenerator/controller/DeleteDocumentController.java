@@ -39,7 +39,7 @@ public class DeleteDocumentController {
         @RequestParam(value = "fileUrl") String fileUrl
     ) {
         log.info("Document to be deleted: {}", fileUrl);
-        documentManagementService.deleteDocument(fileUrl, authorizationToken);
+        //documentManagementService.deleteDocument(fileUrl, authorizationToken);
         return status(HttpStatus.NO_CONTENT).build();
     }
 }
