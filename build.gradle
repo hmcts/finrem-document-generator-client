@@ -75,9 +75,10 @@ def versions = [
     serviceTokenGenerator   : '3.1.1',
     springfoxSwagger        : '2.9.2',
     springOpenFeign         : '2.1.1.RELEASE',
-    tomcat                  : '9.0.50',
+    tomcat                  : '9.0.58',
     unirest                 : '1.4.9',
-    wiremock                : '2.27.2'
+    wiremock                : '2.27.2',
+    apacheLogging           : '2.17.1'
 ]
 
 dependencyManagement {
@@ -102,6 +103,24 @@ dependencyManagement {
             entry 'fluent-hc'
         }
         dependency group: 'org.glassfish', name: 'jakarta.el', version: '3.0.4'
+        //CVE-2021-22060
+        dependencySet(group: 'org.springframework', version: '5.2.19.RELEASE') {
+            entry 'spring-aop'
+            entry 'spring-beans'
+            entry 'spring-context'
+            entry 'spring-context-support'
+            entry 'spring-core'
+            entry 'spring-expression'
+            entry 'spring-jcl'
+            entry 'spring-web'
+            entry 'spring-webmvc'
+        }
+
+        //CVE-2021-42550
+        dependencySet(group: 'ch.qos.logback', version: '1.2.10') {
+            entry 'logback-classic'
+            entry 'logback-core'
+        }
     }
 }
 
@@ -114,15 +133,19 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: versions.springOpenFeign
-
-    implementation group: 'uk.gov.hmcts.reform', name: 'core-case-data-store-client', version: versions.ccdClient
-    implementation group: 'uk.gov.hmcts.reform', name: 'send-letter-client', version: versions.sendLetterClient
-    implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
-    implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-httpcomponents', version: versions.reformLogging
-    implementation group: 'uk.gov.hmcts.reform', name: 'logging-spring', version: versions.reformLogging
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: versions.apacheLogging
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: versions.apacheLogging
+    implementation group: 'com.github.hmcts', name: 'ccd-client', version: versions.ccdClient
+    implementation group: 'com.github.hmcts', name: 'send-letter-client', version: versions.sendLetterClient
+    implementation group: 'com.github.hmcts', name:'service-auth-provider-java-client', version: versions.serviceTokenGenerator, {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+    }
+    implementation group: 'com.github.hmcts', name: 'properties-volume-spring-boot-starter', version: versions.reformPropertiesVolume
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging-spring', version: versions.reformLogging
+    implementation group: 'com.github.hmcts.java-logging', name: 'logging-httpcomponents', version: versions.reformLogging
 
     implementation group: 'org.apache.commons', name: 'commons-lang3', version : versions.commonsLang3
     implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: versions.pdfbox
@@ -144,7 +167,7 @@ dependencies {
     testSmokeImplementation sourceSets.main.runtimeClasspath
     testSmokeImplementation sourceSets.test.runtimeClasspath
 
-    testCompile('com.github.hmcts:fortify-client:1.2.0:all')
+    testCompile('com.github.hmcts:fortify-client:1.2.2:all')
 
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
     runtimeOnly("org.springframework.boot:spring-boot-properties-migrator")
@@ -155,7 +178,10 @@ dependencies {
     functionalImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
     functionalImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
     functionalImplementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
-    functionalImplementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: versions.serviceTokenGenerator
+    functionalImplementation group: 'com.github.hmcts', name:'service-auth-provider-java-client', version: versions.serviceTokenGenerator, {
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-api'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+    }
     functionalImplementation group: 'io.rest-assured', name: 'rest-assured', version: versions.restAssured
     functionalImplementation group: 'junit', name: 'junit', version: versions.junit
     functionalImplementation group: 'net.serenity-bdd', name: 'serenity-cucumber', version: versions.serenityCucumber
@@ -189,7 +215,8 @@ compileTestJava {
 }
 
 repositories {
-    jcenter()
+    mavenLocal()
+    mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url 'https://repo.spring.io/libs-milestone' }
 }
