@@ -50,6 +50,17 @@ public class GlobalExceptionHandlerTest {
         assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
     }
 
+    @Test
+    public void documentConversionExceptionException() {
+        DocumentConversionException documentConversionException =
+            new DocumentConversionException(SOME_MESSAGE, new Exception());
+
+        ResponseEntity<Object> response =
+            classUnderTest.handleDocumentConversionException(documentConversionException);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.INTERNAL_SERVER_ERROR));
+        assertThat(response.getBody(), is(GlobalExceptionHandler.SERVER_ERROR_MSG));
+    }
 
     @Test
     public void stampDocumentException() {

@@ -41,6 +41,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
+    @ExceptionHandler({DocumentConversionException.class})
+    public ResponseEntity<Object> handleDocumentConversionException(Exception exception) {
+        return handleException(exception);
+    }
+
     @ExceptionHandler({PdfGenerationException.class})
     public ResponseEntity<Object> handlePdfGenerationException(Exception exception) {
         return handleException(exception);
