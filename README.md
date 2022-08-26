@@ -8,7 +8,6 @@ This is a document generation service. This allows to generate documents based o
 given template name and placeholder data in JSON format and will also store the generated document in the
 Evidence Management Store.
 
-
 The service provides a single RESTful endpoint that will generate the document, store it in Evidence Management
 Store and return the link to the stored data.
 
