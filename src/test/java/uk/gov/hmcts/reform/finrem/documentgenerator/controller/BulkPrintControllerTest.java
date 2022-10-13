@@ -47,20 +47,19 @@ public class BulkPrintControllerTest {
         bulkPrintRequest = BulkPrintRequest.builder()
             .caseId("1000")
             .letterType("others")
-            .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
+            .bulkPrintDocuments(List.of(BulkPrintDocument.builder().binaryFileUrl("url").fileName("url.pdf").build()))
             .build();
-        final List<byte[]> documents = Arrays.asList("some random string".getBytes());
+        final List<byte[]> documents = List.of("some random string".getBytes());
         when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
             .thenReturn(documents);
 
-        when(bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(), documents))
+        when(bulkPrintService.send(bulkPrintRequest, documents))
             .thenReturn(randomuuid);
 
         UUID response = controller.bulkPrint(bulkPrintRequest);
         assertThat(response, is(randomuuid));
 
-        verify(bulkPrintService, times(1)).send(bulkPrintRequest.getCaseId(),
-            bulkPrintRequest.getLetterType(), documents);
+        verify(bulkPrintService, times(1)).send(bulkPrintRequest, documents);
     }
 
     @Test
@@ -69,7 +68,7 @@ public class BulkPrintControllerTest {
         bulkPrintRequest = BulkPrintRequest.builder()
             .caseId("1000")
             .letterType("others")
-            .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
+            .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").fileName("url.pdf").build()))
             .build();
 
         when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
@@ -86,14 +85,13 @@ public class BulkPrintControllerTest {
         bulkPrintRequest = BulkPrintRequest.builder()
             .caseId("1000")
             .letterType("others")
-            .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").build()))
+            .bulkPrintDocuments(Arrays.asList(BulkPrintDocument.builder().binaryFileUrl("url").fileName("url.pdf").build()))
             .build();
         final List<byte[]> documents = Arrays.asList("some random string".getBytes());
         when(bulkPrintDocumentService.downloadDocuments(bulkPrintRequest))
             .thenReturn(documents);
 
-        doThrow(new RuntimeException()).when(bulkPrintService).send(bulkPrintRequest.getCaseId(),
-            bulkPrintRequest.getLetterType(), documents);
+        doThrow(new RuntimeException()).when(bulkPrintService).send(bulkPrintRequest, documents);
 
         thrown.expect(RuntimeException.class);
 
