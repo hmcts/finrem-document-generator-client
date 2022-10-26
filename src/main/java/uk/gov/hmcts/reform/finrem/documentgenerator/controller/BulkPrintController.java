@@ -43,8 +43,7 @@ public class BulkPrintController {
         log.info("Bulk print request is being processed for case {}", bulkPrintRequest.getCaseId());
         try {
             final List<byte[]> documents = bulkPrintDocumentService.downloadDocuments(bulkPrintRequest);
-            return bulkPrintService.send(bulkPrintRequest.getCaseId(), bulkPrintRequest.getLetterType(),
-                documents);
+            return bulkPrintService.send(bulkPrintRequest, documents);
         } catch (final Exception e) {
             log.error(
                 "Bulk print failed for case {}", bulkPrintRequest.getCaseId(), e);
