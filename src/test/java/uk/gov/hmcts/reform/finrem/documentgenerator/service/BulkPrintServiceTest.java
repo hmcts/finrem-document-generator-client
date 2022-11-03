@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.finrem.documentgenerator.service;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -8,10 +9,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.BulkPrintDocument;
+import uk.gov.hmcts.reform.finrem.documentgenerator.model.BulkPrintRequest;
 import uk.gov.hmcts.reform.sendletter.api.LetterWithPdfsRequest;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterApi;
 import uk.gov.hmcts.reform.sendletter.api.SendLetterResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 import static java.util.Collections.singletonList;
@@ -34,6 +38,16 @@ public class BulkPrintServiceTest {
 
     @Mock private AuthTokenGenerator authTokenGenerator;
     @Mock private SendLetterApi sendLetterApi;
+    private BulkPrintRequest request;
+
+    @Before
+    public void setup() {
+        request = BulkPrintRequest.builder()
+            .caseId("1000")
+            .letterType("aa")
+            .bulkPrintDocuments(List.of(BulkPrintDocument.builder().binaryFileUrl("abc").fileName("abc.pdf").build()))
+            .build();
+    }
 
     @Test
     public void downloadDocuments() {
@@ -43,7 +57,7 @@ public class BulkPrintServiceTest {
         when(sendLetterApi.sendLetter(anyString(), any(LetterWithPdfsRequest.class)))
             .thenReturn(new SendLetterResponse(randomId));
 
-        UUID letterId = service.send("1000", "aa", singletonList("abc".getBytes()));
+        UUID letterId = service.send(request, singletonList("abc".getBytes()));
         assertThat(letterId, is(equalTo(randomId)));
     }
 
@@ -51,7 +65,7 @@ public class BulkPrintServiceTest {
     public void throwsException() {
         when(authTokenGenerator.generate()).thenThrow(new RuntimeException());
         thrown.expect(RuntimeException.class);
-        service.send("1000", "aa", singletonList("abc".getBytes()));
+        service.send(request, singletonList("abc".getBytes()));
         verifyNoInteractions(sendLetterApi);
     }
 
@@ -64,7 +78,7 @@ public class BulkPrintServiceTest {
             .thenThrow(new RuntimeException());
 
         thrown.expect(RuntimeException.class);
-        service.send("1000", "aa", singletonList("abc".getBytes()));
-        verify(authTokenGenerator.generate());
+        service.send(request, singletonList("abc".getBytes()));
+        verify(authTokenGenerator).generate();
     }
 }
