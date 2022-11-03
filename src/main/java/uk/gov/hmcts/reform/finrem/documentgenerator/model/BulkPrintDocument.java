@@ -16,4 +16,5 @@ import lombok.NoArgsConstructor;
 public class BulkPrintDocument {
 
     private String binaryFileUrl;
+    private String fileName;
 }
