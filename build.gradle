@@ -79,15 +79,14 @@ def versions = [
     unirest                 : '1.4.9',
     wiremock                : '2.27.2',
     apacheLogging           : '2.17.1',
-    jackson                 : '2.13.2'
+    jackson                 : '2.13.2',
+    jacksonDatabind        : '2.13.4.1'
 ]
 
 dependencyManagement {
     dependencies {
         // CVE-2019-17563
-        dependencySet(
-            group: 'org.apache.tomcat.embed', version: versions.tomcat
-        ) {
+        dependencySet(group: 'org.apache.tomcat.embed', version: versions.tomcat) {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
@@ -124,9 +123,12 @@ dependencyManagement {
         }
         //CVE-2020-36518
         dependencySet(group: 'com.fasterxml.jackson.core', version: versions.jackson) {
-            entry 'jackson-databind'
             entry 'jackson-core'
             entry 'jackson-annotations'
+        }
+
+        dependencySet(group: 'com.fasterxml.jackson.core', version: versions.jacksonDatabind) {
+            entry 'jackson-databind'
         }
         //CVE-2022-25857
         dependencySet(group: 'org.yaml', version: '1.33') {
