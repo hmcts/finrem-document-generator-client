@@ -85,9 +85,7 @@ def versions = [
 dependencyManagement {
     dependencies {
         // CVE-2019-17563
-        dependencySet(
-            group: 'org.apache.tomcat.embed', version: versions.tomcat
-        ) {
+        dependencySet(group: 'org.apache.tomcat.embed', version: versions.tomcat) {
             entry 'tomcat-embed-core'
             entry 'tomcat-embed-el'
             entry 'tomcat-embed-websocket'
@@ -124,10 +122,11 @@ dependencyManagement {
         }
         //CVE-2020-36518
         dependencySet(group: 'com.fasterxml.jackson.core', version: versions.jackson) {
-            entry 'jackson-databind'
             entry 'jackson-core'
             entry 'jackson-annotations'
+            entry 'jackson-databind'
         }
+
         //CVE-2022-25857
         dependencySet(group: 'org.yaml', version: '1.33') {
             entry 'snakeyaml'
