@@ -30,7 +30,7 @@ withParameterizedPipeline('java', 'finrem', 'dgcs', params.ENVIRONMENT, 'sandbox
     loadVaultSecrets(secrets)
     enableSlackNotifications('#finrem-dev')
 
-    after('functionalTest:aat') {
+    afterSuccess('functionalTest:aat') {
         publishHTML target: [
             reportDir            : "target/site/serenity/",
             reportFiles          : "index.html",
