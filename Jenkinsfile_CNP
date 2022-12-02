@@ -42,13 +42,13 @@ withPipeline(type , product, component) {
     enableAksStagingDeployment()
     disableLegacyDeployment()
 
-    after('checkout') {
+    afterSuccess('checkout') {
         echo '${product}-${component} checked out'
     }
 
     enableSlackNotifications(channel)
 
-    after('functionalTest:aat') {
+    afterSuccess('functionalTest:aat') {
         publishHTML target: [
             reportDir            : "target/site/serenity/",
             reportFiles          : "index.html",
